@@ -1,0 +1,110 @@
+.navbar-default {
+	background-color: #474747;
+	margin-bottom: 0;
+	border: none;
+}
+
+.logo {
+	width:160px;
+	height:80px;
+	padding: 10px 15px;
+}
+
+.navbar-brand,
+.navbar-nav li a {
+	height: 80px;
+	line-height: 80px;
+	padding: 0 25px;
+	background-color: #474747;
+	font-family: "Oswald", sans-serif;
+	font-size: 1.3em;
+	color: #fff;
+	border-right: 1px solid #393939;
+	-webkit-box-shadow: 1px 0px 0px 0px; rgba(255,255,255,.1);
+	-maz-box-shadow: 1px 0px 0px 0px; rgba(255,255,255,.1);
+	box-shadow: 1px 0px 0px 0px; rgba(255,255,255,.1);
+
+}
+.navbar-brand { padding-right: 0; }
+.navbar-default .navbar-nav>li>a { color:#fff; }
+.navbar-default .navbar-nav>li>a:hover {color: red; background-color: #535252;}
+.navbar-default .navbar-vav> active>a, .navbar-default .navbar-nav>active>a:hover, .navbar-default .navbar-nav>.active>a:focus{ 
+	color: #fff;
+	background-color: #535252;
+}
+.navbar-default .navbar-toggle {
+	margin-top: 25px;
+	border-color: #646464;
+}
+.navbar-default .navbar_collapse, .navbar-default .navbar-form {
+	border-color: #3d3d3d;
+}
+
+/* social icons */
+li.twitter a {
+	width: 80px;
+	background-color: #5ea9dd !important;
+	color: #fff !important;
+	font-size: 1.8em;
+	text-align: center;
+	box-shadow: none;
+	border-right: none;
+}
+
+li.facebook { 
+	width: 80px;
+	background-color: #5ea9dd !important;
+	color: #fff !important;
+	font-size: 1.8em;
+	text-align: center;
+	box-shadow: none;
+	border-right: none;
+}
+li.twitter a:hover,
+li.facebook a:hover {
+	apacity: .8;
+}
+
+/* hEADER */
+header {
+	height: 300px;
+	text-align: center;
+	background-color: #6d6d6d;
+	padding-top: 20px;
+	
+}
+
+.profile-picture {
+	border: 10px solid #fff;
+
+
+}
+
+h1{
+	font-family: 'Sigmar One', cursive;
+	font-size: 7em;
+	color: #8b0707;
+}
+
+h3 {
+	
+	font-family: 'Shadows Into Light', cursive; 
+	font-size: 4em;
+	text-align: center;
+}
+
+.btn-button1 {
+
+	width: 500px;
+	align-self: center;
+	
+	
+
+
+@media (max-width: 768px) {
+	.navbar-default .navbar-nav>li>a {
+		width: 100%;
+		border-botom: 1px solid #3d3d3d;
+		text-align: center; 
+	}
+}
