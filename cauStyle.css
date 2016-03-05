@@ -1,0 +1,231 @@
+
+	
+	/*Navigation Bar*/
+	
+	.affix {								
+		top:0;
+		width: 100%;
+		z-index: 9999 !important;
+	}
+  
+	.navbar{
+		margin-bottom: 0px;
+		font-size: 150%;
+	}
+
+  
+	.navbar-brand{
+		font-size: 100%;
+  
+	}
+
+	.affix ~ .container-fluid {
+		position: relative;
+		top: 100px;
+	}
+  
+  
+	#Logo{
+		width: 10%;
+		height: 10%;
+		float: left;
+	}
+	
+
+	
+	#navigationColour{					/*Navigation + Main body colour (for all pages)*/
+		background-color: #00191e;
+	}
+	
+	#main {							
+		background-color: #A3A4A4;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*Carousel on welcome page*/
+	.carousel-inner > .item > img,
+	.carousel-inner > .item > a > img {
+		width: 65%;
+		margin: auto;
+	}
+	
+	
+	/*Log-in form on welcome page*/
+	.form-inline{
+		float: right;
+	}
+	
+	
+	 
+  
+  /*'About' sections on Main Menu page*/
+	#section1 {padding-top:50px;height:500px;color: #fff; background-color: #A3A4A4;}
+	#section2 {padding-top:50px;height:500px;color: #fff; background-color: #004b5d;}
+	#section3 {padding-top:50px;height:500px;color: #fff; background-color: #00191e;}
+	#section41 {padding-top:50px;height:500px;color: #fff; background-color: #7E7F7F;}
+  
+  
+ 
+
+
+
+
+ /*Game Page*/
+	#timer {
+		float: right;
+		text-align: center;
+		width: 15%;
+		color: #00191e;	
+		font-size: 30px;
+	}
+	
+	
+	#black:hover {		/*Black card when hover*/
+		border: 1px solid #777;	
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+
+
+	#card:hover {		/*White cards when hover*/
+		border: 1px solid #777;	
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+
+	
+	div.blackscenario {
+		margin-top: 15px;
+		width: 21%;
+	}
+	
+
+	div.playerList {
+		list-style-type:none;
+		float: left;
+		border-style: none;
+	}
+
+	
+	aside {
+		float: left;
+		width: 16%;
+		margin-top: 5%;
+	}
+
+
+	section {
+		float: left;
+		width: 84%;
+	}
+
+
+	#submit1{					/*Submit button on game page*/
+		left:220px;
+		position: relative;
+		background-color: #00191e;
+		border: 3px solid black;
+		border-radius: 12px;	
+		font-size: 28px;
+		color: white;
+		padding: 5px;
+		width: 200px;
+		text-align: center;
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+		text-decoration: none;
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	
+	button.submitbutton:hover {	
+		background-color: #003541; 
+		color: black;
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+
+
+
+	table.whitecards {
+		width: 75%;
+		margin-right: 10px;
+	}
+
+
+	
+	
+	
+	/*Judging Page*/
+  
+  #radioOptions{			/*Radio button form*/
+		font-size: 250%;
+  }
+  
+  #radioPosition{
+		margin-top: 2%;
+		text-align: center;
+  }
+  
+  #submit2{					/*Submit button for Judging page*/
+		background-color: #00191e;
+		border: 3px solid black;
+		border-radius: 12px;	
+		font-size: 28px;
+		color: white;
+		padding: 5px;
+		width: 200px;
+		text-align: center;
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+		text-decoration: none;
+		overflow: hidden;
+		cursor: pointer;
+  }
+  
+  #submit:hover {
+		background-color: #003541; 
+		color: black;
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  }
+
+
+  
+  
+  
+/*Results Page*/
+  
+  .table{										/*Table with runner-ups*/
+				border-collapse: collapse;
+			}
+	.td {
+				border-bottom: 1px solid black;
+				border-top: none;
+			}
+		
+	tr:hover{background-color:#f5f5f5;}			/*when runner-up is hovered over*/
+
+
+	#leftResult{								/*Winner section*/
+		text-align:center;
+		margin-top:3%;
+		font-size:150%;
+	}
+
+	#winner{
+		font-size:300%;
+	}
+
+	#rightResult{								/*Runner-up section*/
+		margin-top:10%;
+	}
+
+
+
+  
+	
+	
