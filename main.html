@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    
+
+    <title>Main Menu</title>
+	<link rel="stylesheet" href="cauStyle.css">
+
+	
+	<!--Links for Bootstrap-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+  </head>
+  
+  
+  
+<body id ="main" data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<!-- Jumbotron
+    ================================================== -->
+	<div class="container-fluid" style="background-color:#003541;color:#fff;height:200px;">
+		<h1>Welcome username!</h1>
+	</div>
+	
+	
+	
+<!-- Affix Navigation Bar
+    ================================================== -->
+	<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197" id="navigationColour">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>                        
+				</button>
+				<img src="defaultlogo.png" alt="logo" id="Logo">
+				<p class="navbar-brand">Cards Against University</p>
+			</div>
+			
+			<div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<!-- Navigation options centered -->
+				<ul class="nav navbar-nav">
+					<li><a href="#section1">Home</a></li>
+					<li><a href="gameInPlay.html">Play</a></li>
+					<li><a href="#">Leaderboard</a></li>
+					<li><a href="#section2">How to Play</a></li>
+				</ul>
+				<!-- Navigation option to the right -->
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown navbar-right" id="profile"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Personal Stats</a></li>
+							<li><a href="#">Log-out</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+	</nav><!-- ./navigation Bar -->    
+
+	
+	<!-- 'About' Sections
+    ================================================== -->
+	<div id="section1" class="container-fluid">
+		<h1>About the Game</h1>
+		<p>Write a small bit about the objective of the game</p>
+	</div>
+	<div id="section2" class="container-fluid">
+		<h1>How to play the game</h1>
+		<p>What to click and when!</p>
+	</div>
+	<div id="section3" class="container-fluid">
+		<h1>Leaderboard</h1>
+		<p>Explain how to get to it and how you get on it</p>
+	</div>
+	<div id="section41" class="container-fluid">
+		<h1>Personal Stats</h1>
+		<p>Explain what stats are kept</p>
+	</div>
+    </div><!-- ./about sections -->
+
+
+	
+	
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
