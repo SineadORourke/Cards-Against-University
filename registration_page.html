@@ -1,34 +1,104 @@
-<!doctype html>
-<html>
-    <head>
-          <link rel="stylesheet" type="text/css" href="registration_page.css">
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    
+	
+    <title>Registration</title>
+	<link rel="stylesheet" href="cauStyle.css">
+	
+	
+	<!--Links for Bootstrap-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+  </head>
+	
+	
+	
+	
+<body id="main">
 
-    <body>
-    <center>
-        <div id="container">
-            <form>
-                <h1>Sign Up!</h1>
-                <br>
-                <div class="line"><label for="email">Email *: </label><input type="email" id="email" /></div>
-                <br>
-                <div class="line"><label for="pwd">Password *: </label><input type="password" id="pwd" /></div>
-                <br>
-                <div class="line"><label for="first name">First Name: </label><input type="text" id="first name" /></div>
-                <br>
-                <div class="line"><label for="surname">Surname: </label><input type="text" id="surname" /></div>
-                <br>
-                <div class="line"><label for="dob">Date of Birth: </label><input type="text" id="dob" /></div>
-                
-                <br>
-                <br>
-                <div class="line submit"><input type="submit" value="Submit" /></div>
-                
-                <br>
- 
-                <p>Note: Please ensure that all your details are correct before submitting the form and that all fields marked with * are completed!.</p>
-            </form>
-        </div>
-        </center>
-    </body>
+	<!-- Navigation Bar
+    ================================================== -->
+	<nav class="navbar navbar-inverse" id="navigationColour">
+	<img src="defaultlogo.png" alt="Logo" id="Logo">
+	<div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#" id="name"><h1>Cards Against University</h1></a>
+    </div>
+	
+	<!-- Log-in + Back buttons with icons -->
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="welcome_page.html"><span class="glyphicon glyphicon-circle-arrow-left"></span> Back</a></li>
+        <li><a href="main.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav><!-- ./navigation Bar -->
+
+
+
+<!-- Registration Form
+    ================================================== -->
+	<div class="container">
+		<h2>Registration</h2>
+		<form role="form">
+			<div class="form-group">
+				<label for="email">*Email:</label>
+				<input type="email" class="form-control" id="email" placeholder="Enter email">
+			</div>
+			<div class="form-group">
+				<label for="pwd">*Password:</label>
+				<input type="password" class="form-control" id="pwd" placeholder="Enter password">
+			</div>
+			<div class="form-group">
+				<label for="fname">First Name:</label>
+				<input type="fName" class="form-control" id="pwd" placeholder="Enter first name">
+			</div>
+			<div class="form-group">
+				<label for="surname">Surname:</label>
+				<input type="Surname" class="form-control" id="pwd" placeholder="Enter surname">
+			</div>
+			<div class="form-group">
+				<label for="dob">Date of Birth:</label>
+				<input type="DOB" class="form-control" id="pwd" placeholder="Enter date of birth">
+			</div>
+			<div class="checkbox">
+				<label><input type="checkbox"> Remember me</label>
+			</div>
+	
+			<p>Note: Please ensure that all your details are correct before submitting the form and that all fields marked with * are completed!.</p> 
+	
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div><!-- ./registration form -->
+	
+
+	
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
 </html>
