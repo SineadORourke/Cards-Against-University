@@ -45,35 +45,35 @@ header {
 	
 }
 
-#card1:hover {
+#image1:hover {
 
 	border: 1px solid #777;	
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	
 }
 
-#card2:hover {
+#image2:hover {
 
 	border: 1px solid #777;	
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	
 }
 
-#card3:hover {
+#image3:hover {
 
 	border: 1px solid #777;	
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	
 }
 
-#card4:hover {
+#image4:hover {
 
 	border: 1px solid #777;	
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	
 }
 
-#card5:hover {
+#image5:hover {
 
 	border: 1px solid #777;	
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -98,7 +98,7 @@ div.playerList {
 aside {
 
 	float: left;
-	width: 16%;
+	width: 14.5%;
 
 }
 
