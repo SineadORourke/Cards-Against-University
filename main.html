@@ -10,6 +10,9 @@
     <title>Main Menu</title>
 	<link rel="stylesheet" href="cauStyle.css">
 
+	    <!-- Firebase library -->
+    <script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
+
 	
 	<!--Links for Bootstrap-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -63,7 +66,7 @@
 					<li class="dropdown navbar-right" id="profile"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Personal Stats</a></li>
-							<li><a href="#">Log-out</a></li>
+							<li><button onclick="logOut()">Logout</button></li> <!-- had to change to button just for demo -->
 						</ul>
 					</li>
 				</ul>
@@ -105,5 +108,18 @@
     <script src="../../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script type="text/javascript">
+
+    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+
+    function logOut(){
+
+    	myDataRef.unauth();
+    	alert("You are now logged out");
+    	window.location="welcome_page.html";
+    }
+
+    </script>
   </body>
 </html>
