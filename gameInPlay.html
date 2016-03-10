@@ -171,15 +171,45 @@
     ================================================== -->
     <section>
       <center>
-        <a href="JudgingPage.html"><button class="submitbutton" id="submit1">Submit</button></a>
+        <!--<a href="JudgingPage.html">--> <button class="submitbutton" id="submit1" data-toggle="modal" data-target="#myModal">Submit</button><!--</a>-->
       </center>
     </section> <!-- ./submit button -->
 	
+
 	
-	<!-- JS code for Timer
+<!-- modal code
+      ===================================== -->
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       
+        <h4 class="modal-title">Your card has been submitted</h4>
+      </div>
+      <div class="modal-body">
+        <p>Waiting for other players to submit their white card</p>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+  <!-- JS code for Timer
     ================================================== -->
+
+
+
 	<script>  
-      /*var timeLeft = 30;
+      var timeLeft = 30;
 
       var elem = document.getElementById('timer');
 
@@ -189,11 +219,14 @@
         if (timeLeft == 0) {
           clearTimeout(timerId);
           alert("Times up!")
+          window.location.href = 'JudgingPage.html';//if time =0 go to next page or when other players have submitted their card
         } else {
           elem.innerHTML = timeLeft + ' seconds remaining';
-          timeLeft--;
+          timeLeft--; 
+        
+  
         }
-      }*/
+      }
 
     </script>
 
