@@ -107,7 +107,7 @@
 
 
 	section {
-		float: left;
+		
 		width: 84%;
 	}
 
@@ -138,24 +138,25 @@
 	}
 
 	div.blackscenario {
+
 		position: relative;
 		margin-top: 15px;
 		width: 20%;	
 
 	}
 
+	#blackimage {
+
+		position: absolute;
+	}
+
+
 	#blackCardHeader {
-		
 		
 		color:white;
 		position: absolute;
 		width:100%;
 		
-	}
-
-	#blackimage {
-		
-		position: relative;
 	}
 
 	#blackCardText{
@@ -187,7 +188,7 @@
 	}
 
 	td:hover {
-		background-color:red;
+		
 		border-left:1px solid black;
 		border-right:2px solid black;
 
