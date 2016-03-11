@@ -10,6 +10,10 @@
     <title>Judging</title>
 	<link rel="stylesheet" href="cauStyle.css">
 	
+	<!-- Firebase Library -->
+	<script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
+
+	
 	
 	<!--Links for Bootstrap-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -74,9 +78,9 @@
 		<div class="container" id="radioOptions">
 			<h1>Cast your vote:</h1>
 			<br>
-			<form role="form">
+			<form id="myForm" role="form">
 				<div class="well">
-					<label><input type="radio" name="optradio">Submission 1</label>
+					<input type="radio" id="radio1" name="optradio"><label id="r1" for="radio1"></label>
 				</div>
 				<div class="well">
 					<label><input type="radio" name="optradio">Submission 2</label>
@@ -89,7 +93,7 @@
 				</div>
 			</form>
 			<!--Submit button-->
-			<a href="resultpage.html"><button class="submitbutton" id="submit2" data-toggle="modal" data-target="#myModal">Submit</button></a>
+			<a href="resultpage.html"><button class="submitbutton" id="submit2" data-toggle="modal" data-target="#myModal" onclick="onSubmit();">Submit</button></a>
 		</div>
 	</div><!-- ./radio button form -->
 	
@@ -126,5 +130,65 @@
     <script src="../../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+        <!-- Javascript for voting submission -->
+    <script>
+	var ref = new Firebase("https://cau-maynooth.firebaseio.com/User1/WhiteCardChosen/Submission");
+	var sub;
+	var one;
+
+    ref.on("value", function(snapshot) {
+        console.log(snapshot.val());
+        sub = snapshot.val();
+        document.getElementById("r1").textContent = sub;
+        one = sub;
+    }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+    });
+
+    // the main firebase reference.
+    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+    
+    var form = document.getElementById("myForm"); // use the form so we can access the radio buttons.
+
+    var radioText = form.elements["optradio"];  // store the radio buttons into an array.
+
+      // store the text value associated with the radio buttons into a variable.
+    var two = radioText[1].nextSibling.data;
+    var three = radioText[2].nextSibling.data;
+    var four = radioText[3].nextSibling.data;
+
+ 	var radioOne = document.getElementById("radio1"); // get the id of each radio button so we can use the checked method.
+ 	var radioTwo = document.getElementById("radio2");
+ 	var radioThree = document.getElementById("radio3");
+ 	var radioFour = document.getElementById("radio4");
+
+    function onSubmit(){ // submits the selected data to the database.
+    	var usersRef = myDataRef.child("Judging"); // save the data into a new branch called judging.
+
+    if(radioOne.checked){ // if radio button 1 is selected send it's associated text (i.e. the card you think should win) to the database.       
+    	usersRef.child("votes").set({
+    		vote : one
+    	});
+    }
+    else if(radioTwo.checked){
+    	usersRef.child("votes").set({
+    		vote : two
+    	});
+    }
+    else if(radioThree.checked){
+    	usersRef.child("votes").set({
+    		vote : three
+    	});
+    }
+    else{
+    	usersRef.child("votes").set({
+    		vote : four
+    	});
+    }
+
+    }
+
+
+    </script>
   </body>
 </html>
