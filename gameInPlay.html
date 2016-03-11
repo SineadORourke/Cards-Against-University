@@ -175,9 +175,31 @@
     ================================================== -->
     <section>
       <center>
-        <button class="submitbutton" onclick="submitAnswer()" id="submit1">Submit</button></a>
+        <button class="submitbutton" onclick="submitAnswer()" id="submit1" data-toggle="modal" data-target="#myModal">Submit</button>
       </center>
     </section> <!-- ./submit button -->
+
+    <!-- modal code
+ +      ===================================== -->
+ 
+ 
+ <div id="myModal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+ 
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header">
+        
+         <h4 class="modal-title">Your card has been submitted</h4>
+       </div>
+       <div class="modal-body">
+         <p>Waiting for other players to submit their white card</p>
+       </div>
+       
+     </div>
+ 
+   </div>
+ </div>
   
   
   <!-- JS code for Timer
