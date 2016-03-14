@@ -60,38 +60,34 @@
 
 <!-- Registration Form
     ================================================== -->
-	<div class="container">
-		<h2>Registration</h2>
-		
-			<div class="form-group">
-				<label for="email">*Email:</label>
-				<input type="email" class="form-control" id="email" placeholder="Enter email">
-			</div>
-			<div class="form-group">
-				<label for="pwd">*Password:</label>
-				<input type="password" class="form-control" id="pwd" placeholder="Enter password">
-			</div>
-			<div class="form-group">
-				<label for="fname">First Name:</label>
-				<input type="fName" class="form-control" id="firstname" placeholder="Enter first name">
-			</div>
-			<div class="form-group">
-				<label for="surname">Surname:</label>
-				<input type="Surname" class="form-control" id="surname" placeholder="Enter surname">
-			</div>
-			<div class="form-group">
-				<label for="dob">Date of Birth:</label>
-				<input type="DOB" class="form-control" id="dob" placeholder="Enter date of birth">
-			</div>
-			<div class="checkbox">
-				<label><input type="checkbox"> Remember me</label>
-			</div>
-	
-			<p>Note: Please ensure that all your details are correct before submitting the form and that all fields marked with * are completed!.</p> 
-	
-			<button type="submit" class="btn btn-default" onclick="createUser()">Register</button>
-		
-	</div><!-- ./registration form -->
+<center>
+  <div class="reg_container">
+    <h2>Registration</h2>
+    </br>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+      </div>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" maxlength="15" id="username" placeholder="Enter username">
+      </div>
+      <div class="form-group">
+        <label for="uni">University</label>
+        <select id="uni" name="university">
+        <option value="Maynooth">Maynooth</option>
+        <option value="UCD">UCD</option>
+        <option value="Trinity">Trinity</option>
+        </select>
+      </div>
+    </br>
+       <button type="submit" class="btn btn-default" id="register" onclick="createUser()">Register</button>
+    </div>
+</center><!-- ./registration form -->
 	
 
 	
@@ -129,23 +125,21 @@
         }, 
           function(error, authData) {
             if (error) {
-        		console.log("Login Failed!", error);
+            console.log("Login Failed!", error);
           } else {
-        		console.log("Authenticated successfully with payload:", authData);
-        	    // if authentication is successful save the user's details to the database
-                var userFName = document.getElementById('firstname').value; // extract the info from the remaining input boxes
-                var userSName = document.getElementById('surname').value;
-                var userDOB = document.getElementById('dob').value;
+            console.log("Authenticated successfully with payload:", authData);
+              // if authentication is successful save the user's details to the database
+                var userName = document.getElementById('username').value; // extract the info from the remaining input boxes
+                var userUni = document.getElementById('uni').value;
                 var usersRef = myDataRef.child("users");
                 usersRef.child(authData.uid).set({ 
                 // save the user's info under their user id (uid), which is given to the user upon authenication
-      	             email :userEmail,
+                     email :userEmail,
                      password : userPassword,
-                     First_Name: userFName,
-                     Second_Name: userSName,
-                     Date_of_Birth: userDOB
+                     username : userName,
+                     university : userUni
+
                 });
-                alert("You are now registered as a user");
                 window.location="main.html";
             }
         });
@@ -154,6 +148,7 @@
 
       document.getElementById("email").value = ""; // resets the values of the input fields.
       document.getElementById("pwd").value = "";
+      document.getElementById("username").value = "";
       //hello I'm practicing github from shane
     }
     </script>
