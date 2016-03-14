@@ -60,15 +60,15 @@
 					<li><a href="gameInPlay.html">Play</a></li>
 					<li><a href="#">Leaderboard</a></li>
 					<li><a href="#section2">How to Play</a></li>
-				</ul>
-				<!-- Navigation option to the right -->
-				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown navbar-right" id="profile"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Personal Stats</a></li>
-							<li><button onclick="logOut()">Logout</button></li> <!-- had to change to button just for demo -->
 						</ul>
 					</li>
+				</ul>
+				<!-- Navigation option to the right -->
+				<ul class="nav navbar-nav navbar-right">
+					<li onclick="logOut()"><a href="welcome_page.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 				</ul>
 			</div>
 			</div>
@@ -116,7 +116,6 @@
     function logOut(){
 
     	myDataRef.unauth();
-    	alert("You are now logged out");
     	window.location="welcome_page.html";
     }
 
