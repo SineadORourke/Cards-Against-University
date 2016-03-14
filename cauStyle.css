@@ -33,11 +33,11 @@
 	
 
 	
-	#navigationColour{					/*Navigation + Main body colour (for all pages)*/
+	#navigationColour{					/*Navigation colour (for all pages)*/
 		background-color: #00191e;
 	}
 	
-	#main {							
+	#main {								/*Background colour (for all pages)*/
 		background-color: #A3A4A4;
 	}
 	
@@ -92,7 +92,7 @@
 	}
 	
 
-	div.playerList {
+	div.playerList {		/*Other players' avatars*/
 		list-style-type:none;
 		float: left;
 		border-style: none;
@@ -164,7 +164,7 @@
 		
 	}
 
-	.container {
+	#cardContainer {
 		
 		display: inline-block;
 		position: relative;
@@ -172,7 +172,7 @@
 		
 	}
 
-	.image {
+	.whiteImage {
 		
 		position: relative;
 		z-index: 0;
@@ -180,26 +180,28 @@
 		float: left;
 	}
 
-	td {
+	#whiteCardData {
 		width:225px;
 		text-align: center;
 		margin-top:500px;
 		
 	}
 
-	td:hover {
+	#whiteCardData:hover {
 		
 		border-left:1px solid black;
 		border-right:2px solid black;
 
 	}
 
-	#table {
+	#whiteCardTable {
 
 		margin-top:100px;
 		position: absolute;
 		width: 100%;
 	}
+	
+	
 	
 	/*Judging Page*/
   
@@ -237,23 +239,27 @@
 	#myModal{
        top:25%;
  		left:5%;
+	}
+  
+  
   
   
   
 /*Results Page*/
-  
-  .table{										/*Table with runner-ups*/
+	
+	#resultTable {										/*Table with runner-ups*/
 		border-collapse: collapse;
 	}
-	.td {
+	
+	#resultData {
 		border-bottom: 1px solid black;
 		border-top: none;
 	}
 		
-	tr:hover{background-color:#f5f5f5;}			/*when runner-up is hovered over*/
+	#resultRow:hover{background-color:#f5f5f5;}			/*when runner-up is hovered over*/
 
 
-	#leftResult{								/*Winner section*/
+	#leftResult{										/*Winner section*/
 		text-align:center;
 		margin-top:3%;
 		font-size:150%;
@@ -263,7 +269,7 @@
 		font-size:300%;
 	}
 
-	#rightResult{								/*Runner-up section*/
+	#rightResult{										/*Runner-up section*/
 		margin-top:10%;
 	}
 
