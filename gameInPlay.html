@@ -68,25 +68,26 @@
 
   <!-- Group Avatars
     ================================================== -->
+
   <aside>
     <ul>
       <figure>
-        <img src="defaultplayer.png" alt="Player 1" width="100" height="100">
+        <img src="defaultplayer.png" alt="Player 1" width="120" height="100">
         <figcaption>Player 1</figcaption>
       </figure>
 
       <figure>
-        <img src="defaultplayer.png" alt="Player 2" width="100" height="100">
+        <img src="defaultplayer.png" alt="Player 2" width="120" height="100">
         <figcaption>Player 2</figcaption>
       </figure>
 
       <figure>
-        <img src="defaultplayer.png" alt="Player 3" width="100" height="100">
+        <img src="defaultplayer.png" alt="Player 3" width="120" height="100">
         <figcaption>Player 3</figcaption>
       </figure>
 
       <figure>
-        <img src="defaultplayer.png" alt="Player 4" width="100" height="100">
+        <img src="defaultplayer.png" alt="Player 4" width="120" height="100">
         <figcaption>Player 4</figcaption>
       </figure>
 
@@ -98,8 +99,8 @@
   
   <!-- Timer + Black card
     ================================================== -->
-    <section>
-      
+
+   <section> 
         <div id='timer'>
         </div> 
 
@@ -113,23 +114,22 @@
           </div>
         </div>
       </center>
-    </section><!-- ./timer and black card -->
+<!-- ./timer and black card -->
 
   
   <!-- White cards
     ================================================== -->
-    <section>
-      <br />
       
-          <div class="container" id="cardContainer">
-
+        <div class="container" id="cardContainer">
+        <table class="table-responsive">
+          <tr>
             <div class="whiteImage">
               <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText1)" alt="White Card Goes Here" width="225" height="300">
             </div>
 
             <div class="whiteImage">
                <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText2)" alt="White Card Goes Here" width="225" height="300">
-             </div>
+            </div>
 
             <div class="whiteImage">
               <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText3)" alt="White Card Goes Here" width="225" height="300">
@@ -142,13 +142,14 @@
             <div class="whiteImage">
               <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText5)" alt="White Card Goes Here" width="225" height="300">
             </div>
+          </tr>
+        </table>
 
           <div id="whiteCardTable">
-            <table>
+            <table class="table-responsive">
               <tr>
                 <td id="whiteCardData">
-                  <!--<h3 class="whitecardtext" id ="whitecardText1">hello my name is ...<h3>-->
-                  <p>hello is me your looking for? No, why the fuck not then? Whats wrong with me??</p>
+                  <h3 class="whitecardtext" id ="whitecardText1"><h3>
                 </td>
                 <td id="whiteCardData">
                   <h3 class="whitecardtext" id ="whitecardText2"><h3>
@@ -165,19 +166,21 @@
               </tr>
 
             </table>
-
           </div>
-          </div>
+        </div>
   
     </section><!-- ./white cards -->
     
    <!-- Submit Button
     ================================================== -->
-    <section>
+
       <center>
-        <button class="submitbutton" onclick="submitAnswer()" id="submit1" data-toggle="modal" data-target="#myModal">Submit</button>
+        <div id="submitAnswerBtn">
+          <button class="submitbutton" onclick="submitAnswer()" id="submit1" data-toggle="modal" data-target="#myModal">Submit</button>
+        </div>
       </center>
-    </section> <!-- ./submit button -->
+
+ <!-- ./submit button -->
 
     <!-- modal code
  +      ===================================== -->
@@ -205,7 +208,7 @@
   <!-- JS code for Timer
     ================================================== -->
   <script>  
-    var timeLeft = 30;
+    /*var timeLeft = 60;
 
     var elem = document.getElementById('timer');
 
@@ -222,7 +225,7 @@
         elem.innerHTML = timeLeft + ' seconds remaining';
         timeLeft--;
       }
-    }
+    }*/
 
     var answer = "";
     var rndBCard = "/card" + Math.floor((Math.random() * 6) + 1);
