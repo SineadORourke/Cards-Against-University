@@ -33,7 +33,7 @@
 <!-- Jumbotron
     ================================================== -->
 	<div class="container-fluid" style="background-color:#003541;color:#fff;height:200px;">
-		<h1>Welcome username!</h1>
+		<h1>Welcome <span id="usernameText">username!</span></h1>
 	</div>
 	
 	
@@ -118,6 +118,19 @@
     	myDataRef.unauth();
     	window.location="welcome_page.html";
     }
+	
+	
+	<!-- Changing the "Welcome username!" to the user's personalized username
+	var userNameRef = new Firebase('https://cau-maynooth.firebaseio.com/users');				//DB Reference
+	var uEmail = localStorage.getItem("Email");													//get the email of the user that just logged in/registered
+	var user;
+	userNameRef.orderByChild("email").equalTo(uEmail).on("child_added", function(snapshot){		//get the user object from the DB with the same email as above
+		console.log(snapshot.val());
+		user = snapshot.val().username;
+		document.getElementById("usernameText").textContent = user;								//change <span> username </span> to the personalised name
+	}, function (errorObject) {
+		console.log("The read failed: " + errorObject.code);
+	});
 
     </script>
   </body>

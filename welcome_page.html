@@ -156,6 +156,7 @@
       } else {
         console.log("Authenticated successfully with payload:", authData);
         alert("Login successful");
+		localStorage.setItem("Email", userEmail);	//save the email in local storage (used for Welcome Username! on main page)
         window.location="main.html";
       }
       });

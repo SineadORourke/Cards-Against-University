@@ -138,8 +138,8 @@
                      password : userPassword,
                      username : userName,
                      university : userUni
-
                 });
+				localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
                 window.location="main.html";
             }
         });
@@ -148,7 +148,7 @@
 
       document.getElementById("email").value = ""; // resets the values of the input fields.
       document.getElementById("pwd").value = "";
-      document.getElementById("username").value = "";
+      //document.getElementById("username").value = "";		Commented out because it wasn't saving username in the DB
       //hello I'm practicing github from shane
     }
     </script>
