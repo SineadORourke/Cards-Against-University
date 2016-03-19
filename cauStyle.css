@@ -112,12 +112,23 @@
 
 
  /*Game Page*/
+	
+  
 	#timer {
 		float: right;
 		text-align: center;
 		width: 15%;
 		color: #00191e;	
 		font-size: 30px;
+	}
+
+     #timer2{
+               float: right;
+		text-align: center;
+		width: 15%;
+		color: #00191e;	
+		font-size: 10px;
+
 	}
 	
 	div.playerList {		/*Other players' avatars*/
@@ -281,8 +292,10 @@
   }
 
 	#myModal{
-       top:25%;
+       		top:35%;
  		left:5%;
+           text-align: center;
+	font-size: 150%;
 	}
   
   

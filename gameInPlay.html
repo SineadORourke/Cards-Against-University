@@ -186,13 +186,14 @@
  +      ===================================== -->
  
  
- <div id="myModal" class="modal fade" role="dialog">
+ <div id="myModal" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
    <div class="modal-dialog">
  
      <!-- Modal content-->
      <div class="modal-content">
        <div class="modal-header">
-        
+        <div id='timer2'>
+        </div> 
          <h4 class="modal-title">Your card has been submitted</h4>
        </div>
        <div class="modal-body">
@@ -209,11 +210,9 @@
     ================================================== -->
   <script>  
     var timeLeft = 30;
-
     var elem = document.getElementById('timer');
-
+    var elem2 = document.getElementById('timer2');
     var timerId = setInterval(countdown, 1000);
-
     function countdown() {
       if (timeLeft == 0) {
         clearTimeout(timerId);
@@ -223,17 +222,16 @@
         
       } else {
         elem.innerHTML = timeLeft + ' seconds remaining';
+        elem2.innerHTML = timeLeft + ' seconds remaining';
         timeLeft--;
       }
     } <!--./timer -->
-
     var answer = "";
     var rndBCard = "/card" + Math.floor((Math.random() * 6) + 1);
     
     var scenarioCard = ""; // Empty string to hold black card caption
         
     var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards" + rndBCard);
-
       // Attach an asynchronous callback to read the card data from database 
       ref.on("value", function(snapshot) { 
         // Assign to scenario card to place in HTML
@@ -241,11 +239,9 @@
         console.log(scenarioCard);
         document.getElementById("blackCardText").innerHTML = scenarioCard;
       }, 
-
     function (errorObject) { // Deal with errors
       console.log("The read failed: " + errorObject.code);
     });
-
         
         // Call all table data tags and save in variable
         
@@ -273,15 +269,12 @@
           console.log("The read failed: " + errorObject.code);
         });            
     }
-
       function setAnswer(whitecard){
         answer = whitecard.innerHTML;
         console.log("The answer chosen is by the user is: " + answer);
       }
-
       
       var ref = new Firebase("https://cau-maynooth.firebaseio.com");
-
       function submitAnswer(){
         if(answer == ""){
           alert("You must select one whitecard before clicking submit"); 
@@ -298,7 +291,6 @@
       }
         
       
-
   </script>
   
   

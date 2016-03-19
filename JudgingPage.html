@@ -93,20 +93,21 @@
 				</div>
 			</form>
 			<!--Submit button-->
-			<a href="resultpage.html"><button class="submitbutton" id="submit2" data-toggle="modal" data-target="#myModal" onclick="onSubmit();">Submit</button></a>
+			<!--<a href="resultpage.html">-->
+			<button class="submitbutton" id="submit2" data-toggle="modal" data-target="#myModal" onclick="onSubmit();">Submit</button></a>
 		</div>
 	</div><!-- ./radio button form -->
 	
 	<!-- modal code 
 		===============================  -->
 		
-	<div id="myModal" class="modal fade" role="dialog">
+	<div id="myModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-       
+       <div id = "timer2"></div>
         <h4 class="modal-title">Your vote has been submitted</h4>
       </div>
       <div class="modal-body">
@@ -132,6 +133,26 @@
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
         <!-- Javascript for voting submission -->
     <script>
+    
+    var timeLeft = 30;
+    
+    var elem2 = document.getElementById('timer2');
+    var timerId = setInterval(countdown, 1000);
+    function countdown() {
+      if (timeLeft == 0) {
+        clearTimeout(timerId);
+        //alert("Times up!")
+        location.href="resultpage.html"
+        document.getElementById('submit1').click();
+        //document.getElementById("submit1").disabled = true;
+        
+      } else {
+        
+        elem2.innerHTML = timeLeft + ' seconds remaining';
+        timeLeft--;
+      }
+    }
+
 	var ref = new Firebase("https://cau-maynooth.firebaseio.com/User1/WhiteCardChosen/Submission");
 	var sub;
 	var one;
