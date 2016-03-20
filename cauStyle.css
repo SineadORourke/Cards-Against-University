@@ -100,10 +100,41 @@
 
   
   /*'About' sections on Main Menu page*/
-	#section1 {padding-top:50px;height:500px;color: #fff; background-color: #A3A4A4;}
-	#section2 {padding-top:50px;height:500px;color: #fff; background-color: #004b5d;}
-	#section3 {padding-top:50px;height:500px;color: #fff; background-color: #00191e;}
-	#section41 {padding-top:50px;height:500px;color: #fff; background-color: #7E7F7F;}
+	#section1 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #A3A4A4; 
+				text-align:center; font-size:150%;}
+	#section2 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #004b5d;
+				 font-size:150%;}
+	#section3 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #00191e;
+				text-align:center; font-size:150%;}
+	#section4 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #A3A4A4;
+				font-size:150%;}
+	#section5 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #004b5d;
+				font-size:150%;}
+	
+  
+  
+	#opening {					/*Header for all the sections*/
+		text-align: center;
+		font-size: 200%;
+	}
+ 
+	
+	#leftside{					/*Text on the left side of sections*/
+		text-align:left;
+		margin-top:6%;
+		
+	}
+	
+	#rightside{					/*Image on the right side of sections*/
+		text-align:center;
+		margin-top:5%;
+		
+	}
+	
+	#moreMargin{				/*Left side text with more margin (to line up with bigger picture)*/
+		text-align:left;
+		margin-top:10%;
+	}
   
   
  
