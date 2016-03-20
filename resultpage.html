@@ -9,6 +9,9 @@
 
     <title>Result</title>
 	<link rel="stylesheet" href="cauStyle.css">
+
+	<!-- Firebase library -->
+    <script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
 	
 	<!--Links for Bootstrap-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -73,7 +76,7 @@
 			<h1 id="winner">Winner!</h1>
 			<img src="defaultplayer.png" alt "Default Logo" width="350" height="350">
 			<p>Winning username</p>
-			<p><i><b> Winning submission</b></i></p>
+			<p><i><b><span id="winSub"> </span></b></i></p>
 		</div>
 	
 		<!--Table with the rest of the players + their submissions -->                                                                          
@@ -126,5 +129,19 @@
     <script src="../../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/Judging/votes/vote"); // firebase address for votes.
+    var winSent; // this variable will store the value of the snapshot.
+
+    ref.on("value", function(snapshot) {
+        //console.log(snapshot.val());
+        winSent = snapshot.val(); 
+        document.getElementById("winSub").textContent = winSent; // set the text of the winner's submission equal to that in the votes database.
+    }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+    });
+
+    </script>
+
   </body>
 </html>
