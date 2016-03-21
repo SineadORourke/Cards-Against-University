@@ -13,7 +13,14 @@
 	<!-- Firebase Library -->
 	<script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
 
-	
+	<!--Disable Back Button -->
+    <script type="text/javascript">
+        window.history.forward();
+        function noBack()
+        {
+            window.history.forward();
+        }
+    </script>
 	
 	<!--Links for Bootstrap-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -31,7 +38,7 @@
 	
 	
 	
-<body data-spy="scroll" data-target=".navbar" data-offset="50" id="main">
+<body data-spy="scroll" data-target=".navbar" data-offset="50" id="main" onLoad="noBack();" onpageshow="if (event.persisted) noBack();" onUnload="">
 	
 	<!-- Navigation Bar
     ================================================== -->
