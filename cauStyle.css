@@ -143,23 +143,16 @@
 
 
  /*Game Page*/
-	
-  
+* {
+	    box-sizing: border-box;
+	}
+
 	#timer {
 		float: right;
 		text-align: center;
 		width: 15%;
 		color: #00191e;	
 		font-size: 30px;
-	}
-
-     #timer2{
-               float: right;
-		text-align: center;
-		width: 15%;
-		color: #00191e;	
-		font-size: 10px;
-
 	}
 	
 	div.playerList {		/*Other players' avatars*/
@@ -171,15 +164,24 @@
 	
 	aside {
 		float: left;
-		width: 12%;
+		width: 10%;
 		margin-top: 5%;
+	}
+
+	#avatar {
+		width: 100%;
+		height: 20%;
+	}
+
+	figure {
+		width: 100%;
+		height: 20%;
 	}
 
 	section {
 		
 		width: 84%;
 		float: right;
-
 
 	}
 
@@ -195,6 +197,9 @@
 	#blackimage {
 
 		position: absolute;
+		width: 250px;
+		height: 300px;
+
 	}
 
 
@@ -228,20 +233,26 @@
 	.whiteImage {
 		
 		position: relative;
-		z-index: 0;
-		display: inline-block;
 		float: left;
+
+	}
+
+	#card {
+		display: inline-block;
+		width: 19%;
+		height: 23em;
 	}
 	
 	#whiteCardTable {
 
 		margin-top:110px;
-		position: absolute;
 		width: 100%;
+		position: absolute;
+
 	}
 	
 	#whiteCardData {
-		width:225px;
+		width:20.75%;
 		text-align: center;
 		
 	}
@@ -272,7 +283,7 @@
 		font-size: 28px;
 		color: white;
 		padding: 5px;
-		width: 200px;
+		width: 20%;
 		text-align: center;
 		-webkit-transition-duration: 0.4s; /* Safari */
 		transition-duration: 0.4s;
