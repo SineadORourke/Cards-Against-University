@@ -65,127 +65,102 @@
   </nav><!-- ./navigation Bar -->    
   
   
-
-  <!-- Group Avatars
-    ================================================== -->
-
-  <aside>
-    <ul>
-      <figure>
-        <img src="defaultplayer.png" alt="Player 1" width="120" height="100">
-        <figcaption>Player 1</figcaption>
-      </figure>
-
-      <figure>
-        <img src="defaultplayer.png" alt="Player 2" width="120" height="100">
-        <figcaption>Player 2</figcaption>
-      </figure>
-
-      <figure>
-        <img src="defaultplayer.png" alt="Player 3" width="120" height="100">
-        <figcaption>Player 3</figcaption>
-      </figure>
-
-      <figure>
-        <img src="defaultplayer.png" alt="Player 4" width="120" height="100">
-        <figcaption>Player 4</figcaption>
-      </figure>
-
-        </ul>
-    </aside><!-- ./group avatars -->
-
   
-  
-  
-  <!-- Timer + Black card
-    ================================================== -->
+  <div class="container-fluid"> <!--Black card, white cards, timer and avatars are all wrapped in this container-->
 
-   <section> 
-        <div id='timer'>
-        </div> 
-
+  <!-- Black card 
+    ================================================== -->  
+	<div class="col-sm-10" id="leftCards">  <!--Black card, white cards and submit button are in this col (Responsive)-->
       <center>
-        <div class="blackscenario">
-          <div id="blackimage">
-            <img src="blackscenariocard.jpeg" alt="Black Scenario Card Goes Here" id="black" width="250" height="300">
-          </div>
-          <div id="blackCardHeader">
-            <h3 class="scenarioCardText" id ="blackCardText"><h3>
-          </div>
-        </div>
-      </center>
-<!-- ./timer and black card -->
+        <canvas id="myBlackCanvas" width="0" height="0" style="border:1px solid #000;">
+		Your browser does not support the HTML5 canvas tag.
+		</canvas>
+      
+	<!-- ./black card -->
 
   
   <!-- White cards
     ================================================== -->
-      
-        <div class="container" id="cardContainer">
-        <table class="table-responsive">
-          <tr>
-            <div class="whiteImage">
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText1)" alt="White Card Goes Here" width="225" height="300">
-            </div>
-
-            <div class="whiteImage">
-               <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText2)" alt="White Card Goes Here" width="225" height="300">
-            </div>
-
-            <div class="whiteImage">
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText3)" alt="White Card Goes Here" width="225" height="300">
-            </div>
-
-            <div class="whiteImage">
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText4)" alt="White Card Goes Here" width="225" height="300">
-            </div>
-
-            <div class="whiteImage">
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText5)" alt="White Card Goes Here" width="225" height="300">
-            </div>
-          </tr>
-        </table>
-
-          <div id="whiteCardTable">
-            <table class="table-responsive">
-              <tr>
-                <td id="whiteCardData">
-                  <h3 class="whitecardtext" id ="whitecardText1"><h3>
-                </td>
-                <td id="whiteCardData">
-                  <h3 class="whitecardtext" id ="whitecardText2"><h3>
-                </td>
-                <td id="whiteCardData">
-                  <h3 class="whitecardtext" id ="whitecardText3"><h3>
-                </td>
-                <td id="whiteCardData">
-                  <h3 class="whitecardtext" id ="whitecardText4"><h3>
-                </td>
-                <td id="whiteCardData">
-                  <h3 class="whitecardtext" id ="whitecardText5"><h3>
-                </td>
-              </tr>
-
-            </table>
-          </div>
-        </div>
-  
-    </section><!-- ./white cards -->
+	
+	<div id="whitecards">
+	<canvas id="myCanvas1" width="0" height="0" style="border:1px solid #000;"></canvas>
+	<canvas id="myCanvas2" width="0" height="0" style="border:1px solid #000;"></canvas>
+	<canvas id="myCanvas3" width="0" height="0" style="border:1px solid #000;"></canvas>
+	<canvas id="myCanvas4" width="0" height="0" style="border:1px solid #000;"></canvas>
+	<canvas id="myCanvas5" width="0" height="0" style="border:1px solid #000;"></canvas>
+	</div>
+	<!-- ./white cards -->
     
+	
    <!-- Submit Button
     ================================================== -->
 
-      <center>
         <div id="submitAnswerBtn">
           <button class="submitbutton" onclick="submitAnswer()" id="submit1" data-toggle="modal" data-target="#myModal">Submit</button>
         </div>
-      </center>
+      
+	  </center>
+	</div>
 
- <!-- ./submit button -->
+	<!-- ./submit button -->
 
+ 
+ 
+	<!-- Timer + Group Avatars
+    ================================================== -->
+	<div class="table-responsive col-sm-2" id="rightBar"> <!--Timer and Avatars are in this col (Responsive)-->
+	<table class="table" id="AvatarTable">				<!--Timer and Avatars are structured in a table-->
+		<tbody>
+			<tr id="TimerRow">							<!--Timer-->
+				<td id="timer"></td>
+			</tr>
+			
+			<tr id="avatarRow">							<!--Avatars-->
+				<td id = "AvatarData">
+					<figure>
+					<img src="defaultplayer.png" alt="Player 1" width="120" height="100">
+					<figcaption>Player 1</figcaption>
+					</figure>
+				</td>
+			</tr>
+			<tr id="avatarRow">
+				<td id = "AvatarData">
+					<figure>
+					<img src="defaultplayer.png" alt="Player 2" width="120" height="100">
+					<figcaption>Player 2</figcaption>
+					</figure>
+				</td>
+			</tr>
+			<tr id="avatarRow">
+				<td id = "AvatarData">
+					<figure>
+					<img src="defaultplayer.png" alt="Player 3" width="120" height="100">
+					<figcaption>Player 3</figcaption>
+					</figure>
+				</td>
+			</tr>
+			<tr id="avatarRow">
+				<td id = "AvatarData">
+					<figure>
+					<img src="defaultplayer.png" alt="Player 4" width="120" height="100">
+					<figcaption>Player 4</figcaption>
+					</figure>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	</div> 
+    <!-- ./timer + group avatars -->
+<!--End of responsive code-->
+	
+	
+	
+	
+	
     <!-- modal code
- +      ===================================== -->
- 
- 
+       ===================================== -->
+
  <div id="myModal" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
    <div class="modal-dialog">
  
@@ -226,57 +201,178 @@
         timeLeft--;
       }
     } <!--./timer -->
-    var answer = "";
-    var rndBCard = "/card" + Math.floor((Math.random() * 6) + 1);
-    
-    var scenarioCard = ""; // Empty string to hold black card caption
-        
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards" + rndBCard);
-      // Attach an asynchronous callback to read the card data from database 
-      ref.on("value", function(snapshot) { 
-        // Assign to scenario card to place in HTML
-        scenarioCard = snapshot.val();
-        console.log(scenarioCard);
-        document.getElementById("blackCardText").innerHTML = scenarioCard;
-      }, 
-    function (errorObject) { // Deal with errors
-      console.log("The read failed: " + errorObject.code);
-    });
-        
-        // Call all table data tags and save in variable
-        
-        // Loop through each tag and place a card in HTML
-    for(var i = 1; i < 6; i++){
-      // Generate a random number 
-      var rndWCard = "/card" + Math.floor((Math.random() * 6) + 1);
-      // Get a database reference to our cards with random number appended to end of path
-      var whitecardText = "whitecardText" + i;
-      //console.log(currCard); 
-      var ref = new Firebase("https://cau-maynooth.firebaseio.com/whiteCards" + rndWCard);
-      // Attach an asynchronous callback to read the card data from database 
-      ref.on("value", function(snapshot) {
-        var info = snapshot.val();
-        console.log("Message from server; ", info);
-        i--;
-        whitecardText = "whitecardText" + i;
-        //console.log(i);
-        document.getElementById(whitecardText).innerHTML = info;
-          // Print to console for development purposes 
-          // Assign card to each element in the table
+	
+	
+	
+	
+	
+	<!-- ========== CANVAS CARDS ========== -->
+	<!--I know that this looks like a lot of code, but really about 90% just draws the card graphics,
+	<!--fills the colour of the cards, gets the text on to the cards.
+	
+	<!--When the text is pulled from Firebase, 2 things happen to it:
+	<!--	1. it essentially gets painted on to the card graphics 
+	<!--	2. it also gets saved in the innerHTML of the individual canvases (so it is easy to the setAnswer() and submitAnswer() methods like before)-->
+	
+	
+	//These variables decide the size of the cards
+    var blockSize = 40;					//the num of pixels per block
+	var canvasWidth = blockSize * 6; 	//the num of blocks across
+	var canvasHeight = blockSize * 8;	//the numb of blocks down
+	
+	var answer = "";					//empty string that saves the clicked card later
+	
+	
+	
+	
+	<!--Set up Black Card CANVAS-->
+	var b = document.getElementById("myBlackCanvas");
+	b.width = canvasWidth;				//set size of black card
+    b.height = canvasHeight;
+	
+	var ctxBlack = b.getContext("2d");	//get black card context
+      	ctxBlack.fillStyle = "#000";	//fill background black
+		ctxBlack.fillRect(s(0),s(0),s(6),s(8));	//fill the entire canvas (black)
+        ctxBlack.font = "20px Helvetica";		//font
+      	ctxBlack.fillStyle = '#FFF';			//font colour
+      	ctxBlack.textAlign = 'center';			//center text on black card
           
-       },
+        
+		//Pull text from Firebase
+		var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + randNum());
+		ref.on("value", function(snapshot) {
+        var scenarioCard = snapshot.val();
+        //console.log("Message from server; ", scenarioCard);
+		
+		//wrapText fits long inputs (mulit-line) on the card nicely
+        wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
+		},
         function (errorObject) {  // Deal with errors
           console.log("The read failed: " + errorObject.code);
-        });            
-    }
-      function setAnswer(whitecard){
-        answer = whitecard.innerHTML;
-        console.log("The answer chosen is by the user is: " + answer);
-      }
+        });
+        
       
-      var ref = new Firebase("https://cau-maynooth.firebaseio.com");
-      function submitAnswer(){
-        if(answer == ""){
+
+	
+	
+	
+	<!--Set up White cards CANVAS-->
+    var c1 = document.getElementById("myCanvas1");
+    var c2 = document.getElementById("myCanvas2");
+    var c3 = document.getElementById("myCanvas3");
+	var c4 = document.getElementById("myCanvas4");
+	var c5 = document.getElementById("myCanvas5");
+      
+	  
+    //Set the sizes of the white card canvases
+    function setSize(canvas){
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      canvas.addEventListener("click", setAnswer); //added onclick method for white cards
+    }
+ 
+    setSize(c1);
+    setSize(c2);
+    setSize(c3);
+	setSize(c4);
+	setSize(c5);
+			
+    //get contexts for white cards  
+    var ctx1 = c1.getContext("2d");
+    var ctx2 = c2.getContext("2d");
+    var ctx3 = c3.getContext("2d");
+	var ctx4 = c4.getContext("2d");
+	var ctx5 = c5.getContext("2d");
+      
+	
+	//method to generate random number
+	function randNum(){
+		return Math.floor((Math.random() * 6) + 1);
+	  }   
+	  
+	
+	//method used to pull down inputs for white cards from Firebase, then calls another method to insert
+	function getWhiteText(context, id){
+		var ref = new Firebase("https://cau-maynooth.firebaseio.com/whiteCards/card" + randNum());
+		ref.on("value", function(snapshot) {
+        var info = snapshot.val();
+        //console.log("Message from server; ", info);
+		
+		//Saves the text inside the canvas element
+		document.getElementById(id).innerHTML = info;
+		
+		//fillContext colours the box, adds the text (info) and wraps the text if necessary
+        fillContext(context, info);		
+		},
+        function (errorObject) {  // Deal with errors
+          console.log("The read failed: " + errorObject.code);
+        });
+	  }  
+	  
+	  
+	  
+	//method used to fill the white cards
+    function fillContext(context, text){
+      	context.fillStyle = "#FFF";				//fill background white
+		context.fillRect(s(0),s(0),s(6),s(8));	//fill the whole card
+        context.font = "20px Helvetica";		//font
+      	context.fillStyle = '#000';				//font colour
+      	context.textAlign = 'center';			//center text on card
+        
+        wrapText(context, text, s(3), s(2), s(5), 25); //wrap the text on the card
+      }
+	  
+	  
+	//Method to wrap long sentences in the white cards
+	function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');					//split text into array
+        var line = '';									
+
+        for(var n = 0; n < words.length; n++) {			
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      }
+     
+	
+	//call the method to insert ("paint") text on all white cards
+	getWhiteText(ctx1, "myCanvas1");	
+	getWhiteText(ctx2, "myCanvas2");
+	getWhiteText(ctx3, "myCanvas3");
+	getWhiteText(ctx4, "myCanvas4");
+	getWhiteText(ctx5, "myCanvas5");
+
+	
+	// s() scales everything to size according to the set blocksize
+	function s(x) {
+		return x*blockSize-1;
+	}
+	
+	<!-- ./canvas cards -->
+
+	
+	
+	<!-- Card Methods -->
+	//This method sets "answer" as the clicked canvas card
+	function setAnswer(){
+		answer = document.getElementById(this.id).innerHTML;
+		console.log("The answer chosen is by the user is: " + answer);
+	}
+	
+	
+	var ref = new Firebase("https://cau-maynooth.firebaseio.com");
+	function submitAnswer(){
+       if(answer == ""){
           alert("You must select one whitecard before clicking submit"); 
         }    
         else{
@@ -289,7 +385,7 @@
           window.location.href="JudgingPage.html";  
         }
       }
-        
+	
       
   </script>
   
