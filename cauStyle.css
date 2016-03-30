@@ -401,6 +401,48 @@
 	}
 
 
+	
+
+	
+	
+	
+/*Leaderboard Page*/
+		#leaderHeader{								/*Header for leaderboard*/	
+			text-align: center;
+		}
+		
+		
+		#Leaderboard{								/*top3 leaderboard*/
+			margin-left: 10%;
+			margin-right: 10%;
+			
+		}
+		#leaderData{				
+			border-bottom: 1px solid black;
+			border-top: none;
+			font-size: 20px;
+		}
+		#leaderRow:hover{
+			background-color:#004b5d;
+			color: #ffffff;
+		}
+		
+		
+		#Leaderboard2{								/*rest-of-players scrollable leaderboard*/
+			margin-left: 10%;
+			margin-right: 10%;
+			height: 200px;
+			overflow-y: scroll;
+		}
+		#leaderData2{
+			border-bottom: 1px solid black;
+			border-top: none;
+			
+		}
+		#leaderRow2:hover{
+			background-color:#f5f5f5;
+		}
+		
 
   
 	
