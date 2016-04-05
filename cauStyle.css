@@ -199,6 +199,24 @@
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	}
 	
+	#shuffleButton{					/*Shuffle button on game page*/
+		background-color: #00191e;
+		border: 3px solid black;
+		border-radius: 12px;	
+		font-size: 200%;
+		color: white;
+		padding: 5px;
+		text-align: center;
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+		text-decoration: none;
+		overflow: hidden;
+		cursor: pointer;
+	}
+	
+	#shuffleBtn{
+		border:none;
+	}
 	
 	
 	

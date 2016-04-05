@@ -106,7 +106,7 @@
 
  
  
-	<!-- Timer + Group Avatars
+	<!-- Timer + Group Avatars + Shuffle Button
     ================================================== -->
 	<div class="table-responsive col-sm-2" id="rightBar"> <!--Timer and Avatars are in this col (Responsive)-->
 	<table class="table" id="AvatarTable">				<!--Timer and Avatars are structured in a table-->
@@ -118,7 +118,7 @@
 			<tr id="avatarRow">							<!--Avatars-->
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 1" width="120" height="100">
+					<img src="defaultplayer.png" alt="Player 1" width="100" height="90">
 					<figcaption>Player 1</figcaption>
 					</figure>
 				</td>
@@ -126,7 +126,7 @@
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 2" width="120" height="100">
+					<img src="defaultplayer.png" alt="Player 2" width="100" height="90">
 					<figcaption>Player 2</figcaption>
 					</figure>
 				</td>
@@ -134,7 +134,7 @@
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 3" width="120" height="100">
+					<img src="defaultplayer.png" alt="Player 3" width="100" height="90">
 					<figcaption>Player 3</figcaption>
 					</figure>
 				</td>
@@ -142,16 +142,21 @@
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 4" width="120" height="100">
+					<img src="defaultplayer.png" alt="Player 4" width="100" height="90">
 					<figcaption>Player 4</figcaption>
 					</figure>
+				</td>
+			</tr>
+			<tr id="shuffleRow">						<!--Shuffle Button-->
+				<td id="shuffleBtn">
+					<button class="submitbutton" id="shuffleButton" data-toggle="modal" data-target="#shuffleModal">Shuffle</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	</div>
 	</div> 
-    <!-- ./timer + group avatars -->
+    <!-- ./timer + group avatars + shuffle button -->
 <!--End of responsive code-->
 	
 	
@@ -179,6 +184,28 @@
  
    </div>
  </div>
+ 
+ 
+ <!-- Shuffle Modal -->
+  <div class="modal fade" id="shuffleModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Shuffle Function</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to spend 3 coins on a new set of cards?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="shuffleCards()" data-dismiss="modal">Yes</button>
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
   
   
   <!-- JS code for Timer
@@ -213,6 +240,7 @@
 	<!--When the text is pulled from Firebase, 2 things happen to it:
 	<!--	1. it essentially gets painted on to the card graphics 
 	<!--	2. it also gets saved in the innerHTML of the individual canvases (so it is easy to the setAnswer() and submitAnswer() methods like before)-->
+	
 	
 	
 	//These variables decide the size of the cards
@@ -252,44 +280,28 @@
         });
         
       
-
-	
-	
-	
-	<!--Set up White cards CANVAS-->
-    var c1 = document.getElementById("myCanvas1");
-    var c2 = document.getElementById("myCanvas2");
-    var c3 = document.getElementById("myCanvas3");
-	var c4 = document.getElementById("myCanvas4");
-	var c5 = document.getElementById("myCanvas5");
-      
 	  
-    //Set the sizes of the white card canvases
+	  
+	// s() scales everything to size according to the set blocksize
+	function s(x) {
+		return x*blockSize-1;
+	}
+	  
+	  
+	 //Set the sizes of the white card canvases
     function setSize(canvas){
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
       canvas.addEventListener("click", setAnswer); //added onclick method for white cards
     }
- 
-    setSize(c1);
-    setSize(c2);
-    setSize(c3);
-	setSize(c4);
-	setSize(c5);
-			
-    //get contexts for white cards  
-    var ctx1 = c1.getContext("2d");
-    var ctx2 = c2.getContext("2d");
-    var ctx3 = c3.getContext("2d");
-	var ctx4 = c4.getContext("2d");
-	var ctx5 = c5.getContext("2d");
-      
+	
 	
 	//method to generate random number
 	function randNum(){
 		return Math.floor((Math.random() * 6) + 1);
-	  }   
+	  }  
 	  
+	 
 	
 	//method used to pull down inputs for white cards from Firebase, then calls another method to insert
 	function getWhiteText(context, id){
@@ -323,7 +335,7 @@
       }
 	  
 	  
-	//Method to wrap long sentences in the white cards
+	 //Method to wrap long sentences in the white cards
 	function wrapText(context, text, x, y, maxWidth, lineHeight) {
         var words = text.split(' ');					//split text into array
         var line = '';									
@@ -343,21 +355,56 @@
         }
         context.fillText(line, x, y);
       }
-     
 	
-	//call the method to insert ("paint") text on all white cards
-	getWhiteText(ctx1, "myCanvas1");	
-	getWhiteText(ctx2, "myCanvas2");
-	getWhiteText(ctx3, "myCanvas3");
-	getWhiteText(ctx4, "myCanvas4");
-	getWhiteText(ctx5, "myCanvas5");
-
 	
-	// s() scales everything to size according to the set blocksize
-	function s(x) {
-		return x*blockSize-1;
+	
+	
+	
+	//This function is called when the page is loaded up
+	//It creates the White card images (with the text on them)
+	//When the user presses "yes" in the shuffle modal, this method is called again (overwriting the original cards)
+	function newWhiteCards(){
+	
+		<!--Set up White cards CANVAS-->
+		var c1 = document.getElementById("myCanvas1");
+		var c2 = document.getElementById("myCanvas2");
+		var c3 = document.getElementById("myCanvas3");
+		var c4 = document.getElementById("myCanvas4");
+		var c5 = document.getElementById("myCanvas5");
+	
+		setSize(c1);
+		setSize(c2);
+		setSize(c3);
+		setSize(c4);
+		setSize(c5);
+	
+		//get contexts for white cards  
+		var ctx1 = c1.getContext("2d");
+		var ctx2 = c2.getContext("2d");
+		var ctx3 = c3.getContext("2d");
+		var ctx4 = c4.getContext("2d");
+		var ctx5 = c5.getContext("2d");
+		
+		
+		//call the method to insert ("paint") text on all white cards
+		getWhiteText(ctx1, "myCanvas1");	
+		getWhiteText(ctx2, "myCanvas2");
+		getWhiteText(ctx3, "myCanvas3");
+		getWhiteText(ctx4, "myCanvas4");
+		getWhiteText(ctx5, "myCanvas5");
 	}
 	
+      
+	  
+	 newWhiteCards();
+   
+ 
+    function shuffleCards(){
+		newWhiteCards();
+	}
+			
+    
+
 	<!-- ./canvas cards -->
 
 	
