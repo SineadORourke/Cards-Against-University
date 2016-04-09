@@ -1,0 +1,9 @@
+{
+  "firebase": "cau-maynooth",
+  "public": "Root",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

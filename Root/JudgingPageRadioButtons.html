@@ -21,9 +21,8 @@
             window.history.forward();
         }
     </script>
-
+	
 	<!--Links for Bootstrap-->
-    <meta charset="utf-8"> 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="cauStyle.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -57,7 +56,7 @@
     
 			<div>
 				<div class="collapse navbar-collapse" id="myNavbar">
-					<!-- Navigation options centered 				Can center "Judging Panel"
+					<!-- Navigation options centered 				<--Can center "Judging Panel"
 					<ul class="nav navbar-nav">
 						<li><a href="#">Judging Panel</a></li>
 					</ul>-->
@@ -78,38 +77,33 @@
 	</nav><!-- ./navigation Bar -->    
 	
 	
-	<!-- HTML for Black Scenario card -->
-
-    <center>
-        <div class="blackscenario">
-          <div id="blackimage">
-            <img src="blackscenariocard.jpeg" alt="Black Scenario Card Goes Here" id="black" width="250" height="300">
-          </div>
-          <div id="blackCardHeader">
-            <h3 class="scenarioCardText" id ="blackCardText"><h3>
-          </div>
-        </div>
-      </center>
 	
 	
-
-    <!-- Block buttons 
-    =======================================================-->
-    <div class="container">
-    
-
-      <h2>Pick the Winner!</h2>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="voteOpt1()"><label id="s1" for="subOpt1"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block">Button 2</button>
-      <button type="button" class="btn btn-primary btn-lg btn-block">Button 3</button>
-      <button type="button" class="btn btn-default btn-lg btn-block">Button 4</button>
-
-      
-    </div>
-
-
-
-
+	<!-- Radio Button Form (inside Wells)
+    ================================================== -->
+	<div id=radioPosition>
+		<div class="container" id="radioOptions">
+			<h1>Cast your vote:</h1>
+			<br>
+			<form id="myForm" role="form">
+				<div class="well">
+					<input type="radio" id="radio1" name="optradio"><label id="r1" for="radio1"></label>
+				</div>
+				<div class="well">
+					<label><input type="radio" name="optradio">Submission 2</label>
+				</div>
+				<div class="well">
+					<label><input type="radio" name="optradio">Submission 3</label>
+				</div>
+				<div class="well">
+					<label><input type="radio" name="optradio">Submission 4</label>
+				</div>
+			</form>
+			<!--Submit button-->
+			<!--<a href="resultpage.html">-->
+			<button class="submitbutton" id="submit2" data-toggle="modal" data-target="#myModal" onclick="onSubmit();">Submit</button></a>
+		</div>
+	</div><!-- ./radio button form -->
 	
 	<!-- modal code 
 		===============================  -->
@@ -135,10 +129,19 @@
 	
 	
 
- 
+ <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+        <!-- Javascript for voting submission -->
     <script>
     
-    var timeLeft = 130;
+    var timeLeft = 30;
     
     var elem2 = document.getElementById('timer2');
     var timerId = setInterval(countdown, 1000);
@@ -146,9 +149,8 @@
       if (timeLeft == 0) {
         clearTimeout(timerId);
         //alert("Times up!")
-        alert("You ran out of time");
         location.href="resultpage.html"
-        
+        document.getElementById('submit1').click();
         //document.getElementById("submit1").disabled = true;
         
       } else {
@@ -158,104 +160,63 @@
       }
     }
 
-    //Javascript for voting submission -->
-
 	var ref = new Firebase("https://cau-maynooth.firebaseio.com/User1/WhiteCardChosen/Submission");
 	var sub;
 	var one;
 
     ref.on("value", function(snapshot) {
-        console.log("Returned data is " + snapshot.val());
+        console.log(snapshot.val());
         sub = snapshot.val();
-        console.log("sub = " + sub);
-        document.getElementById("s1").textContent = sub;
+        document.getElementById("r1").textContent = sub;
         one = sub;
     }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
     });
 
     // the main firebase reference.
-    var myDataRef = new Firebase('https://cau-maynooth.firebaseio.com');
+    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
     
-    var form = document.getElementById("myForm"); // use the form so we can access the submit  buttons.
+    var form = document.getElementById("myForm"); // use the form so we can access the radio buttons.
 
-    var subVoteText = form.elements["subOpt"];  // store the submit buttons into an array.
+    var radioText = form.elements["optradio"];  // store the radio buttons into an array.
 
-      // store the text value associated with the submit buttons into a variable.
-    
-    var two = subVoteText[1].nextSibling.data;
-    var three = subVoteText[2].nextSibling.data;
-    var four = subVoteText[3].nextSibling.data;
+      // store the text value associated with the radio buttons into a variable.
+    var two = radioText[1].nextSibling.data;
+    var three = radioText[2].nextSibling.data;
+    var four = radioText[3].nextSibling.data;
 
- 	
+ 	var radioOne = document.getElementById("radio1"); // get the id of each radio button so we can use the checked method.
+ 	var radioTwo = document.getElementById("radio2");
+ 	var radioThree = document.getElementById("radio3");
+ 	var radioFour = document.getElementById("radio4");
 
-    
-    var usersRef = myDataRef.child("Judging"); // save the data into a new branch called judging.
+    function onSubmit(){ // submits the selected data to the database.
+    	var usersRef = myDataRef.child("Judging"); // save the data into a new branch called judging.
 
-    function voteOpt1() {
-
-        if (confirm("Is the following your choice: " + one + "?") == true) {
-            window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : one
-            })
-            
-        } else {
-            alert("Pick a different option");
-        }
+    if(radioOne.checked){ // if radio button 1 is selected send it's associated text (i.e. the card you think should win) to the database.       
+    	usersRef.child("votes").set({
+    		vote : one
+    	});
+    }
+    else if(radioTwo.checked){
+    	usersRef.child("votes").set({
+    		vote : two
+    	});
+    }
+    else if(radioThree.checked){
+    	usersRef.child("votes").set({
+    		vote : three
+    	});
+    }
+    else{
+    	usersRef.child("votes").set({
+    		vote : four
+    	});
     }
 
-    function voteOpt2() {
-
-        if (confirm("Is this your choice: " + sTwo + "?") == true) {
-            window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : two
-            })
-            
-        } else {
-            alert("Pick a different option");
-        }
     }
-
-    function voteOpt3() {
-
-        if (confirm("Are you sure you want to pick the option below?" + sThree) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : three
-            })
-           
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt4() {
-
-        if (confirm("Are you sure you want to pick the option below?" + sFour) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : four
-            })
-           
-        } else {
-            alert("Pick a different option");
-        }
-    }
-    
 
 
     </script>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-        
   </body>
 </html>

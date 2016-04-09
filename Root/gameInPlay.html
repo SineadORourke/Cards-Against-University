@@ -26,7 +26,7 @@
   </head>
   
 <!--This page is not yet fully responsive-->
-<bodydata-spy="scroll" data-target=".navbar" data-offset="50" id="main">   <!--onload="getScenarioCard"-->
+<body data-spy="scroll" data-target=".navbar" data-offset="50" id="main">   <!--onload="getScenarioCard"-->
   
   <!-- Navigation Bar
     ================================================== -->
@@ -71,27 +71,28 @@
 
   <aside>
     <ul>
-        <figure>
-          <img src="defaultplayer.png" alt="Player 1" id="avatar">
-          <figcaption>Player 1</figcaption>
-        </figure>
+      <figure>
+        <img src="defaultplayer.png" alt="Player 1" width="120" height="100">
+        <figcaption>Player 1</figcaption>
+      </figure>
 
-        <figure>
-          <img src="defaultplayer.png" alt="Player 2" id="avatar">
-          <figcaption>Player 2</figcaption>
-        </figure>
+      <figure>
+        <img src="defaultplayer.png" alt="Player 2" width="120" height="100">
+        <figcaption>Player 2</figcaption>
+      </figure>
 
-        <figure>
-          <img src="defaultplayer.png" alt="Player 3" id="avatar">
-          <figcaption>Player 3</figcaption>
-        </figure>
+      <figure>
+        <img src="defaultplayer.png" alt="Player 3" width="120" height="100">
+        <figcaption>Player 3</figcaption>
+      </figure>
 
-        <figure>
-          <img src="defaultplayer.png" alt="Player 4" id="avatar">
-          <figcaption>Player 4</figcaption>
-        </figure>
-    </ul>
-  </aside><!-- ./group avatars -->
+      <figure>
+        <img src="defaultplayer.png" alt="Player 4" width="120" height="100">
+        <figcaption>Player 4</figcaption>
+      </figure>
+
+        </ul>
+    </aside><!-- ./group avatars -->
 
   
   
@@ -99,7 +100,7 @@
   <!-- Timer + Black card
     ================================================== -->
 
-   <section onload="collectAnswers()"> 
+   <section> 
         <div id='timer'>
         </div> 
 
@@ -123,18 +124,23 @@
         <table class="table-responsive">
           <tr>
             <div class="whiteImage">
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText1)" alt="White Card Goes Here">
+              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText1)" alt="White Card Goes Here" width="225" height="300">
+            </div>
 
-               <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText2)" alt="White Card Goes Here">
+            <div class="whiteImage">
+               <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText2)" alt="White Card Goes Here" width="225" height="300">
+            </div>
 
+            <div class="whiteImage">
+              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText3)" alt="White Card Goes Here" width="225" height="300">
+            </div>
 
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText3)" alt="White Card Goes Here">
+            <div class="whiteImage">
+              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText4)" alt="White Card Goes Here" width="225" height="300">
+            </div>
 
-
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText4)" alt="White Card Goes Here">
-
-
-              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText5)" alt="White Card Goes Here">
+            <div class="whiteImage">
+              <img src="whitecardimg.jpeg" id="card" onclick="setAnswer(whitecardText5)" alt="White Card Goes Here" width="225" height="300">
             </div>
           </tr>
         </table>
@@ -180,13 +186,14 @@
  +      ===================================== -->
  
  
- <div id="myModal" class="modal fade" role="dialog">
+ <div id="myModal" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
    <div class="modal-dialog">
  
      <!-- Modal content-->
      <div class="modal-content">
        <div class="modal-header">
-        
+        <div id='timer2'>
+        </div> 
          <h4 class="modal-title">Your card has been submitted</h4>
        </div>
        <div class="modal-body">
@@ -201,17 +208,11 @@
   
   <!-- JS code for Timer
     ================================================== -->
-  <script> 
-    collectAnswers(); 
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com");
-    var authData = ref.getAuth();
-    console.log(authData);
-    /*var timeLeft = 60;
-
+  <script>  
+    var timeLeft = 30;
     var elem = document.getElementById('timer');
-
+    var elem2 = document.getElementById('timer2');
     var timerId = setInterval(countdown, 1000);
-
     function countdown() {
       if (timeLeft == 0) {
         clearTimeout(timerId);
@@ -221,45 +222,16 @@
         
       } else {
         elem.innerHTML = timeLeft + ' seconds remaining';
+        elem2.innerHTML = timeLeft + ' seconds remaining';
         timeLeft--;
       }
-    }*/
-
-    function collectAnswers(){ // function to reset all in-game answers to empty for each new game
-      console.log("Collect answers fired")
-      var ref = new Firebase("https://cau-maynooth.firebaseio.com");
-      var collectAnswer = ref.child("User");
-          collectAnswer.set({
-            User1: {
-              Submission: "", // save the chosen answer of each gamer
-              UserID: "" // needed to store unique id of each user (uid)
-            },
-            User2: {
-              Submission: "",
-              UserID: ""
-            },
-            User3: {
-              Submission: "",
-              UserID: ""
-            },
-            User4: {
-              Submission: "",
-              UserID: ""
-            },
-            User5: {
-              Submission: "",
-              UserID: ""
-            }
-          });   
-    }
-
+    } <!--./timer -->
     var answer = "";
-    var rndBCard = "/card" + Math.floor((Math.random() * 6) + 1); // generate a random number between 1 & 6
+    var rndBCard = "/card" + Math.floor((Math.random() * 6) + 1);
     
     var scenarioCard = ""; // Empty string to hold black card caption
         
     var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards" + rndBCard);
-
       // Attach an asynchronous callback to read the card data from database 
       ref.on("value", function(snapshot) { 
         // Assign to scenario card to place in HTML
@@ -267,11 +239,9 @@
         console.log(scenarioCard);
         document.getElementById("blackCardText").innerHTML = scenarioCard;
       }, 
-
     function (errorObject) { // Deal with errors
       console.log("The read failed: " + errorObject.code);
     });
-
         
         // Call all table data tags and save in variable
         
@@ -299,47 +269,28 @@
           console.log("The read failed: " + errorObject.code);
         });            
     }
-
       function setAnswer(whitecard){
-        answer = whitecard.innerHTML; // Set answer variable to be the info displayed within the selected card
-        console.log("The answer chosen by the user is: " + answer);
+        answer = whitecard.innerHTML;
+        console.log("The answer chosen is by the user is: " + answer);
       }
-
       
-      var ref = new Firebase("https://cau-maynooth.firebaseio.com/User/");
-
-      function submitAnswer(){ // function called upon gamer clicking the submit button
+      var ref = new Firebase("https://cau-maynooth.firebaseio.com");
+      function submitAnswer(){
         if(answer == ""){
           alert("You must select one whitecard before clicking submit"); 
         }    
         else{
-          for(var i = 1; i < 6; i++){
-            var ref1 = new Firebase("https://cau-maynooth.firebaseio.com/User/User" + i); // Set the ref to be each node of the answer values
-            ref1.on("child_added", function(snapshot,prevChildKey) {
-              var string = snapshot.val(); // save the retrieved values to a variable called string     
-              console.log("Submission string is: ", string.Submission); 
-              console.log("Previous node is: ", prevChildKey);
-              i--;          
-              if(string.Submission == ""){ // if no answer already pushed to that child push user anwer and uid else move onto next node
-                console.log("Pushing ", answer, " to the database"); 
-                ref1.child("User" + i).child(authData.uid).push().set({
-                  Submission: answer,
-                  user: authData
-                });
-                if(i == 5 && string.Submission !=""){ // If the user is the last gamer to submit their answer move onto the judging page
-                window.location.href="JudgingPage.html"; 
-                }
-              }
-              
-              
-            });
-          }
-           
+          var usersAnswer = ref.child("User1");
+          usersAnswer.set({
+            WhiteCardChosen: {
+              Submission: answer
+            }
+          });   
+          window.location.href="JudgingPage.html";  
         }
       }
         
       
-
   </script>
   
   

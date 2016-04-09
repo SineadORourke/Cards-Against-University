@@ -26,7 +26,7 @@
   </head>
   
 <!--This page is not yet fully responsive-->
-<body data-spy="scroll" data-target=".navbar" data-offset="50" id="main">   <!--onload="getScenarioCard"-->
+<body data-spy="scroll" data-target=".navbar" data-offset="50" id="main" onload="SetGameUp()">   <!--onload="getScenarioCard"-->
   
   <!-- Navigation Bar
     ================================================== -->
@@ -220,6 +220,7 @@
         clearTimeout(timerId);
         alert("Times up!")
         document.getElementById('submit1').click();
+        location.href="JudgingPage.html"
         //document.getElementById("submit1").disabled = true;
         
       } else {
@@ -248,7 +249,8 @@
 	var canvasWidth = blockSize * 6; 	//the num of blocks across
 	var canvasHeight = blockSize * 8;	//the numb of blocks down
 	
-	var answer = "";					//empty string that saves the clicked card later
+	var answer = "";	
+	var ID = "";				//empty string that saves the clicked card later
 	
 	
 	
@@ -410,28 +412,75 @@
 	
 	
 	<!-- Card Methods -->
+
+	// DECLARE GLOBAL VARIABLES FOR INGAME USE //
+	var noOfGames = 0;
+	var gameID = "";
+	var authData = ref.getAuth();
+	var game = "";
+	var numOfPlayers = "";
+	var maxPlayers = 4;
+	var submissionID = "";
+
+	function SetGameUp(){
+
+        var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game"); // Get a ref to correct locatin in Firebase database
+
+        noOfGames++; // Upon load of page of page increase the number of games
+
+        var noOfCurrentGames = "Game " + noOfGames; // Prepare variable to use when creating a new game on database
+
+        game = ref.child(noOfCurrentGames); // 
+        //console.log("Game is " + game);
+        //console.log("Game id is; " + noOfCurrentGames);
+
+        game.once("value", function (snapshot) {
+              numOfPlayers = snapshot.numChildren();          // checks and returns the number of children under the gameID branch, i.e. How many users have submitted an answer             
+        });
+
+    }
+      	
 	//This method sets "answer" as the clicked canvas card
 	function setAnswer(){
 		answer = document.getElementById(this.id).innerHTML;
 		console.log("The answer chosen is by the user is: " + answer);
-	}
-	
-	
-	var ref = new Firebase("https://cau-maynooth.firebaseio.com");
+
+	}	
+
+	// This method submits the answer to the firebase database 
 	function submitAnswer(){
-       if(answer == ""){
+
+		var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
+
+       if(answer == ""){ // Check that user has chosen a card
           alert("You must select one whitecard before clicking submit"); 
         }    
-        else{
-          var usersAnswer = ref.child("User1");
-          usersAnswer.set({
-            WhiteCardChosen: {
-              Submission: answer
-            }
-          });   
-          window.location.href="JudgingPage.html";  
-        }
-      }
+        else {
+
+        	if ( numOfPlayers > maxPlayers) { // Check if there are 5 players already in game
+              	  noOfGames++; // Increase the number of games
+              	  //console.log("No of games at this stage is " + noOfGames);
+              	  noOfCurrentGames = "Game " + noOfGames; // increase game count variable to use when inserting
+              	  localStorage.setItem("GameRef", noOfCurrentGames);	//save the game number in local storage (So we know where to pull data down from in Judging page)
+              	  console.log("GameRef is " + noOfCurrentGames);
+              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
+              	  game.push(answer); // Push user selected answer to correct location 
+
+                  submissionID = game.key(); // store the users unique id to pass onto results page
+
+                  //console.log("submissionID 1 = " + submissionID.key());
+                  numOfPlayers = 1; // reset number of player to 1
+              }
+              else{ // if number of players is less than 5 submit answer
+              	  //console.log("The answer before pushing is " + answer);
+              	  localStorage.setItem("GameRef", noOfCurrentGames);	//save the game number in local storage (So we know where to pull data down from in Judging page)
+		          gameID = game.push(answer);       // Push user selected answer to correct location and store location
+		          submissionID  = gameID.key(); // stores the unq id of users submission to pass to results page
+		          //console.log("SubmissionID 2 = " + submissionID );
+              }
+       }
+       //window.location.href="JudgingPage.html"; // Move onto judging page after time has elapsed    
+  }
 	
       
   </script>
