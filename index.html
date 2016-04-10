@@ -154,10 +154,17 @@
       if (error) {
         console.log("Login Failed!", error);
       } else {
-        console.log("Authenticated successfully with payload:", authData);
-		    localStorage.setItem("Email", userEmail);	//save the email in local storage (used for Welcome Username! on main page)
-        window.location="main.html";
-      }
+            if(userEmail == "admin@gmail.com"){
+                console.log("Authenticated successfully with payload:", authData);
+                localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
+                window.location="admin.html"
+            }
+            else{
+                console.log("Authenticated successfully with payload:", authData);
+		            localStorage.setItem("Email", userEmail);	//save the email in local storage (used for Welcome Username! on main page)
+                window.location="main.html";
+            }
+        }
       });
 
       document.getElementById("email").value = ""; // resets the values of the input fields.
