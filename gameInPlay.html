@@ -72,7 +72,7 @@
     ================================================== -->  
 	<div class="col-sm-10" id="leftCards">  <!--Black card, white cards and submit button are in this col (Responsive)-->
       <center>
-        <canvas id="myBlackCanvas" width="0" height="0" style="border:1px solid #000;">
+        <canvas id="myBlackCanvas" width="0" height="0" style="border:1px hidden;">
 		Your browser does not support the HTML5 canvas tag.
 		</canvas>
       
@@ -83,14 +83,14 @@
     ================================================== -->
 	
 	<div id="whitecards">
-	<canvas id="myCanvas1" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas2" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas3" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas4" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas5" width="0" height="0" style="border:1px solid #000;"></canvas>
+	<canvas id="myCanvas1" width="0" height="0" style="border:1px hidden;"></canvas>
+	<canvas id="myCanvas2" width="0" height="0" style="border:1px hidden;"></canvas>
+	<canvas id="myCanvas3" width="0" height="0" style="border:1px hidden;"></canvas>
+	<canvas id="myCanvas4" width="0" height="0" style="border:1px hidden;"></canvas>
+	<canvas id="myCanvas5" width="0" height="0" style="border:1px hidden;"></canvas>
 	</div>
 	<!-- ./white cards -->
-    
+   
 	
    <!-- Submit Button
     ================================================== -->
@@ -394,17 +394,21 @@
 		getWhiteText(ctx3, "myCanvas3");
 		getWhiteText(ctx4, "myCanvas4");
 		getWhiteText(ctx5, "myCanvas5");
+		
+		
 	}
 	
       
 	  
 	 newWhiteCards();
+	 
    
  
     function shuffleCards(){
 		newWhiteCards();
 	}
 			
+	
     
 
 	<!-- ./canvas cards -->
