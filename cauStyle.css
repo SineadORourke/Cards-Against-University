@@ -72,7 +72,7 @@
 		font-family: sans-serif;	
 	}
 
-	#register {
+	#registerPHP #registerFirebase {
 		left:220px;
 		position: relative;
 		background-color: #00191e;
@@ -90,13 +90,23 @@
 		cursor: pointer;
 	}
 
-	#register:hover {
+	#registerPHP:hover {
 		background-color: #003541; 
 		color: black;
 		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 
 	}
 	
+	#registerFirebase:hover {
+		background-color: #003541; 
+		color: black;
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+	}
+	
+	#regMessage{
+		text-align: center;
+	}
 
   
   /*'About' sections on Main Menu page*/
