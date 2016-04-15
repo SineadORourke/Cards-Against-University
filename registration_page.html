@@ -24,6 +24,52 @@
     <![endif]-->
 
 
+	<script>
+	
+	//JQuery to initially hide the form button
+	//When register button (register with Firebase) is clicked, the form and  register button are hidden, and the login button (register with PHP) is shown
+	$(document).ready(function(){
+		$("#regMessage").hide();
+		$("#registerPHP").hide();
+		$("#registerFirebase").click(function(){
+			$("#regWriting").hide();
+			$("#emailDiv").hide();
+			$("#passwordDiv").hide();
+			$("#usernameDiv").hide();
+			$("#uniDiv").hide();
+			$("#registerFirebase").hide();
+			$("#regMessage").show();
+			$("#registerPHP").show();
+		})
+	});
+
+
+	//AJAX sends the php request to MySQL table when second button is clicked
+	function registerMySQL(){
+		var fireUID = getUID();			//get the firebaseUID
+		var username = document.getElementById('username').value; //get username from HTML
+		var university = document.getElementById('uni').value;	  //get university from HTML
+
+		var xhttp = new XMLHttpRequest();			//make a new request object
+		xhttp.onreadystatechange = function(){			//if the response/php is successful, change page
+			if(xhttp.readyState == 4 && xhttp.status == 200){
+				window.location="main.html";
+			}	
+		};
+		xhttp.open("POST", "reg.php", true);			//wrap the request in POST
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("fireUID="+fireUID+"&username="+username+"&uni="+university);  //send the user details in the request
+
+	}
+
+
+	//special function just to get the user's FirebaseUID after they have registered
+	function getUID(){
+	  	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+		var authData = myDataRef.getAuth();
+		return authData.uid;
+	}
+	</script>
 	
   </head>
 	
@@ -62,21 +108,23 @@
     ================================================== -->
 <center>
   <div class="reg_container">
-    <h2>Registration</h2>
+    <h2 id="regWriting">Registration</h2>
+    <h2 id="regMessage">Congrats! </br></br>You made an account with Cards Against University. Press "Continue" to start your gaming experience!</h2>
     </br>
-      <div class="form-group">
+	<form name="registerUser" method="post">
+      <div id="emailDiv" class="form-group">
         <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email">
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
       </div>
-      <div class="form-group">
+      <div id="passwordDiv"class="form-group">
         <label for="pwd">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+        <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
       </div>
-      <div class="form-group">
+      <div id="usernameDiv"class="form-group">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" maxlength="15" id="username" placeholder="Enter username">
+        <input type="text" class="form-control" maxlength="15" id="username" name="username" placeholder="Enter username">
       </div>
-      <div class="form-group">
+      <div id="uniDiv" class="form-group">
         <label for="uni">University</label>
         <select id="uni" name="university">
         <option value="Maynooth">Maynooth</option>
@@ -85,26 +133,17 @@
         </select>
       </div>
     </br>
-       <button type="submit" class="btn btn-default" id="register" onclick="createUser()">Register</button>
+	<div id="regPHPbtn" align="center"><button type="button" class="btn btn-default" onclick="registerMySQL()" id="registerPHP">Continue</button></div>
     </div>
+	</form>
+    <div><button onclick="createUser()" class="btn btn-default" id="registerFirebase">Register</button></div>
 </center><!-- ./registration form -->
-	
-
-	
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-    <!-- Javascript for creating a new user and logging them in -->
-    <script>
-    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+ <script>
+    
 
     function createUser(){ // method to create a new user
+	var result = true;
+	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
       var userEmail = document.getElementById('email').value; // extract the text from the email and password input boxes.
       var userPassword = document.getElementById('pwd').value;
        myDataRef.createUser({ // Firebase method to create a user.
@@ -116,8 +155,10 @@
     function(error, userData){
       if(error){
         console.log("Error creating user:", error);
+	result=false;
       }
       else{
+	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
         console.log("You have succesfully created user account, with uid: " + userData.uid);
         myDataRef.authWithPassword({ // if registration is successful authenticate the user with this Firebase method
         email    : userEmail,
@@ -126,6 +167,7 @@
           function(error, authData) {
             if (error) {
             console.log("Login Failed!", error);
+		result=false;
           } else {
             console.log("Authenticated successfully with payload:", authData);
               // if authentication is successful save the user's details to the database
@@ -140,17 +182,27 @@
                      university : userUni
                 });
 				localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
-                window.location="main.html";
             }
         });
       }
     });
-
-      document.getElementById("email").value = ""; // resets the values of the input fields.
-      document.getElementById("pwd").value = "";
-      //document.getElementById("username").value = "";		Commented out because it wasn't saving username in the DB
-      //hello I'm practicing github from shane
     }
     </script>
+
+
+
+
+	
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Javascript for creating a new user and logging them in -->
+   
   </body>
 </html>
