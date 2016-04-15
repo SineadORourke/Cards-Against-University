@@ -163,133 +163,47 @@
 
     var GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
     var counter = 0; 
+    console.log(GameRef);
 
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/" + GameRef); // Store a link to location of current game
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
+    console.log("Ref is " + ref);
     ref.on("value", function(snapshot) {
             snapshot.forEach(function(data) { // Loop through each submitted answerand display on buttons for user choice
-                document.getElementsByTagName('button')[counter].textContent = data.val(); 
+                document.getElementsByTagName('button')[counter].textContent = data.val();
                 counter++; // increment counter to display snapshot data on next button
                 
             });
     });
 
-                /*setTimeout(function () { // 1 second delay to allow for firebase callback
-                    console.log("Next loop");
-                }, 1000);*/
-                //var getEle;
-                //var count = 1;
-                //getEle = "s";
-                //getEle = getEle + count;
-                //console.log("Counter val was " + count);
-                //console.log("Element id = " + getEle);
-                //count++;
-                //console.log("Counter val is now " + count);
+    function selectedAnswer(num){
+        
+        var ans;
 
+        switch (num) {
+            case 1:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 2:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 3:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 4:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 5:
+                ans = document.getElementById('s5').textContent;
+                break;
+        }
 
-
-    // OLD CODE BEFORE DYNAMICALLY REAL TIME DATA EXTRAPOLATED FROM DATABASE
-    /*ref.on("value", function(snapshot) {
-        sub = snapshot.child("GameRef");
-        one = sub.val();
-        document.getElementById("s1").textContent = one;
-        //one = sub;
-    }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
-    });
-
-    // the main firebase reference.
-    var myDataRef = new Firebase('https://cau-maynooth.firebaseio.com');
-    
-    var form = document.getElementById("myForm"); // use the form so we can access the submit  buttons.
-
-    var subVoteText = form.elements["subOpt"];  // store the submit buttons into an array.
-
-      // store the text value associated with the submit buttons into a variable.
-    
-    var two = subVoteText[1].nextSibling.data;
-    var three = subVoteText[2].nextSibling.data;
-    var four = subVoteText[3].nextSibling.data;*/
-
- 	
-
-    
-    var usersRef = myDataRef.child("Judging"); // save the data into a new branch called judging.
-
-    function voteOpt1() {
-
-        var one = document.getElementById('s1').textContent;
-
-        if (confirm("Is the following your choice: " + one + "?") == true) {
+        if (confirm("Is the following your choice: " + ans + "?") == true) {
             window.location.href="resultpage.html";
             usersRef.child("votes").set({
-                vote : one
+                vote : ans
             });
-            
-        } else {
-            alert("Pick a different option");
         }
-    }
 
-    function voteOpt2() {
-
-        var two = document.getElementById('s2').textContent;
-
-
-        if (confirm("Is this your choice: " + sTwo + "?") == true) {
-            window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : two
-            });
-            
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt3() {
-
-        var three = document.getElementById('s3').textContent;
-
-
-        if (confirm("Are you sure you want to pick the option below?" + sThree) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : three
-            });
-           
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt4() {
-
-        var four = document.getElementById('s4').textContent;
-
-        if (confirm("Are you sure you want to pick the option below?" + sFour) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : four
-            });
-           
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt5() {
-
-        var five = document.getElementById('s5').textContent;
-
-        if (confirm("Are you sure you want to pick the option below?" + sFour) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : five
-            });
-           
-        } else {
-            alert("Pick a different option");
-        }
     }
     
 
