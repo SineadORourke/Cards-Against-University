@@ -412,6 +412,34 @@
 			background-color:#f5f5f5;
 		}
 		
+		
+	
+	
+	/*Profile Page*/
+
+		#leftProfile{								/*Current Avatar + change button side*/
+		text-align:center;
+		margin-top:3%;
+		}
+
+		#rightProfile{								/*Game stats side*/
+		margin-top:5%;
+		}
+
+		#profileData {
+		border-bottom: 1px solid black;
+		border-top: none;
+		
+		}
+
+		#profileTable {										
+		border-collapse: collapse;
+		}
+	
+		#profileName{
+		background-color: #f5f5f5;		
+		}
+		
 
   
 	

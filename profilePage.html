@@ -23,6 +23,28 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   
+    <script>
+
+	//special function just to get the user's FirebaseUID
+	function getUID(){
+	  	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+		var authData = myDataRef.getAuth();
+		return authData.uid;
+	}
+
+	var fireUID = getUID();						//get the firebaseUID
+	var xhttp = new XMLHttpRequest();			//make a new request object
+	xhttp.onreadystatechange = function(){		//if the response/php is successful, display php response
+		if(xhttp.readyState == 4 && xhttp.status == 200){
+			document.getElementById("userTable").innerHTML=xhttp.responseText;	
+		}	
+		};
+		xhttp.open("POST", "profile.php", true);	//wrap the request in POST
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("fireUID="+fireUID);  		//send the user's firebaseUID in the request
+
+	
+    </script>
 	</head>
 	
 	
@@ -63,6 +85,13 @@
 			</div>
 		</div>
 	</nav><!-- ./navigation Bar -->    
+
+
+
+	<!--Container for the PHP echo -->
+	<div align="center" id="userTable"></div>
+	<br/>
+	
 
 	
 		 <!-- Bootstrap core JavaScript
