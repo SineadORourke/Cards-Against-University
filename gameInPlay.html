@@ -72,7 +72,7 @@
     ================================================== -->  
 	<div class="col-sm-10" id="leftCards">  <!--Black card, white cards and submit button are in this col (Responsive)-->
       <center>
-        <canvas id="myBlackCanvas" width="0" height="0" style="border:1px hidden;">
+        <canvas id="myBlackCanvas" width="0" height="0" style="border:1px solid #000;">
 		Your browser does not support the HTML5 canvas tag.
 		</canvas>
       
@@ -83,14 +83,14 @@
     ================================================== -->
 	
 	<div id="whitecards">
-	<canvas id="myCanvas1" width="0" height="0" style="border:1px hidden;"></canvas>
-	<canvas id="myCanvas2" width="0" height="0" style="border:1px hidden;"></canvas>
-	<canvas id="myCanvas3" width="0" height="0" style="border:1px hidden;"></canvas>
-	<canvas id="myCanvas4" width="0" height="0" style="border:1px hidden;"></canvas>
-	<canvas id="myCanvas5" width="0" height="0" style="border:1px hidden;"></canvas>
+	<canvas id="myCanvas1" width="0" height="0" ></canvas>
+	<canvas id="myCanvas2" width="0" height="0" ></canvas>
+	<canvas id="myCanvas3" width="0" height="0" ></canvas>
+	<canvas id="myCanvas4" width="0" height="0" ></canvas>
+	<canvas id="myCanvas5" width="0" height="0" ></canvas>
 	</div>
 	<!-- ./white cards -->
-   
+    
 	
    <!-- Submit Button
     ================================================== -->
@@ -211,7 +211,7 @@
   <!-- JS code for Timer
     ================================================== -->
   <script>  
-    var timeLeft = 10;
+    var timeLeft = 15;
     var elem = document.getElementById('timer');
     var elem2 = document.getElementById('timer2');
     var timerId = setInterval(countdown, 1000);
@@ -219,7 +219,7 @@
       if (timeLeft == 0) {
         clearTimeout(timerId);
         alert("Times up!")
-        document.getElementById('submit1').click();
+        //document.getElementById('submit1').click();
         location.href="JudgingPage.html"
         //document.getElementById("submit1").disabled = true;
         
@@ -245,7 +245,7 @@
 	
 	
 	//These variables decide the size of the cards
-    var blockSize = 35;					//the num of pixels per block
+    var blockSize = 40;					//the num of pixels per block
 	var canvasWidth = blockSize * 6; 	//the num of blocks across
 	var canvasHeight = blockSize * 8;	//the numb of blocks down
 	
@@ -269,7 +269,10 @@
           
         
 		//Pull text from Firebase
-		var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + randNum());
+		var rnd = randNum();
+		var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + rnd);
+		console.log(rnd);
+		localStorage.setItem("CurrBlkCrd", rnd);
 		ref.on("value", function(snapshot) {
         var scenarioCard = snapshot.val();
         //console.log("Message from server; ", scenarioCard);
@@ -295,6 +298,7 @@
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
       canvas.addEventListener("click", setAnswer); //added onclick method for white cards
+      canvas.addEventListener("click", setAnswer);
     }
 	
 	
@@ -322,7 +326,12 @@
           console.log("The read failed: " + errorObject.code);
         });
 	  }  
+
+
+
 	  
+	  
+		  
 	  
 	  
 	//method used to fill the white cards
@@ -358,10 +367,6 @@
         context.fillText(line, x, y);
       }
 	
-	
-	
-	
-	
 	//This function is called when the page is loaded up
 	//It creates the White card images (with the text on them)
 	//When the user presses "yes" in the shuffle modal, this method is called again (overwriting the original cards)
@@ -394,21 +399,60 @@
 		getWhiteText(ctx3, "myCanvas3");
 		getWhiteText(ctx4, "myCanvas4");
 		getWhiteText(ctx5, "myCanvas5");
-		
-		
 	}
-	
+	function SelectCanvass(canvassID){
+		/*console.log("switch fired");
+		switch (canvassID) {
+		    case 1:
+		        changeBorder(document.getElementById("myCanvas1"));
+		        break;
+		    case 2:
+		        changeBorder(document.getElementById("myCanvas2"));
+		        break;
+		    case 3:
+		        changeBorder(document.getElementById("myCanvas3"));
+		        break;
+		    case 4:
+		        changeBorder(document.getElementById("myCanvas4"));
+		        break;
+		    case 5:
+		        changeBorder(document.getElementById("myCanvas5"));
+		        break;
+		    
+		}*/
+	}
+	/*function changeBorder(canvassSelected){
+		console.log("changeBorder called");
+	    canvassSelect = document.getElementById(canvassSelected.id),
+	    console.log(canvassSelect);
+	    context  = canvassSelect.getContext('2d'); 
+	    console.log(context)
+
+	canvassSelect.onclick = function(){
+	    draw('rgb(200,0,0)');
+	}
+
+	function draw(val){
+	    context.fillStyle = "#FFF";				//fill background white
+		context.fillRect(s(0),s(0),s(6),s(8));	//fill the whole card
+        context.font = "20px Helvetica";		//font
+      	context.fillStyle = 'red';				//font colour
+      	context.textAlign = 'center';			//center text on card
+        
+        wrapText(context); //wrap the text on the card
+	}
+
+	draw("rgb(0,200,0)");
+	}*/
       
 	  
 	 newWhiteCards();
-	 
    
  
     function shuffleCards(){
 		newWhiteCards();
 	}
 			
-	
     
 
 	<!-- ./canvas cards -->
@@ -426,6 +470,7 @@
 	var numOfPlayers = "";
 	var maxPlayers = 4;
 	var submissionID = "";
+	var UID = "";
 	
 
 	function SetGameUp(){
@@ -433,18 +478,20 @@
         var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game"); // Get a ref to correct locatin in Firebase database
         var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
 
-        getCounter.once("value", function (snapshot) {
+        getCounter.once("value", function (snapshot) { // Get object holding the current game number
 			console.log(getCounter);
               currGameNo = snapshot.val().count; 
               console.log(currGameNo);         
         
+
+        //noOfGames++; // Upon load of page of page increase the number of games
 
 	        var noOfCurrentGames = "Game " + currGameNo; // Prepare variable to use when creating a new game on database
 	        console.log(noOfCurrentGames);
 	        game = ref.child(noOfCurrentGames); // 
 	        console.log("Game is " + game);
 
-	        game.once("value", function (snapshot) {
+	        game.once("value", function (snapshot) { // Determine the number of current players in the game
 	              numOfPlayers = snapshot.numChildren();
 	              console.log(numOfPlayers);
 	          });
@@ -475,27 +522,42 @@
         	  
         	  getCounter.once("value", function (snapshot) {
               currGameNo = snapshot.val().count; 
-              console.log(currGameNo);   
+              console.log(currGameNo);
+              console.log(authData.uid);   
               
 
 	        	if (numOfPlayers > maxPlayers) { // Check if there are 5 players already in game
 	        		currGameNo++;
 	        		ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
+	        		console.log("current game number: " + currGameNo);
 	        		getCounter.update({count: currGameNo});
 
 	              	  noOfCurrentGames = "Game " + currGameNo; // increase game count variable to use when inserting
 	              	  localStorage.setItem("GameRef", currGameNo);	//save the game number in local storage (So we know where to pull data down from in Judging page)
+	              	  console.log("GameRef is " + currGameNo);
+	              	  console.log(ref);
+	          
 	              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-	              	  gameID = game.push(answer); // Push user selected answer to correct location 
-	                  submissionID = gameID.key(); // store the users unique id to pass onto results page
+	              	  console.log(game);
+	              	  //gameID = game.push(answer); // Push user selected answer to correct location 
+	              	  UID = game.push({"ID": authData.uid, "ChosenAnswer": answer});
+	              	  console.log(gameID);
+	              	  console.log("UID : " + UID);
+	                  //submissionID = gameID.key(); // store the users unique id to pass onto results page
 
+	                  console.log("submissionID 1 = " + submissionID);
 	              }
 	              else{ // if number of players is less than 5 submit answer
+	              	  //console.log("The answer before pushing is " + answer);
 	              	  noOfCurrentGames = "Game " + currGameNo;
 	              	  localStorage.setItem("GameRef", currGameNo);	//save the game number in local storage (So we know where to pull data down from in Judging page)
 	              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-			          gameID = game.push(answer);       // Push user selected answer to correct location and store location
-			          submissionID  = gameID.key(); // stores the unq id of users submission to pass to results page
+	              	  console.log(game);
+			          //gameID = game.push(answer);       // Push user selected answer to correct location and store location
+			          UID = game.push({"ID": authData.uid, "ChosenAnswer": answer});
+	              	  console.log(UID);
+			          //submissionID  = gameID.key(); // stores the unq id of users submission to pass to results page
+			          console.log("SubmissionID 2 = " + submissionID );
 	              }
               }); 
        }

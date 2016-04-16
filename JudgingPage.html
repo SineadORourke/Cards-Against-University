@@ -79,31 +79,27 @@
 	
 	
 	<!-- HTML for Black Scenario card -->
+  <div class="container-fluid"> <!--Black card and timer are wrapped in this container-->
 
-    <center>
-        <div class="blackscenario">
-          <div id="blackimage">
-            <img src="blackscenariocard.jpeg" alt="Black Scenario Card Goes Here" id="black" width="250" height="300">
-          </div>
-          <div id="blackCardHeader">
-            <h3 class="scenarioCardText" id ="blackCardText"><h3>
-          </div>
-        </div>
+    <div class="col-sm-10" id="bCard">  <!--Black card and submit button are in this col (Responsive)-->
+      <center>
+        <canvas id="myBlackCanvas" width="0" height="0">
+          Your browser does not support the HTML5 canvas tag.
+        </canvas>
       </center>
-	
-	
+    </div>
 
     <!-- Block buttons 
     =======================================================-->
     <div class="container">
     
-
+      <p><br></br><br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br>  </p>
       <h2>Pick the Winner!</h2>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="voteOpt1()"><label id="s1" for="subOpt1"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="voteOpt2"><label id="s2" for="subOpt2"></button>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="voteOpt3()"><label id="s3" for="subOpt3"></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="voteOpt4()"><label id="s4" for="subOpt4"></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="voteOpt5()"><label id="s5" for="subOpt5"></button>
+      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(1)"><label id="s1" for="subOpt1"></label></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(2)"><label id="s2" for="subOpt2"></button>
+      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(3)"><label id="s3" for="subOpt3"></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(4)"><label id="s4" for="subOpt4"></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(5)"><label id="s5" for="subOpt5"></button>
 
       
     </div>
@@ -133,12 +129,10 @@
   </div>
 </div>
 
-	
-	
+	</div>
 
- 
-    <script>
-    
+  <script>
+  
     var timeLeft = 130;
     
     var elem2 = document.getElementById('timer2');
@@ -149,9 +143,7 @@
         //alert("Times up!")
         alert("You ran out of time");
         location.href="resultpage.html"
-        
-        //document.getElementById("submit1").disabled = true;
-        
+                
       } else {
         
         elem2.innerHTML = timeLeft + ' seconds remaining';
@@ -159,21 +151,72 @@
       }
     }
 
-    //Javascript for voting submission -->
 
-    var GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
-    var counter = 0; 
-    console.log(GameRef);
-
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
-    console.log("Ref is " + ref);
+    <!-- ========== BLACK CANVAS CARD ========== -->
+    var blockSize = 40;         //the num of pixels per block
+    var canvasWidth = blockSize * 6;  //the num of blocks across
+    var canvasHeight = blockSize * 8; //the numb of blocks down 
+    
+    <!--Set up Black Card CANVAS-->
+    var b = document.getElementById("myBlackCanvas");
+    b.width = canvasWidth;        //set size of black card
+    b.height = canvasHeight;
+    
+    var ctxBlack = b.getContext("2d");  //get black card context
+    ctxBlack.fillStyle = "#000";  //fill background black
+    ctxBlack.fillRect(s(0),s(0),s(6),s(8)); //fill the entire canvas (black)
+    ctxBlack.font = "20px Helvetica";   //font
+    ctxBlack.fillStyle = '#FFF';      //font colour
+    ctxBlack.textAlign = 'center';      //center text on black card
+            
+          
+    //Pull text from Firebase
+    var blck = localStorage.getItem("CurrBlkCrd");
+    console.log(blck);
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + blck);
+    console.log(ref);
     ref.on("value", function(snapshot) {
-            snapshot.forEach(function(data) { // Loop through each submitted answerand display on buttons for user choice
-                document.getElementsByTagName('button')[counter].textContent = data.val();
-                counter++; // increment counter to display snapshot data on next button
-                
-            });
-    });
+        var scenarioCard = snapshot.val();
+        console.log("Message from server; ", scenarioCard);
+    
+    //wrapText fits long inputs (mulit-line) on the card nicely
+        wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
+    },
+        function (errorObject) {  // Deal with errors
+          console.log("The read failed: " + errorObject.code);
+        });
+    
+    // s() scales everything to size according to the set blocksize
+    function s(x) {
+      return x*blockSize-1;
+    }
+
+    //method to generate random number
+    function randNum(){
+      return Math.floor((Math.random() * 6) + 1);
+      }
+
+    function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');          //split text into array
+        var line = '';                  
+
+        for(var n = 0; n < words.length; n++) {     
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      }
+
+    //Javascript for voting submission --> 
 
     function selectedAnswer(num){
         
@@ -205,8 +248,48 @@
         }
 
     }
-    
+    var docLoaded = setInterval(function () {
+      if(document.readyState === "complete") {
+        clearInterval(docLoaded);
+        console.log("complete");
+            var GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
+            var counter = 0; 
+            var vals = "";
+            var trsfAns = "";
+            var check = "";
+            console.log(GameRef);
 
+            var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
+            console.log("Ref is " + ref);
+            ref.on("child_added", function(snapshot, prevChildKey) {
+                    snapshot.forEach(function(data) { // Loop through each submitted answerand display on buttons for user choice
+                      vals = snapshot.val();
+                      console.log(vals);
+                      check = data.val();
+                      console.log("check :" + check);
+                      UID = vals.ID;
+                      //console.log("UID: " + UID);
+                      trsfAns = vals.ChosenAnswer;
+                      //console.log("answer: " + trsfAns);
+                        //document.getElementsByTagName('button')[counter].textContent = trsfAns;
+                        counter++; // increment counter to display snapshot data on next button
+                        
+                    });
+            });
+            
+        
+            ref.on("value", function(snapshot) {
+                snapshot.forEach(function(data) { // Loop through each submitted answer and display on buttons for user choice
+                  var name = data.child("ChosenAnswer").val();
+                  console.log(name);
+                    document.getElementsByTagName('button')[counter].textContent = data.child("ChosenAnswer").val();
+                    counter++; // increment counter to display snapshot data on next button
+                    
+                });
+            });
+
+        }
+    }, 100);
 
     </script>
     <!-- Bootstrap core JavaScript
