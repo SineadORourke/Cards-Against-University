@@ -112,7 +112,7 @@
 	    	$leaderArray1[] = $item;
 	}
 
-	$sql = "SELECT Avatar, Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC";
+	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC";
 	$leaderResult2 = mysql_query($sql) or die(mysql_error());
 
 	$leaderArray2 = array();
@@ -157,7 +157,7 @@
 		<div id="Leaderboard2" class="scroll">
 		<table class="table table-responsive" id="leaderTable">
 			<tbody><?php
-					$number = 0;
+					$number = 2;
 					foreach ($leaderArray2 as $index => $row):
 					$number++; 
 					?>
