@@ -83,32 +83,70 @@
   
   </br>
   </br>
+<?php
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+	$dbname = "caudatabase";
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	} 
+
+//mysql_select_db('database', $link) or die(mysql_error());
+
+	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC LIMIT 3";
+	$leaderResult = mysql_query($sql) or die(mysql_error());
+
+	$leaderArray1 = array();
+
+	while($row = mysql_fetch_assoc($leaderResult)) {
+		$item = array();
+		$item['Username'] = $row['Username'];
+		$item['University'] = $row['University'];
+		$item['Credits'] = $row['Credits'];
+	    	$leaderArray1[] = $item;
+	}
+
+	$sql = "SELECT Avatar, Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC";
+	$leaderResult2 = mysql_query($sql) or die(mysql_error());
+
+	$leaderArray2 = array();
+
+	while($row = mysql_fetch_assoc($leaderResult2)) {
+		$item = array();
+		$item['Username'] = $row['Username'];	
+		$item['University'] = $row['University'];
+		$item['Credits'] = $row['Credits'];
+	    	$leaderArray2[] = $item;
+	}
+
+	$conn->close();
+	?>
   
 	<!--Top3 leaderboard-->
 	<div id="Leaderboard">
 	<table class="table table-responsive" id="leaderTable">
-				<tbody>
+				<tbody><?php
+					$number = 0;
+					foreach ($leaderArray1 as $index => $row): 
+					$number++;
+					?>
+
 					<tr id="leaderRow">
-						<td id="leaderData">1.</td>
-						<td id="leaderData"><img src="defaultplayer.png" alt "Default Logo" width="100" height="100"></td>
-						<td id="leaderData"><div style='width: 40px;'>User1</div></td>
-						<td id="leaderData"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData">Score</td>
-					</tr>
-					<tr id="leaderRow">
-						<td id="leaderData"> 2.</td>
-						<td id="leaderData"><img src="defaultplayer.png" alt "Default Logo" width="100" height="100"></td>
-						<td id="leaderData"><div style='width: 40px;'>User2</div></td>
-						<td id="leaderData"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData">Score</td>
-					</tr>
-					<tr id="leaderRow">
-						<td id="leaderData"> 3.</td>
-						<td id="leaderData"><img src="defaultplayer.png" alt "Default Logo" width="100" height="100"></td>
-						<td id="leaderData"><div style='width: 40px;'>User3</div></td>
-						<td id="leaderData"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData">Score</td>
-					</tr>
+	
+						<td class="leaderData"><?php echo $number?></td>
+						<td class="leaderData"><img src="defaultplayer.png" alt "Default Logo" width="100" height="100"></td>
+						<td class="leaderData"><div style='width: 40px;'><?php echo $row['Username'] ?></div></td>
+						<td class="leaderData"><div style='width: 40px;'><?php echo $row['University'] ?></div></td>
+						<td class="leaderData"><div style='width: 40px;'><?php echo $row['Credits'] ?></div></td>
+
+					</tr><?php endforeach;?>
+					
 				</tbody>
 			</table>
 		</div>
@@ -118,46 +156,24 @@
 		<!--Leaderboard for the rest of the players, which scrolls-->
 		<div id="Leaderboard2" class="scroll">
 		<table class="table table-responsive" id="leaderTable">
+			<tbody><?php
+					$number = 0;
+					foreach ($leaderArray2 as $index => $row):
+					$number++; 
+					?>
+
 					<tr id="leaderRow2">
-						<td id="leaderData2">4.</td>
+						<td id="leaderData2"><?php echo $number?></td>
 						<td id="leaderData2"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
-						<td id="leaderData2"><div style='width: 40px;'>User4</div></td>
-						<td id="leaderData2"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData2">Score</td>
-					</tr>
-					<tr id="leaderRow2">
-						<td id="leaderData2"> 5.</td>
-						<td id="leaderData2"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
-						<td id="leaderData2"><div style='width: 40px;'>User5</div></td>
-						<td id="leaderData2"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData2">Score</td>
-					</tr>
-					<tr id="leaderRow2">
-						<td id="leaderData2"> 6.</td>
-						<td id="leaderData2"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
-						<td id="leaderData2"><div style='width: 40px;'>User6</div></td>
-						<td id="leaderData2"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData2">Score</td>
-					</tr>
-					<tr id="leaderRow2">
-						<td id="leaderData2"> 7.</td>
-						<td id="leaderData2"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
-						<td id="leaderData2"><div style='width: 40px;'>User7</div></td>
-						<td id="leaderData2"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData2">Score</td>
-					</tr>
-					<tr id="leaderRow2">
-						<td id="leaderData2"> 8.</td>
-						<td id="leaderData2"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
-						<td id="leaderData2"><div style='width: 40px;'>User8</div></td>
-						<td id="leaderData2"><div style='width: 40px;'>Maynooth University</div></td>
-						<td id="leaderData2">Score</td>
-					</tr>
+						<td id="leaderData2"><div style='width: 40px;'><?echo $row['Username'] ?></div></td>
+						<td id="leaderData2"><div style='width: 40px;'><?echo $row['University'] ?></div></td>
+						<td id="leaderData2"><div style='width: 40px;'><?echo $row['Credits'] ?></div></td></td>
+					</tr><?php endforeach;?>
+
 				</tbody>
 			</table>
 		</div>
 	
-
 	
 		 <!-- Bootstrap core JavaScript
     ================================================== -->
