@@ -99,7 +99,7 @@
 
 //mysql_select_db('database', $link) or die(mysql_error());
 
-	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC LIMIT 3";
+	$sql = "SELECT Username, University, Credits FROM caudatabase.cauusers ORDER BY Credits DESC LIMIT 3";
 	$leaderResult = mysql_query($sql) or die(mysql_error());
 
 	$leaderArray1 = array();
@@ -112,14 +112,14 @@
 	    	$leaderArray1[] = $item;
 	}
 
-	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC WHERE ROWNUM >= 3";
+	$sql = "SELECT Username, University, Credits FROM caudatabase.cauusers ORDER BY Credits DESC WHERE ROWNUM >= 3";
 	$leaderResult2 = mysql_query($sql) or die(mysql_error());
 
 	$leaderArray2 = array();
 
 	while($row = mysql_fetch_assoc($leaderResult2)) {
 		$item = array();
-		$item['Username'] = $row['Username'];	
+		$item['Username'] = $row['Username'];
 		$item['University'] = $row['University'];
 		$item['Credits'] = $row['Credits'];
 	    	$leaderArray2[] = $item;
