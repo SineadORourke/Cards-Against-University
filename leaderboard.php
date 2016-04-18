@@ -112,7 +112,7 @@
 	    	$leaderArray1[] = $item;
 	}
 
-	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC";
+	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC WHERE ROWNUM >= 3";
 	$leaderResult2 = mysql_query($sql) or die(mysql_error());
 
 	$leaderArray2 = array();
