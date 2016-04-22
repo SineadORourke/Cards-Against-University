@@ -21,7 +21,7 @@
       	$sql = "INSERT INTO CAUUsers (FirebaseID, Username, Credits, Coins, Avatar, GamesPlayed, GamesWon, University) VALUES ('$fireUID', '$username', 0, 0, 'defaultavatar.jpeg', 0, 0, '$uni')";
 
 	if (mysqli_query($conn, $sql)) {
-    		echo "New record created successfully";
+    		echo "Added " . $sql . " to the database under UID: " . $fireUID;
 	} else {
     		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 	}

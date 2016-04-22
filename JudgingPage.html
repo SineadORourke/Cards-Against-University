@@ -21,6 +21,11 @@
             window.history.forward();
         }
     </script>
+    <style>
+      #echoRes {
+        border: 2px solid black;
+      }
+    </style>
 
 	<!--Links for Bootstrap-->
     <meta charset="utf-8"> 
@@ -33,7 +38,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  
+
 	</head>
 	
 	
@@ -89,6 +94,16 @@
       </center>
     </div>
 
+    </div>
+    <div id="echoRes">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+
+    </div>
+
     <!-- Block buttons 
     =======================================================-->
     <div class="container">
@@ -96,16 +111,10 @@
       <p><br></br><br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br>  </p>
       <h2>Pick the Winner!</h2>
       <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(1)"><label id="s1" for="subOpt1"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(2)"><label id="s2" for="subOpt2"></button>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(3)"><label id="s3" for="subOpt3"></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(4)"><label id="s4" for="subOpt4"></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(5)"><label id="s5" for="subOpt5"></button>
-
-      
-    </div>
-
-
-
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(2)"><label id="s2" for="subOpt2"></label></button>
+      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(3)"><label id="s3" for="subOpt3"></label></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(4)"><label id="s4" for="subOpt4"></label></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(5)"><label id="s5" for="subOpt5"></label></button>
 
 	
 	<!-- modal code 
@@ -132,6 +141,8 @@
 	</div>
 
   <script>
+  var GameRef = "";
+  var ans = "";
   
     var timeLeft = 130;
     
@@ -142,7 +153,7 @@
         clearTimeout(timerId);
         //alert("Times up!")
         alert("You ran out of time");
-        location.href="resultpage.html"
+        //location.href="resultpage.html"
                 
       } else {
         
@@ -173,9 +184,9 @@
     //Pull text from Firebase
     var blck = localStorage.getItem("CurrBlkCrd");
     console.log(blck);
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + blck);
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card4");
     console.log(ref);
-    ref.on("value", function(snapshot) {
+    ref.once("value", function(snapshot) {
         var scenarioCard = snapshot.val();
         console.log("Message from server; ", scenarioCard);
     
@@ -197,7 +208,9 @@
       }
 
     function wrapText(context, text, x, y, maxWidth, lineHeight) {
+      console.log("text = " , text);
         var words = text.split(' ');          //split text into array
+
         var line = '';                  
 
         for(var n = 0; n < words.length; n++) {     
@@ -216,13 +229,32 @@
         context.fillText(line, x, y);
       }
 
-    //Javascript for voting submission --> 
+    // --> 
 
-    function selectedAnswer(num){
+    <!-- ====Javascript for voting submission==== -->
+    
+
+            GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
+            var counter = 1; // Variable to store the count
+            var vals = ""; // Stores the data object returned from Firebase
+            var trsfAns = ""; //Stores the ChosenAnswer value from the object specifically 
+
+            var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
+            ref.on("child_added", function(snapshot, prevChildKey) { // Used like a for each loop to check each child node at path
+                    vals = snapshot.val(); // Store returned ojbect in a variable
+                    trsfAns = vals.ChosenAnswer; // Store the specific chosen answer value in a variable
+                    document.getElementsByTagName('button')[counter].textContent = trsfAns; // Display the answer on the html page
+                    counter++; 
+                    
+            });
+
+    function selectedAnswer(num){ // Called on user vote
         
-        var ans;
+        var usersRef = new Firebase("https://cau-maynooth.firebaseio.com/Judging"); // ref to Firebase
+        var authData = usersRef.getAuth(); // Store current users UID
+        var numOfPlayers = ""; // Kepps track of the number of current players
 
-        switch (num) {
+        switch (num) { // Switch statement to store the phrase/sentence current user wants to vote for
             case 1:
                 ans = document.getElementsByTagName('button')[num].textContent;
                 break;
@@ -236,62 +268,39 @@
                 ans = document.getElementsByTagName('button')[num].textContent;
                 break;
             case 5:
-                ans = document.getElementById('s5').textContent;
+                ans = document.getElementsByTagName('button')[num].textContent;
                 break;
         }
 
+        //AJAX sends the php request to MySQL table when choice is made
+
+        <!-- === AJAX call is always a "null" object, work out why === -->
+ 
         if (confirm("Is the following your choice: " + ans + "?") == true) {
-            window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : ans
-            });
-        }
+            GameRef = "Game " + GameRef;
+            var fireUID = getUID();     //get the firebaseUID
+            var xhttp = new XMLHttpRequest();     //make a new request object
 
-    }
-    var docLoaded = setInterval(function () {
-      if(document.readyState === "complete") {
-        clearInterval(docLoaded);
-        console.log("complete");
-            var GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
-            var counter = 0; 
-            var vals = "";
-            var trsfAns = "";
-            var check = "";
-            console.log(GameRef);
+            xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+              if(xhttp.readyState == 4 && xhttp.status == 200){
+                document.getElementById('echoRes').innerHTML = xhttp.responseText;
+              } 
+            };
+            xhttp.open("POST", "results.php", true);      //wrap the request in POST
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Need this as posting data to SQL table
+            xhttp.send("fireUID="+fireUID+"&vote="+ans+"&GameNumber="+GameRef);  //send the user details in the request to the PHP page
+            location.href="resultpage.html"; // move onto the results page
+        }       
+      }
 
-            var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
-            console.log("Ref is " + ref);
-            ref.on("child_added", function(snapshot, prevChildKey) {
-                    snapshot.forEach(function(data) { // Loop through each submitted answerand display on buttons for user choice
-                      vals = snapshot.val();
-                      console.log(vals);
-                      check = data.val();
-                      console.log("check :" + check);
-                      UID = vals.ID;
-                      //console.log("UID: " + UID);
-                      trsfAns = vals.ChosenAnswer;
-                      //console.log("answer: " + trsfAns);
-                        //document.getElementsByTagName('button')[counter].textContent = trsfAns;
-                        counter++; // increment counter to display snapshot data on next button
-                        
-                    });
-            });
-            
-        
-            ref.on("value", function(snapshot) {
-                snapshot.forEach(function(data) { // Loop through each submitted answer and display on buttons for user choice
-                  var name = data.child("ChosenAnswer").val();
-                  console.log(name);
-                    document.getElementsByTagName('button')[counter].textContent = data.child("ChosenAnswer").val();
-                    counter++; // increment counter to display snapshot data on next button
-                    
-                });
-            });
-
-        }
-    }, 100);
-
-    </script>
+    //special function just to get the user's FirebaseUID after they have registered
+  function getUID(){
+      var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+    var authData = myDataRef.getAuth();
+    return authData.uid;
+  }
+  
+  </script>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

@@ -35,7 +35,9 @@ CREATE TABLE `cauusers` (
   `Avatar` text NOT NULL,
   `GamesPlayed` int(11) NOT NULL,
   `GamesWon` int(11) NOT NULL,
-  `University` varchar(100) NOT NULL
+  `University` varchar(100) NOT NULL,
+  'Vote' varchar(200) NOT NULL,
+  'GameNumber' int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

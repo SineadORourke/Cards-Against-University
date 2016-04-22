@@ -211,26 +211,22 @@
   <!-- JS code for Timer
     ================================================== -->
   <script>  
-    var timeLeft = 15;
+    var timeLeft = 30; // Timer counting down from 30 seconds
     var elem = document.getElementById('timer');
     var elem2 = document.getElementById('timer2');
-    var timerId = setInterval(countdown, 1000);
+    var timerId = setInterval(countdown, 1000); // Set the speed to every second
     function countdown() {
-      if (timeLeft == 0) {
+      if (timeLeft == 0) { // Alert user that 30 seconds has passed
         clearTimeout(timerId);
         alert("Times up!")
-        //document.getElementById('submit1').click();
-        location.href="JudgingPage.html"
-        //document.getElementById("submit1").disabled = true;
+        location.href="JudgingPage.html" // Move to next page
         
       } else {
-        elem.innerHTML = timeLeft + ' seconds remaining';
+        elem.innerHTML = timeLeft + ' seconds remaining'; 
         elem2.innerHTML = timeLeft + ' seconds remaining';
         timeLeft--;
       }
     } <!--./timer -->
-	
-	
 	
 	
 	
@@ -242,19 +238,15 @@
 	<!--	1. it essentially gets painted on to the card graphics 
 	<!--	2. it also gets saved in the innerHTML of the individual canvases (so it is easy to the setAnswer() and submitAnswer() methods like before)-->
 	
-	
-	
+
 	//These variables decide the size of the cards
-    var blockSize = 40;					//the num of pixels per block
+    var blockSize = 35;					//the num of pixels per block
 	var canvasWidth = blockSize * 6; 	//the num of blocks across
 	var canvasHeight = blockSize * 8;	//the numb of blocks down
 	
 	var answer = "";	
 	var ID = "";				//empty string that saves the clicked card later
-	
-	
-	
-	
+
 	<!--Set up Black Card CANVAS-->
 	var b = document.getElementById("myBlackCanvas");
 	b.width = canvasWidth;				//set size of black card
@@ -275,7 +267,6 @@
 		localStorage.setItem("CurrBlkCrd", rnd);
 		ref.on("value", function(snapshot) {
         var scenarioCard = snapshot.val();
-        //console.log("Message from server; ", scenarioCard);
 		
 		//wrapText fits long inputs (mulit-line) on the card nicely
         wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
@@ -283,15 +274,12 @@
         function (errorObject) {  // Deal with errors
           console.log("The read failed: " + errorObject.code);
         });
-        
-      
 	  
 	  
 	// s() scales everything to size according to the set blocksize
 	function s(x) {
 		return x*blockSize-1;
-	}
-	  
+	}	  
 	  
 	 //Set the sizes of the white card canvases
     function setSize(canvas){
@@ -301,12 +289,10 @@
       canvas.addEventListener("click", setAnswer);
     }
 	
-	
 	//method to generate random number
 	function randNum(){
 		return Math.floor((Math.random() * 6) + 1);
-	  }  
-	  
+	  }  	  
 	 
 	
 	//method used to pull down inputs for white cards from Firebase, then calls another method to insert
@@ -325,14 +311,7 @@
         function (errorObject) {  // Deal with errors
           console.log("The read failed: " + errorObject.code);
         });
-	  }  
-
-
-
-	  
-	  
-		  
-	  
+	  }  	  
 	  
 	//method used to fill the white cards
     function fillContext(context, text){
@@ -400,6 +379,11 @@
 		getWhiteText(ctx4, "myCanvas4");
 		getWhiteText(ctx5, "myCanvas5");
 	}
+
+
+	<!-- ==== May still use this method to create a red border around canvas on selection === -->
+
+
 	function SelectCanvass(canvassID){
 		/*console.log("switch fired");
 		switch (canvassID) {
@@ -463,55 +447,41 @@
 
 	// DECLARE GLOBAL VARIABLES FOR INGAME USE //
 	
-	var gameID = "";
-	var authData = ref.getAuth();
-	var currGameNo;
-	var game = "";
-	var numOfPlayers = "";
-	var maxPlayers = 4;
-	var submissionID = "";
-	var UID = "";
+	var authData = ref.getAuth(); // Store current users UID
+	var currGameNo; // Keep track of curr game number
+	var game = ""; // Will be used to store path to Firebase
+	var numOfPlayers = ""; // Used to keep track of number of in play gamers
+	var maxPlayers = 4; // Max number of playsers is 5 (0-4)
+	var UID = "";	// Also used to store UID
 	
 
-	function SetGameUp(){
+	function SetGameUp(){ // Called on load of body
 
         var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game"); // Get a ref to correct locatin in Firebase database
-        var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
+        var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count"); // Set second path to point to number of games
 
         getCounter.once("value", function (snapshot) { // Get object holding the current game number
-			console.log(getCounter);
-              currGameNo = snapshot.val().count; 
-              console.log(currGameNo);         
-        
-
-        //noOfGames++; // Upon load of page of page increase the number of games
-
+            currGameNo = snapshot.val().count; 
 	        var noOfCurrentGames = "Game " + currGameNo; // Prepare variable to use when creating a new game on database
-	        console.log(noOfCurrentGames);
 	        game = ref.child(noOfCurrentGames); // 
-	        console.log("Game is " + game);
-
 	        game.once("value", function (snapshot) { // Determine the number of current players in the game
 	              numOfPlayers = snapshot.numChildren();
 	              console.log(numOfPlayers);
 	          });
-
-		
 		});
     }
       	
 	//This method sets "answer" as the clicked canvas card
 	function setAnswer(){
-		answer = document.getElementById(this.id).innerHTML;
-		console.log("The answer chosen is by the user is: " + answer);
+		answer = document.getElementById(this.id).innerHTML; // save user choice in variable
 
 	}	
 
 	// This method submits the answer to the firebase database 
-	function submitAnswer(){
+	function submitAnswer(){ // Called on click of submit button
 
 	   ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
-		
+	   submitSubmission(answer); // Make a call to AJAX method, sending data to SQL table
 
        if(answer == ""){ // Check that user has chosen a card
           alert("You must select one whitecard before clicking submit"); 
@@ -521,47 +491,48 @@
         	  var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
         	  
         	  getCounter.once("value", function (snapshot) {
-              currGameNo = snapshot.val().count; 
-              console.log(currGameNo);
-              console.log(authData.uid);   
-              
+              currGameNo = snapshot.val().count; // Store the current game number as reference to future push       
 
 	        	if (numOfPlayers > maxPlayers) { // Check if there are 5 players already in game
-	        		currGameNo++;
-	        		ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
-	        		console.log("current game number: " + currGameNo);
-	        		getCounter.update({count: currGameNo});
-
+	        		 currGameNo++;  // Increase the game number count in Firebase
+	        		 ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
+	        		 getCounter.update({count: currGameNo}); // //  Update Firebase to reflect new game number
 	              	  noOfCurrentGames = "Game " + currGameNo; // increase game count variable to use when inserting
 	              	  localStorage.setItem("GameRef", currGameNo);	//save the game number in local storage (So we know where to pull data down from in Judging page)
-	              	  console.log("GameRef is " + currGameNo);
-	              	  console.log(ref);
-	          
 	              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-	              	  console.log(game);
-	              	  //gameID = game.push(answer); // Push user selected answer to correct location 
-	              	  UID = game.push({"ID": authData.uid, "ChosenAnswer": answer});
-	              	  console.log(gameID);
-	              	  console.log("UID : " + UID);
-	                  //submissionID = gameID.key(); // store the users unique id to pass onto results page
-
-	                  console.log("submissionID 1 = " + submissionID);
+	              	  UID = game.push({"ID": authData.uid, "ChosenAnswer": answer}); // Push answer to Firebase
 	              }
 	              else{ // if number of players is less than 5 submit answer
-	              	  //console.log("The answer before pushing is " + answer);
 	              	  noOfCurrentGames = "Game " + currGameNo;
 	              	  localStorage.setItem("GameRef", currGameNo);	//save the game number in local storage (So we know where to pull data down from in Judging page)
 	              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-	              	  console.log(game);
-			          //gameID = game.push(answer);       // Push user selected answer to correct location and store location
-			          UID = game.push({"ID": authData.uid, "ChosenAnswer": answer});
-	              	  console.log(UID);
-			          //submissionID  = gameID.key(); // stores the unq id of users submission to pass to results page
-			          console.log("SubmissionID 2 = " + submissionID );
+			          UID = game.push({"ID": authData.uid, "ChosenAnswer": answer}); // push user choice and UID to Firebase
 	              }
               }); 
        }
-       //window.location.href="JudgingPage.html"; // Move onto judging page after time has elapsed    
+  }
+
+   <!-- === AJAX call for  passing users submission to PHP file=== -->
+
+  function submitSubmission(answerPassed){
+  	answer = answerPassed;
+  	fireUID = getUID();
+
+  	var xhttp = new XMLHttpRequest();     //make a new request object
+    xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+      if(xhttp.readyState == 4 && xhttp.status == 200){
+      } 
+    };
+    xhttp.open("POST", "setSubmission.php", true);      //wrap the request in POST
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("fireUID="+fireUID+"&Submission="+answer);  //send the user details in the request
+        
+  }
+   //special function just to get the user's FirebaseUID after they have registered
+  function getUID(){
+    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+    var authData = myDataRef.getAuth();
+    return authData.uid;
   }
 	
       
