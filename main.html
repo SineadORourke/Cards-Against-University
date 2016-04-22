@@ -57,8 +57,8 @@
 				<!-- Navigation options centered -->
 				<ul class="nav navbar-nav">
 					<li><a href="#section1">Home</a></li>
-					<li><a href="gameInPlay.html">Play</a></li>
-					<li><a href="leaderboard.php">Leaderboard</a></li>
+					<li><a href="#" onclick="checkNumOfPlrs();">Play</a></li>
+					<li><a href="leaderboard.html">Leaderboard</a></li>
 					<li><a href="#section2">How to Play</a></li>
 					<li class="dropdown navbar-right" id="profile"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -68,7 +68,7 @@
 				</ul>
 				<!-- Navigation option to the right -->
 				<ul class="nav navbar-nav navbar-right">
-					<li onclick="logOut()"><a href="index.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					<li onclick="logOut()"><a href="welcome_page.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 				</ul>
 			</div>
 			</div>
@@ -207,10 +207,31 @@
 
     var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
 
-    function logOut(){
+    function checkNumOfPlrs(){ // Checking the number of players in the game
+    	var ref = new Firebase('hhttps://cau-maynooth.firebaseio.com');  // ref to Firebase
+    	var subclass = ref.child("NumOfPlayers"); // Add a new node to Firebase if not already created
+    	var count = subclass.child("Count") // Add a new node to Firebase if not already created for count
+    	ref = new Firebase('hhttps://cau-maynooth.firebaseio.com/NumOfPlayers/Count/count'); // ref to count variable in Firebase
+    	ref.once("value", function (snapshot) {  // Check the current state of Firebase once
+    		numOfPlayers = snapshot.val().count; // Store the number of players in a variable
+    		numOfPlayers++; //  Add current gamer to the count
+    		if(numOfPlayers==1){ // If first player update the count to one
+    			ref.update({"count":numOfPlayers});
+    		}
+    		else if(numOfPlayers%5 != 0){ // Else add one player to the count
+    			ref.update({"count":numOfPlayers});
+    		}
+    		else if(numOfPlayers%5==0){ // If the total number of players is now 5 update Firebase and pass to gameplay page
+    			ref.update({"count":numOfPlayers});
+    			location.href="gameInPlay.html";
+    		}
+    	});    	
+    }
+
+    function logOut(){ // Method to log out of Firebase upon click of button
 
     	myDataRef.unauth();
-    	window.location="index.html";
+    	window.location="welcome_page.html";
     }
 	
 	
