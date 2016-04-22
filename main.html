@@ -207,7 +207,9 @@
 
     var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
 
-    function checkNumOfPlrs(){ // Checking the number of players in the game
+  
+	//Called when the play button is pressed
+	function checkNumOfPlrs(){ // Checking the number of players in the game
     	var ref = new Firebase('hhttps://cau-maynooth.firebaseio.com');  // ref to Firebase
     	var subclass = ref.child("NumOfPlayers"); // Add a new node to Firebase if not already created
     	var count = subclass.child("Count") // Add a new node to Firebase if not already created for count
@@ -215,18 +217,27 @@
     	ref.once("value", function (snapshot) {  // Check the current state of Firebase once
     		numOfPlayers = snapshot.val().count; // Store the number of players in a variable
     		numOfPlayers++; //  Add current gamer to the count
-    		if(numOfPlayers==1){ // If first player update the count to one
-    			ref.update({"count":numOfPlayers});
-    		}
-    		else if(numOfPlayers%5 != 0){ // Else add one player to the count
-    			ref.update({"count":numOfPlayers});
-    		}
-    		else if(numOfPlayers%5==0){ // If the total number of players is now 5 update Firebase and pass to gameplay page
-    			ref.update({"count":numOfPlayers});
-    			location.href="gameInPlay.html";
-    		}
+    		ref.update({"count":numOfPlayers});
+    		
+    		checkGame();
     	});    	
     }
+	
+	//This keeps updating how many users are waiting to play, and once it hits 5 all players get into the game page
+	function checkGame(){
+		ref = new Firebase('hhttps://cau-maynooth.firebaseio.com/NumOfPlayers/Count/count'); // ref to count variable in Firebase
+		ref.on("value", function (snapshot) {
+			numOfPlayers = snapshot.val().count;
+			console.log("checking");
+			if(numOfPlayers%5==0){
+				location.href="gameInPlay.html";
+				ref.off();
+			}else{
+				console.log("Not 5 yet :" + numOfPlayers);
+			}
+		}); 
+	}
+	
 
     function logOut(){ // Method to log out of Firebase upon click of button
 
