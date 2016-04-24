@@ -22,9 +22,44 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  
+	<style>
+	
+	#avatarPicker{
+		display: none;
+	}
+	
+	</style>
     <script>
 
+	//This function is called when the Change Avatar button is clicked (hides the profile elements + shows the images)
+	function changeAvatar(){
+		document.getElementById("avatar").style.display = 'none';
+		document.getElementById("changeAvatar").style.display = 'none';
+		document.getElementById("user").style.display = 'none';
+		document.getElementById("statusProfile").style.display = 'none';
+		document.getElementById("profileTable").style.display = 'none';
+		document.getElementById("space").style.display = 'none';
+		document.getElementById("avatarPicker").style.display = 'block';
+	}
+	
+	//This function is called when a new avatar is clicked (updates the SQL table to the new avatar and reloads the page)
+	function updateAvatar(){
+		var target = event.target || event.srcElement;
+		var avatar = target.id;
+		var fireUID = getUID();
+		//alert(id);
+		var xhttp = new XMLHttpRequest();			//make a new request object
+		xhttp.onreadystatechange = function(){		//if the response/php is successful, refresh page
+		if(xhttp.readyState == 4 && xhttp.status == 200){
+			window.location ="profilePage.html";	
+		}	
+		};
+		
+		xhttp.open("POST", "updateAvatar.php", true);	//wrap the request in POST
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("fireUID="+fireUID+"&avatar="+avatar);  		//send the user's firebaseUID + avatar id in the request
+	}
+	
 	//special function just to get the user's FirebaseUID
 	function getUID(){
 	  	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
@@ -91,6 +126,26 @@
 	<!--Container for the PHP echo -->
 	<div align="center" id="userTable"></div>
 	<br/>
+	
+	
+	<!--All of the avatar images-->
+	<div align="center" id="avatarPicker">
+	<h1>Please choose your new avatar</h1>
+	<div><img src="avatars/avatar3.png" alt="default" id="avatar3.png" onclick="updateAvatar()">
+	<img src="avatars/avatar5.png" alt="default" id="avatar5.png" onclick="updateAvatar()">
+	<img src="avatars/avatar6.png" alt="default" id="avatar6.png" onclick="updateAvatar()"></div>
+	
+	<div><img src="avatars/avatar4.png" alt="default" id="avatar4.png" onclick="updateAvatar()">
+	<img src="avatars/avatar7.png" alt="default" id="avatar7.png" onclick="updateAvatar()">
+	<img src="avatars/avatar8.png" alt="default" id="avatar8.png" onclick="updateAvatar()"></div>
+	
+	<div><img src="avatars/rugbyavatar.png" alt="default" id="rugbyavatar.png" onclick="updateAvatar()">
+	<img src="avatars/lgbtavatar.png" alt="default" id="lgbtavatar.png" onclick="updateAvatar()">
+	<img src="avatars/mindsavatar.png" alt="default" id="mindsavatar.png" onclick="updateAvatar()"></div>
+	
+	<div><img src="avatars/defaultavatar.png" alt="default" id="defaultavatar.png" onclick="updateAvatar()">
+	<img src="avatars/avatar2.png" alt="default" id="avatar2.png" onclick="updateAvatar()"></div>
+	</div>
 	
 
 	
