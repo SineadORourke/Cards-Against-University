@@ -41,7 +41,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>                        
 				</button>
-				<img src="defaultlogo.png" alt="logo" id="Logo">
+				<img src="avatars/logo.png" alt="logo" id="Logo">
 				<p class="navbar-brand">Cards Against University : Leaderboard</p>
 			</div>
 			<div>
