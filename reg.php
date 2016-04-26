@@ -18,7 +18,7 @@
    	$username=$_REQUEST['username'];
     	$uni=$_REQUEST['uni'];
     
-      	$sql = "INSERT INTO CAUUsers (FirebaseID, Username, Credits, Coins, Avatar, GamesPlayed, GamesWon, University) VALUES ('$fireUID', '$username', 0, 0, 'defaultavatar.png', 0, 0, '$uni')";
+      	$sql = "INSERT INTO CAUUsers (FirebaseID, Username, Credits, Coins, Avatar, GamesPlayed, GamesWon, University, Votes, GameNumber, Submission, GamesLost) VALUES ('$fireUID', '$username', 0, 0, 'defaultavatar.png', 0, 0, '$uni', '', '', '', 0)";
 
 	if (mysqli_query($conn, $sql)) {
     		echo "Added " . $sql . " to the database under UID: " . $fireUID;
