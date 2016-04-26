@@ -380,54 +380,41 @@
 		getWhiteText(ctx5, "myCanvas5");
 	}
 
-
-	<!-- ==== May still use this method to create a red border around canvas on selection === -->
-
-
-	function SelectCanvass(canvassID){
-		/*console.log("switch fired");
-		switch (canvassID) {
-		    case 1:
-		        changeBorder(document.getElementById("myCanvas1"));
-		        break;
-		    case 2:
-		        changeBorder(document.getElementById("myCanvas2"));
-		        break;
-		    case 3:
-		        changeBorder(document.getElementById("myCanvas3"));
-		        break;
-		    case 4:
-		        changeBorder(document.getElementById("myCanvas4"));
-		        break;
-		    case 5:
-		        changeBorder(document.getElementById("myCanvas5"));
-		        break;
-		    
-		}*/
-	}
-	/*function changeBorder(canvassSelected){
-		console.log("changeBorder called");
-	    canvassSelect = document.getElementById(canvassSelected.id),
-	    console.log(canvassSelect);
-	    context  = canvassSelect.getContext('2d'); 
-	    console.log(context)
-
-	canvassSelect.onclick = function(){
-	    draw('rgb(200,0,0)');
-	}
-
-	function draw(val){
-	    context.fillStyle = "#FFF";				//fill background white
-		context.fillRect(s(0),s(0),s(6),s(8));	//fill the whole card
-        context.font = "20px Helvetica";		//font
-      	context.fillStyle = 'red';				//font colour
-      	context.textAlign = 'center';			//center text on card
-        
-        wrapText(context); //wrap the text on the card
-	}
-
-	draw("rgb(0,200,0)");
-	}*/
+$("#myCanvas1").click(function(){
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas2").click(function(){
+    	$("#myCanvas1").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas3").click(function(){
+    	$("#myCanvas1").css("border", "");
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas4").click(function(){
+    	$("#myCanvas1").css("border", "");
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas5").click(function(){
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas1").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
       
 	  
 	 newWhiteCards();
