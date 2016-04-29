@@ -22,9 +22,15 @@
         }
     </script>
     <style>
-      #echoRes {
-        border: 2px solid black;
+      #bCard {
+        margin-top:2%;
+        left:8.5%;
       }
+
+      .modal-dialog{
+        position: absolute;
+        top: 50%;
+        } 
     </style>
 
 	<!--Links for Bootstrap-->
@@ -95,32 +101,46 @@
     </div>
 
     </div>
-    <div id="echoRes">
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-
-    </div>
-
+    
     <!-- Block buttons 
     =======================================================-->
     <div class="container">
     
-      <p><br></br><br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br>  </p>
       <h2>Pick the Winner!</h2>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(1)"><label id="s1" for="subOpt1"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(2)"><label id="s2" for="subOpt2"></label></button>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(3)"><label id="s3" for="subOpt3"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(4)"><label id="s4" for="subOpt4"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(5)"><label id="s5" for="subOpt5"></label></button>
+      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(1)" data-toggle="modal" data-target="#myModal"><label id="s1" for="subOpt1"></label></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(2)" data-toggle="modal" data-target="#myModal"><label id="s2" for="subOpt2"></label></button>
+      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(3)" data-toggle="modal" data-target="#myModal"><label id="s3" for="subOpt3"></label></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(4)" data-toggle="modal" data-target="#myModal"><label id="s4" for="subOpt4"></label></button>
+      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(5)" data-toggle="modal" data-target="#myModal"><label id="s5" for="subOpt5"></label></button>
 
 	
 	<!-- modal code 
 		===============================  -->
 		
+<div class="container">
 	<div id="myModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       <div id = "timer2"></div>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to choose this answer?</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal2">Yes</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    </div>      
+    </div>
+  	</div>
+    </div>
+  </div>
+
+  <div class="container">
+  <div id="myModal2" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -131,29 +151,25 @@
       </div>
       <div class="modal-body">
         <p>Waiting for other players to submit their vote</p>
-      </div>
-      
+      </div>     
     </div>
-
+    </div>
+    </div>
   </div>
-</div>
-
-	</div>
 
   <script>
   var GameRef = "";
   var ans = "";
   
-    var timeLeft = 130;
+    var timeLeft = 30;
     
     var elem2 = document.getElementById('timer2');
     var timerId = setInterval(countdown, 1000);
     function countdown() {
       if (timeLeft == 0) {
         clearTimeout(timerId);
-        //alert("Times up!")
-        alert("You ran out of time");
-        //location.href="resultpage.html"
+
+        location.href="resultpage.html"
                 
       } else {
         
@@ -273,10 +289,8 @@
         }
 
         //AJAX sends the php request to MySQL table when choice is made
-
-        <!-- === AJAX call is always a "null" object, work out why === -->
- 
-        if (confirm("Is the following your choice: " + ans + "?") == true) {
+          
+            //document.getElementById("myModal").showModal(); 
             GameRef = "Game " + GameRef;
             var fireUID = getUID();     //get the firebaseUID
             var xhttp = new XMLHttpRequest();     //make a new request object
@@ -289,8 +303,10 @@
             xhttp.open("POST", "results.php", true);      //wrap the request in POST
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Need this as posting data to SQL table
             xhttp.send("fireUID="+fireUID+"&vote="+ans+"&GameNumber="+GameRef);  //send the user details in the request to the PHP page
-            location.href="resultpage.html"; // move onto the results page
-        }       
+            console.log("hello");
+
+            
+               
       }
 
     //special function just to get the user's FirebaseUID after they have registered
