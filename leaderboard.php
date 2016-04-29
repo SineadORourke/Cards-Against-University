@@ -85,6 +85,7 @@
   </br>
 <?php
 
+
 	$servername = "localhost";
 	$username = "cauPlayer";
 	$password = "password1";
@@ -99,12 +100,12 @@
 
 //mysql_select_db('database', $link) or die(mysql_error());
 
-	$sql = "SELECT Username, University, Credits FROM caudatabase.cauusers ORDER BY Credits DESC LIMIT 3";
-	$leaderResult = mysql_query($sql) or die(mysql_error());
+	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC LIMIT 3";
+	$leaderResult = mysqli_query($conn, $sql) or die(mysqli_connect_error());
 
 	$leaderArray1 = array();
 
-	while($row = mysql_fetch_assoc($leaderResult)) {
+	while($row = mysqli_fetch_assoc($leaderResult)) {
 		$item = array();
 		$item['Username'] = $row['Username'];
 		$item['University'] = $row['University'];
@@ -112,14 +113,16 @@
 	    	$leaderArray1[] = $item;
 	}
 
-	$sql = "SELECT Username, University, Credits FROM caudatabase.cauusers ORDER BY Credits DESC WHERE ROWNUM >= 3";
-	$leaderResult2 = mysql_query($sql) or die(mysql_error());
+
+
+	$sql = "SELECT Avatar, Username, Credits, University From caudatabase.cauusers order by Credits limit 3, 100" ;
+	$leaderResult2 = mysqli_query($conn, $sql) or die(mysqli_connect_error());
 
 	$leaderArray2 = array();
 
-	while($row = mysql_fetch_assoc($leaderResult2)) {
+	while($row = mysqli_fetch_assoc($leaderResult2)) {
 		$item = array();
-		$item['Username'] = $row['Username'];
+		$item['Username'] = $row['Username'];	
 		$item['University'] = $row['University'];
 		$item['Credits'] = $row['Credits'];
 	    	$leaderArray2[] = $item;
@@ -157,7 +160,7 @@
 		<div id="Leaderboard2" class="scroll">
 		<table class="table table-responsive" id="leaderTable">
 			<tbody><?php
-					$number = 2;
+					$number = 3;
 					foreach ($leaderArray2 as $index => $row):
 					$number++; 
 					?>
@@ -173,7 +176,6 @@
 				</tbody>
 			</table>
 		</div>
-	
 	
 		 <!-- Bootstrap core JavaScript
     ================================================== -->
