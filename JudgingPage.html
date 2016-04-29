@@ -105,14 +105,18 @@
     <!-- Block buttons 
     =======================================================-->
     <div class="container">
-    
-      <h2>Pick the Winner!</h2>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(1)" data-toggle="modal" data-target="#myModal"><label id="s1" for="subOpt1"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(2)" data-toggle="modal" data-target="#myModal"><label id="s2" for="subOpt2"></label></button>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="selectedAnswer(3)" data-toggle="modal" data-target="#myModal"><label id="s3" for="subOpt3"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(4)" data-toggle="modal" data-target="#myModal"><label id="s4" for="subOpt4"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="selectedAnswer(5)" data-toggle="modal" data-target="#myModal"><label id="s5" for="subOpt5"></label></button>
+    <center>
+      <h3>Pick the Winner!</h3>
+    </center>
+      <button type="button" class="btn btn-primary btn-md btn-block"  onclick="selectedAnswer(1)" data-toggle="modal" data-target="#myModal"><label id="s1" for="subOpt1"></label></button>
+      <button type="button" class="btn btn-default btn-md btn-block"  onclick="selectedAnswer(2)" data-toggle="modal" data-target="#myModal"><label id="s2" for="subOpt2"></label></button>
+      <button type="button" class="btn btn-primary btn-md btn-block"  onclick="selectedAnswer(3)" data-toggle="modal" data-target="#myModal"><label id="s3" for="subOpt3"></label></button>
+      <button type="button" class="btn btn-default btn-md btn-block"  onclick="selectedAnswer(4)" data-toggle="modal" data-target="#myModal"><label id="s4" for="subOpt4"></label></button>
+      <button type="button" class="btn btn-primary btn-md btn-block"  onclick="selectedAnswer(5)" data-toggle="modal" data-target="#myModal"><label id="s5" for="subOpt5"></label></button>
 
+      <br>
+
+      <div id="space"></div>
 	
 	<!-- modal code 
 		===============================  -->
@@ -181,8 +185,8 @@
 
     <!-- ========== BLACK CANVAS CARD ========== -->
     var blockSize = 40;         //the num of pixels per block
-    var canvasWidth = blockSize * 6;  //the num of blocks across
-    var canvasHeight = blockSize * 8; //the numb of blocks down 
+    var canvasWidth = blockSize * 5;  //the num of blocks across
+    var canvasHeight = blockSize * 7; //the numb of blocks down 
     
     <!--Set up Black Card CANVAS-->
     var b = document.getElementById("myBlackCanvas");
@@ -191,7 +195,7 @@
     
     var ctxBlack = b.getContext("2d");  //get black card context
     ctxBlack.fillStyle = "#000";  //fill background black
-    ctxBlack.fillRect(s(0),s(0),s(6),s(8)); //fill the entire canvas (black)
+    ctxBlack.fillRect(s(0),s(0),s(5),s(7)); //fill the entire canvas (black)
     ctxBlack.font = "20px Helvetica";   //font
     ctxBlack.fillStyle = '#FFF';      //font colour
     ctxBlack.textAlign = 'center';      //center text on black card
@@ -207,7 +211,7 @@
         console.log("Message from server; ", scenarioCard);
     
     //wrapText fits long inputs (mulit-line) on the card nicely
-        wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
+        wrapText(ctxBlack, scenarioCard, s(2.5), s(2), s(4), 20);
     },
         function (errorObject) {  // Deal with errors
           console.log("The read failed: " + errorObject.code);
@@ -247,7 +251,7 @@
 
     // --> 
 
-    <!-- ====Javascript for voting submission==== -->
+    //Javascript for voting submission
     
 
             GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
