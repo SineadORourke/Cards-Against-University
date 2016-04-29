@@ -1,9 +1,9 @@
 <?php
 	//Variables to hold permission details
 	$servername = "localhost";
-	$username = "username";
-	$password = "1Arsenal";
-	$db = "MyDB";
+	$username = "cauPlayer";
+	$password = "password1";
+	$db = "caudatabase";
 
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $db);

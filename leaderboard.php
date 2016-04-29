@@ -86,8 +86,8 @@
 <?php
 
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
+	$username = "cauPlayer";
+	$password = "password1";
 	$dbname = "caudatabase";
 
 	// Create connection
