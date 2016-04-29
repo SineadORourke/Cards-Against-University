@@ -31,16 +31,6 @@
 	$(document).ready(function(){
 		$("#regMessage").hide();
 		$("#registerPHP").hide();
-		$("#registerFirebase").click(function(){
-			$("#regWriting").hide();
-			$("#emailDiv").hide();
-			$("#passwordDiv").hide();
-			$("#usernameDiv").hide();
-			$("#uniDiv").hide();
-			$("#registerFirebase").hide();
-			$("#regMessage").show();
-			$("#registerPHP").show();
-		})
 	});
 
 
@@ -69,6 +59,27 @@
 		var authData = myDataRef.getAuth();
 		return authData.uid;
 	}
+	
+	function checkValidPassword(password){
+                var regexNum = /[0-9]/g;
+                var regexUpp = /[A-Z]/;
+                var pass = password;
+                var len = pass.length;
+                //var valid = 0; // 0 is set as valid
+
+                for(var i = 0; i < len; i++){
+                        if(len >= 8){ // Checks email is 8+ characters
+                                if(regexNum.test(pass)){ // Test if contains num
+                                        if(regexUpp.test(pass)){ // Test if contains upper case letter
+                                                createUser();//valid = 1; // 1 is set as valid
+												return true;
+                                        }
+                                }
+                        }
+                }
+				alert("Please use a stronger password");
+                return false;
+        }
 	</script>
 	
   </head>
@@ -117,7 +128,7 @@
         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
       </div>
       <div id="passwordDiv"class="form-group">
-        <label for="pwd">Password:</label>
+        <label for="pwd">Password (Must be at least 8 characters long, contain one uppercase character and a number):</label>
         <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
       </div>
       <div id="usernameDiv"class="form-group">
@@ -136,7 +147,7 @@
 	<div id="regPHPbtn" align="center"><button type="button" class="btn btn-default" onclick="registerMySQL()" id="registerPHP">Continue</button></div>
     </div>
 	</form>
-    <div><button onclick="createUser()" class="btn btn-default" id="registerFirebase">Register</button></div>
+    <div><button onclick="return checkValidPassword(document.getElementById('pwd').value)" class="btn btn-default" id="registerFirebase">Register</button></div>
 </center><!-- ./registration form -->
  <script>
     
@@ -182,6 +193,14 @@
                      university : userUni
                 });
 				localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
+				$("#regWriting").hide();
+				$("#emailDiv").hide();
+				$("#passwordDiv").hide();
+				$("#usernameDiv").hide();
+				$("#uniDiv").hide();
+				$("#registerFirebase").hide();
+				$("#regMessage").show();
+				$("#registerPHP").show();
             }
         });
       }
