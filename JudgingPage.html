@@ -204,7 +204,7 @@
     //Pull text from Firebase
     var blck = localStorage.getItem("CurrBlkCrd");
     console.log(blck);
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card4");
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/" + blck);
     console.log(ref);
     ref.once("value", function(snapshot) {
         var scenarioCard = snapshot.val();

@@ -1,0 +1,44 @@
+https://www.youtube.com/watch?v=N-v_DBFbZxo
+https://www.youtube.com/watch?v=qUtq59N6ph4
+
+
+ssh -i myKeyPair.pem ubuntu@ec2-52-16-183-251.eu-west-1.compute.amazonaws.com
+sudo chmod 400 myKeyPair.pem
+
+ON THE SERVER:
+- Install all server packages:
+
+1 - install node.js:
+-----------------------------
+sudo apt-get update
+sudo apt-get install -y python-software-properties python g++ make
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+
+2 - Install GIT:
+-----------------------------
+sudo apt-get install git
+
+3 - Install Forever:
+-----------------------------
+sudo npm install forever -g
+
+4 - Install Apache and phpMyAdmin:
+----------------------------------------­--------------
+1 - sudo apt-get update
+2 - sudo apt-get install apache2
+3 - sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql
+
+these commands are used to configure MySQL db:
+4 - sudo mysql_install_db
+5 - sudo /usr/bin/mysql_secure_installation
+
+
+6 - Install PHP: sudo apt-get install php5 libapache2-mod-php5
+7 - Install PHPMyAdmin: sudo apt-get install phpmyadmin
+
+8 - sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf.d
+
+9 - sudo /etc/init.d/apache2 restart
+

@@ -18,7 +18,7 @@
 
 	/*  Update SQL table to add credits and coins to winner as well as increasing personal stats */
 	$sql = "UPDATE cauusers 
-  	SET Credits = Credits+5, Coins = Coins+5, GamesPlayed = GamesPlayed+1, GamesWon = GamesWon+1
+  	SET Credits = Credits+20 /*Coins = Coins+5, GamesPlayed = GamesPlayed+1, GamesWon = GamesWon+1*/
   	WHERE FirebaseID='$fireUID';";
 
 	if(mysqli_query($conn, $sql)) { // Check the succes of the call (development purposes)

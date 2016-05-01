@@ -291,7 +291,7 @@
 	
 	//method to generate random number
 	function randNum(){
-		return Math.floor((Math.random() * 6) + 1);
+		return Math.floor((Math.random() * 27) + 1);
 	  }  	  
 	 
 	
@@ -435,11 +435,11 @@ $("#myCanvas1").click(function(){
 	// DECLARE GLOBAL VARIABLES FOR INGAME USE //
 	
 	var authData = ref.getAuth(); // Store current users UID
-	var currGameNo; // Keep track of curr game number
+	var currGameNo = ""; // Keep track of curr game number
 	var game = ""; // Will be used to store path to Firebase
 	var numOfPlayers = ""; // Used to keep track of number of in play gamers
-	var maxPlayers = 4; // Max number of playsers is 5 (0-4)
-	var UID = "";	// Also used to store UID
+	//var maxPlayers = 4; // Max number of playsers is 5 (0-4)
+	//var UID = "";	// Also used to store UID
 	
 
 	function SetGameUp(){ // Called on load of body
@@ -449,7 +449,7 @@ $("#myCanvas1").click(function(){
 
         getCounter.once("value", function (snapshot) { // Get object holding the current game number
             currGameNo = snapshot.val().count; 
-	        var noOfCurrentGames = "Game " + currGameNo; // Prepare variable to use when creating a new game on database
+	        noOfCurrentGames = "Game " + currGameNo; // Prepare variable to use when creating a new game on database
 	        game = ref.child(noOfCurrentGames); // 
 	        game.once("value", function (snapshot) { // Determine the number of current players in the game
 	              numOfPlayers = snapshot.numChildren();
@@ -471,35 +471,19 @@ $("#myCanvas1").click(function(){
 	   submitSubmission(answer); // Make a call to AJAX method, sending data to SQL table
 
        if(answer == ""){ // Check that user has chosen a card
-          alert("You must select one whitecard before clicking submit"); 
-        }    
-        else {
-
-        	  var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
-        	  
-        	  getCounter.once("value", function (snapshot) {
-              currGameNo = snapshot.val().count; // Store the current game number as reference to future push       
-
-	        	if (numOfPlayers > maxPlayers) { // Check if there are 5 players already in game
-	        		 currGameNo++;  // Increase the game number count in Firebase
-	        		 ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
-	        		 getCounter.update({count: currGameNo}); // //  Update Firebase to reflect new game number
-	              	  noOfCurrentGames = "Game " + currGameNo; // increase game count variable to use when inserting
-	              	  localStorage.setItem("GameRef", currGameNo);	//save the game number in local storage (So we know where to pull data down from in Judging page)
-	              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-	              	  UID = game.push({"ID": authData.uid, "ChosenAnswer": answer}); // Push answer to Firebase
-	              }
-	              else{ // if number of players is less than 5 submit answer
-	              	  noOfCurrentGames = "Game " + currGameNo;
-	              	  localStorage.setItem("GameRef", currGameNo);	//save the game number in local storage (So we know where to pull data down from in Judging page)
-	              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-			          UID = game.push({"ID": authData.uid, "ChosenAnswer": answer}); // push user choice and UID to Firebase
-	              }
-              }); 
-       }
+          answer = "User did not submit a card"; 
+        }
+        if(numOfPlayers >= 5){
+          var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
+           currGameNo++;  // Increase the game number count in Firebase
+           getCounter.update({count: currGameNo}); // //  Update Firebase to reflect new game number
+                noOfCurrentGames = "Game " + currGameNo; // increase game count variable to use when inserting
+                localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
+          }         	
+          game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
+          game.push({"ID": authData.uid, "ChosenAnswer": answer}); // Push answer to Firebase        
+          localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
   }
-
-   <!-- === AJAX call for  passing users submission to PHP file=== -->
 
   function submitSubmission(answerPassed){
   	answer = answerPassed;

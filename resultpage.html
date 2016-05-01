@@ -131,7 +131,7 @@
 					winnerID = idArray[subIndex]; // Store the UID of the winning submission
 					$("#winSub").html(winner); // Update the html page to show winning submission
 					updateWinner(); // Call to AJAX/PHP to update winners stats
-					updateLosers(); // Call to AJAX/PHP to update losers stats
+					//updateLosers(); // Call to AJAX/PHP to update losers stats
 					//document.getElementById('winSub').innerHTML = winner; // print response text to page
 				}	
 			};
@@ -166,6 +166,7 @@
 		//AJAX call to update losers stats
 
 		function updateLosers(){
+			var fireUID = getUID();	
 			var xhttp = new XMLHttpRequest();	//  make a new request object
 			xhttp.onreadystatechange = function(){	//  if the response/php is successful, change page
 				if(xhttp.readyState == 4 && xhttp.status == 200){
@@ -174,7 +175,7 @@
 			};
 				xhttp.open("POST", "updateLosers.php", true);  //wrap the request in GET request\
 				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");  // Header request needed when posting data
-				xhttp.send("loserID1="+loserID1+"&loserID2="+loserID2+"&loserID3="+loserID3+"&loserID4="+loserID4);  //send the loser UIDS in the request
+				xhttp.send("fireUID="+fireUID);  //update number of games played
 		}
 
 		//special function just to get the user's FirebaseUID after they have registered
@@ -239,7 +240,13 @@
 		</div>
 	</div><!-- ./winner + runner-up table -->
 
+	<script>
+		function logOut(){ // Method to log out of Firebase upon click of button
 
+	    	myDataRef.unauth();
+	    	window.location="index.html";
+	    }
+	</script>
 
 	
 	

@@ -1,0 +1,29 @@
+	section.whitesection {
+		
+		width: 84%;
+		float: left;
+	}
+	#cardContainer {
+		
+		display: inline-block;
+		border: 2px solid yellow;
+		position: relative;
+		width: 100%;
+		
+	}
+
+	.whiteImage {
+		
+		position: relative;
+		z-index: 0;
+		display: inline-block;
+		float: left;
+	}
+
+	#whiteCardText {
+		position: absolute;
+		width:225px;
+		text-align: center;
+		margin-top:500px;
+		
+	}
