@@ -261,9 +261,10 @@
         
 		//Pull text from Firebase
 		//var rnd = randNum();
-    var gamNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gamNum);
-		console.log(rnd);
+    //var gamNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
+    var gameNum = localStorage.getItem("gameRef");
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gameNum);
+		console.log(gameNum);
 		localStorage.setItem("CurrBlkCrd", gamNum);
 		ref.on("value", function(snapshot) {
         var scenarioCard = snapshot.val();
@@ -291,7 +292,7 @@
 	
 	//method to generate random number
 	function randNum(){
-		return Math.floor((Math.random() * 27) + 1);
+		return Math.floor((Math.random() * 26) + 1);
 	  }  	  
 	 
 	

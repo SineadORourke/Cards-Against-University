@@ -230,6 +230,9 @@
 			numOfPlayers = snapshot.val().count;
 			console.log("checking");
 			if(numOfPlayers%5==0){
+				ref = new Firebase('hhttps://cau-maynooth.firebaseio.com/GameCounter/count'); // ref to count variable in Firebase
+				gameNum = snapshot.val().count; // Store the number of players in a variable
+				localstorage.setItem("gameRef", gameNum);
 				location.href="gameInPlay.html";
 				ref.off();
 			}else{
