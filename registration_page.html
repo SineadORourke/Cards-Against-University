@@ -167,6 +167,7 @@
       if(error){
         console.log("Error creating user:", error);
 	result=false;
+      alert("There was an error creating your account, please try again");
       }
       else{
 	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
@@ -177,6 +178,7 @@
         }, 
           function(error, authData) {
             if (error) {
+              alert("There was an error creating your account, please try again");
             console.log("Login Failed!", error);
 		result=false;
           } else {
