@@ -152,7 +152,8 @@
     }, 
     function(error, authData) { // error handling
       if (error) {
-        console.log("Login Failed!", error);
+        //console.log("Login Failed!", error);
+        alert("Your username or password is incorrect, please try again.")
       } else {
             if(userEmail == "admin@gmail.com"){
                 console.log("Authenticated successfully with payload:", authData);
