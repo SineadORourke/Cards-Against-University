@@ -16,9 +16,9 @@
 	// Store winners UID that has been passed across 
 	$fireUID = $_REQUEST['winnerID'];
 
-	/*  Update SQL table to add credits and coins to winner as well as increasing personal stats */
+	/*  Update SQL table to add credits and coins to winner as well as increasing personal stats */ /*Coins = Coins+5, GamesPlayed = GamesPlayed+1, GamesWon = GamesWon+1*/
 	$sql = "UPDATE cauusers 
-  	SET Credits = Credits+20 /*Coins = Coins+5, GamesPlayed = GamesPlayed+1, GamesWon = GamesWon+1*/
+  	SET Credits = Credits+20, GamesWon = GamesWon+1, Coins = Coins+5, GamesPlayed = GamesPlayed+1 
   	WHERE FirebaseID='$fireUID';";
 
 	if(mysqli_query($conn, $sql)) { // Check the succes of the call (development purposes)

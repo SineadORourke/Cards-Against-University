@@ -218,7 +218,6 @@
     function countdown() {
       if (timeLeft == 0) { // Alert user that 30 seconds has passed
         clearTimeout(timerId);
-        alert("Times up!")
         location.href="JudgingPage.html" // Move to next page
         
       } else {
@@ -261,10 +260,11 @@
           
         
 		//Pull text from Firebase
-		var rnd = randNum();
-		var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + rnd);
+		//var rnd = randNum();
+    var gamNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gamNum);
 		console.log(rnd);
-		localStorage.setItem("CurrBlkCrd", rnd);
+		localStorage.setItem("CurrBlkCrd", gamNum);
 		ref.on("value", function(snapshot) {
         var scenarioCard = snapshot.val();
 		

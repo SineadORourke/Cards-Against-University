@@ -144,16 +144,21 @@
 		//AJAX call to update winners stats
 
     	function updateWinner(){
-
-			var xhttp = new XMLHttpRequest();	//  make a new request object
-			xhttp.onreadystatechange = function(){	// if the response/php is successful, change page
-				if(xhttp.readyState == 4 && xhttp.status == 200){
-					// NO ACTION NEEDED ONLY USED TO CALL PHP
+    		var fireUID = getUID();	
+    		if(fireUID == winnerID){
+				var xhttp = new XMLHttpRequest();	//  make a new request object
+				xhttp.onreadystatechange = function(){	// if the response/php is successful, change page
+					if(xhttp.readyState == 4 && xhttp.status == 200){
+						// NO ACTION NEEDED ONLY USED TO CALL PHP
+					}
+				};
+					xhttp.open("POST", "updatewinner.php", true);	//  wrap the request in POST request\
+					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Header request needed when posting data
+					xhttp.send("winnerID="+winnerID);  //send the user details in the request to the PHP page
 				}
-			};
-				xhttp.open("POST", "updatewinner.php", true);	//  wrap the request in POST request\
-				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Header request needed when posting data
-				xhttp.send("winnerID="+winnerID);  //send the user details in the request to the PHP page
+			else{
+				updateLosers(); // Call to AJAX/PHP to update losers stats
+			}
 		}
 
 		//special function just to get the user's FirebaseUID after they have registered
