@@ -202,10 +202,11 @@
             
           
     //Pull text from Firebase
-    var blck = localStorage.getItem("CurrBlkCrd");
-    console.log(blck);
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/" + blck);
-    console.log(ref);
+    var blck = localStorage.getItem("GameRef");
+    blck = blck-1;
+    console.log("black: " + blck);
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + blck);
+    console.log("path:", ref);
     ref.once("value", function(snapshot) {
         var scenarioCard = snapshot.val();
         console.log("Message from server; ", scenarioCard);
