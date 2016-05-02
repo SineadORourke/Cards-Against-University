@@ -261,20 +261,31 @@
         
 		//Pull text from Firebase
 		//var rnd = randNum();
-    //var gamNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
-    var gameNum = localStorage.getItem("gameRef");
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gameNum);
-		console.log(gameNum);
-		localStorage.setItem("CurrBlkCrd", gamNum);
-		ref.on("value", function(snapshot) {
-        var scenarioCard = snapshot.val();
+		var gameCount = "";
+    		var gameNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
+		gameNum.once("value", function(snapshot){
+			gameCount = snapshot.val().count;
+			console.log("GameCount:"+ gameCount);
+
+			console.log("GameCount again:"+ gameCount);
+    			var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gameCount);
+			console.log(ref);
+			
+			ref.on("value", function(snapshot) {
+        			var scenarioCard = snapshot.val();
+
+				//wrapText fits long inputs (mulit-line) on the card nicely
+        			wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
+			},
+       		 	function (errorObject) {  // Deal with errors
+          			console.log("The read failed: " + errorObject.code);
+       			});
+		//localStorage.setItem("CurrBlkCrd", gameCount);
+		//console.log("CurrBlk: "+ localStorage.getItem("CurrBlkCard"));
+
+		});
+
 		
-		//wrapText fits long inputs (mulit-line) on the card nicely
-        wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
-		},
-        function (errorObject) {  // Deal with errors
-          console.log("The read failed: " + errorObject.code);
-        });
 	  
 	  
 	// s() scales everything to size according to the set blocksize
@@ -292,7 +303,7 @@
 	
 	//method to generate random number
 	function randNum(){
-		return Math.floor((Math.random() * 26) + 1);
+		return Math.floor((Math.random() * 27) + 1);
 	  }  	  
 	 
 	
@@ -300,20 +311,21 @@
 	function getWhiteText(context, id){
 		var ref = new Firebase("https://cau-maynooth.firebaseio.com/whiteCards/card" + randNum());
 		ref.on("value", function(snapshot) {
-        var info = snapshot.val();
-        //console.log("Message from server; ", info);
+        	var info = snapshot.val();
+        	//console.log("Message from server; ", info);
 		
 		//Saves the text inside the canvas element
 		document.getElementById(id).innerHTML = info;
 		
 		//fillContext colours the box, adds the text (info) and wraps the text if necessary
-        fillContext(context, info);		
+        	fillContext(context, info);		
 		},
-        function (errorObject) {  // Deal with errors
-          console.log("The read failed: " + errorObject.code);
-        });
+        	function (errorObject) {  // Deal with errors
+          	console.log("The read failed: " + errorObject.code);
+       	 	});
 	  }  	  
 	  
+
 	//method used to fill the white cards
     function fillContext(context, text){
       	context.fillStyle = "#FFF";				//fill background white
@@ -435,7 +447,7 @@ $("#myCanvas1").click(function(){
 
 	// DECLARE GLOBAL VARIABLES FOR INGAME USE //
 	
-	var authData = ref.getAuth(); // Store current users UID
+	var authData = ""; // Store current users UID
 	var currGameNo = ""; // Keep track of curr game number
 	var game = ""; // Will be used to store path to Firebase
 	var numOfPlayers = ""; // Used to keep track of number of in play gamers
@@ -446,6 +458,7 @@ $("#myCanvas1").click(function(){
 	function SetGameUp(){ // Called on load of body
 
         var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game"); // Get a ref to correct locatin in Firebase database
+	authData = ref.getAuth(); // Store current users UID
         var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count"); // Set second path to point to number of games
 
         getCounter.once("value", function (snapshot) { // Get object holding the current game number
@@ -454,7 +467,7 @@ $("#myCanvas1").click(function(){
 	        game = ref.child(noOfCurrentGames); // 
 	        game.once("value", function (snapshot) { // Determine the number of current players in the game
 	              numOfPlayers = snapshot.numChildren();
-	              console.log(numOfPlayers);
+	              console.log("no. Players: " + numOfPlayers);
 	          });
 		});
     }
@@ -484,6 +497,7 @@ $("#myCanvas1").click(function(){
           game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
           game.push({"ID": authData.uid, "ChosenAnswer": answer}); // Push answer to Firebase        
           localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
+	  console.log("CurrBlk: "+ localStorage.getItem("GameRef"));
   }
 
   function submitSubmission(answerPassed){

@@ -68,7 +68,7 @@
 				</ul>
 				<!-- Navigation option to the right -->
 				<ul class="nav navbar-nav navbar-right">
-					<li onclick="logOut()"><a href="welcome_page.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					<li onclick="logOut()"><a href="index.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 				</ul>
 			</div>
 			</div>
@@ -230,9 +230,7 @@
 			numOfPlayers = snapshot.val().count;
 			console.log("checking");
 			if(numOfPlayers%5==0){
-				ref = new Firebase('hhttps://cau-maynooth.firebaseio.com/GameCounter/count'); // ref to count variable in Firebase
-				gameNum = snapshot.val().count; // Store the number of players in a variable
-				localstorage.setItem("gameRef", gameNum);
+				//localStorage.setItem("gameRef", gameNum);
 				location.href="gameInPlay.html";
 				ref.off();
 			}else{
