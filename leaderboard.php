@@ -87,9 +87,9 @@
 
 
 	$servername = "localhost";
-	$username = "cauPlayer";
-	$password = "password1";
-	$dbname = "caudatabase";
+	$username = "root";
+	$password = "";
+	$dbname = "test";
 
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
@@ -100,13 +100,14 @@
 
 //mysql_select_db('database', $link) or die(mysql_error());
 
-	$sql = "SELECT Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC LIMIT 3";
+	$sql = "SELECT Avatar, Username, Credits, University FROM test.cauusers ORDER BY Credits DESC";
 	$leaderResult = mysqli_query($conn, $sql) or die(mysqli_connect_error());
 
 	$leaderArray1 = array();
 
 	while($row = mysqli_fetch_assoc($leaderResult)) {
 		$item = array();
+		$item['Avatar'] = $row['Username'];
 		$item['Username'] = $row['Username'];
 		$item['University'] = $row['University'];
 		$item['Credits'] = $row['Credits'];
@@ -114,25 +115,27 @@
 	}
 
 
+	/*$sql2 = "SELECT Username, Credits, University FROM test.cauusers ORDER BY Credits DESC LIMIT 3";
+	$leaderResult2 = mysqli_query($conn, $sql2) or die(mysqli_connect_error());
 
-	$sql = "SELECT Avatar, Username, Credits, University From caudatabase.cauusers order by Credits limit 3, 100" ;
-	$leaderResult2 = mysqli_query($conn, $sql) or die(mysqli_connect_error());
+	$leaderArray2 = array();*/
 
-	$leaderArray2 = array();
+	/*$sqlQuery = "SELECT Username, Credits, University FROM test.cauusers ORDER BY Credits DESC LIMIT 6";
+	$leaderResult = mysqli_query($conn, $sqlQuery) or die(mysqli_connect_error());
 
-	while($row = mysqli_fetch_assoc($leaderResult2)) {
+
+	while($row = mysqli_fetch_assoc($leaderResult)) {
 		$item = array();
-		$item['Username'] = $row['Username'];	
+		print_r($item);
+		$item['Username'] = $row['Username'];
 		$item['University'] = $row['University'];
 		$item['Credits'] = $row['Credits'];
-	    	$leaderArray2[] = $item;
-	}
-
+	    	$leaderArray1[] = $item;
+	} */
 	$conn->close();
 	?>
-  
-	<!--Top3 leaderboard-->
-	<div id="Leaderboard">
+	
+	<!--Top3 leaderboard-->	<div id="Leaderboard">
 	<table class="table table-responsive" id="leaderTable">
 				<tbody><?php
 					$number = 0;
@@ -143,39 +146,17 @@
 					<tr id="leaderRow">
 	
 						<td class="leaderData"><?php echo $number?></td>
-						<td class="leaderData"><img src="defaultplayer.png" alt "Default Logo" width="100" height="100"></td>
+						<td class="leaderData"><image src="avatars/'<?php echo $row['Avatar']?>'" alt "Default Logo" width="100" height="100"></td>
 						<td class="leaderData"><div style='width: 40px;'><?php echo $row['Username'] ?></div></td>
 						<td class="leaderData"><div style='width: 40px;'><?php echo $row['University'] ?></div></td>
 						<td class="leaderData"><div style='width: 40px;'><?php echo $row['Credits'] ?></div></td>
 
 					</tr><?php endforeach;?>
-					
+				
 				</tbody>
 			</table>
-		</div>
-		</br>
 		
-		
-		<!--Leaderboard for the rest of the players, which scrolls-->
-		<div id="Leaderboard2" class="scroll">
-		<table class="table table-responsive" id="leaderTable">
-			<tbody><?php
-					$number = 3;
-					foreach ($leaderArray2 as $index => $row):
-					$number++; 
-					?>
 
-					<tr id="leaderRow2">
-						<td id="leaderData2"><?php echo $number?></td>
-						<td id="leaderData2"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
-						<td id="leaderData2"><div style='width: 40px;'><?echo $row['Username'] ?></div></td>
-						<td id="leaderData2"><div style='width: 40px;'><?echo $row['University'] ?></div></td>
-						<td id="leaderData2"><div style='width: 40px;'><?echo $row['Credits'] ?></div></td></td>
-					</tr><?php endforeach;?>
-
-				</tbody>
-			</table>
-		</div>
 	
 		 <!-- Bootstrap core JavaScript
     ================================================== -->
