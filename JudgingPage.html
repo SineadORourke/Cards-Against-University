@@ -34,10 +34,21 @@
 
 	#timer2{
 		font-size: 30px;
+		float: right;
 	}
 
 	#timer3{
 		text-align:right;
+	}
+	
+	.btnblue{
+		background-color: #043E49 !important;
+		color: white !important;
+	}
+	
+	.btnwhite{
+		background-color: white !important;
+		color: #043E49 !important;
 	}
     </style>
 
@@ -99,11 +110,10 @@
 	
 	<!-- HTML for Black Scenario card -->
   <div class="container-fluid"> <!--Black card and timer are wrapped in this container-->
-
+	</br>
+	<div id="timer2"></div>
     <div class="col-sm-10" id="bCard">  <!--Black card and submit button are in this col (Responsive)-->
       <center>
-	<div id="timer2"></div>
-	</br></br>
         <canvas id="myBlackCanvas" width="0" height="0">
           Your browser does not support the HTML5 canvas tag.
         </canvas>
@@ -118,11 +128,11 @@
     <center>
       <h3>Pick the Winner!</h3>
     </center>
-      <button type="button" class="btn btn-primary btn-md btn-block"  onclick="selectedAnswer(1)" data-toggle="modal" data-target="#myModal"><label id="s1" for="subOpt1"></label></button>
-      <button type="button" class="btn btn-default btn-md btn-block"  onclick="selectedAnswer(2)" data-toggle="modal" data-target="#myModal"><label id="s2" for="subOpt2"></label></button>
-      <button type="button" class="btn btn-primary btn-md btn-block"  onclick="selectedAnswer(3)" data-toggle="modal" data-target="#myModal"><label id="s3" for="subOpt3"></label></button>
-      <button type="button" class="btn btn-default btn-md btn-block"  onclick="selectedAnswer(4)" data-toggle="modal" data-target="#myModal"><label id="s4" for="subOpt4"></label></button>
-      <button type="button" class="btn btn-primary btn-md btn-block"  onclick="selectedAnswer(5)" data-toggle="modal" data-target="#myModal"><label id="s5" for="subOpt5"></label></button>
+      <button type="button" class="btn btn-primary btn-md btn-block btnblue"  onclick="selectedAnswer(1)" data-toggle="modal" data-target="#myModal"><label id="s1" for="subOpt1"></label></button>
+      <button type="button" class="btn btn-default btn-md btn-block btnwhite"  onclick="selectedAnswer(2)" data-toggle="modal" data-target="#myModal"><label id="s2" for="subOpt2"></label></button>
+      <button type="button" class="btn btn-primary btn-md btn-block btnblue"  onclick="selectedAnswer(3)" data-toggle="modal" data-target="#myModal"><label id="s3" for="subOpt3"></label></button>
+      <button type="button" class="btn btn-default btn-md btn-block btnwhite"  onclick="selectedAnswer(4)" data-toggle="modal" data-target="#myModal"><label id="s4" for="subOpt4"></label></button>
+      <button type="button" class="btn btn-primary btn-md btn-block btnblue"  onclick="selectedAnswer(5)" data-toggle="modal" data-target="#myModal"><label id="s5" for="subOpt5"></label></button>
 
       <br>
 

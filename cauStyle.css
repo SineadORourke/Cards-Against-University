@@ -34,11 +34,11 @@
 
 	
 	#navigationColour{					/*Navigation colour (for all pages)*/
-		background-color: #00191e;
+		background-color: #043E49;
 	}
 	
 	#main {								/*Background colour (for all pages)*/
-		background-color: #A3A4A4;
+		background-color: #D1E7ED;
 	}
 	
 
@@ -66,10 +66,23 @@
     	text-align: left;
 	}
 
+	#name{
+		color: white;
+	}
+	
 	#uni {
 		width: 100%;
 		height : 35px;
 		font-family: sans-serif;	
+	}
+	
+	#carText1 {
+		font-size: 200%;
+		color: #043E49;
+	}
+	#carText2 {
+		font-size: 200%;
+		color: #D1E7ED;
 	}
 
 	#registerPHP #registerFirebase {
@@ -110,13 +123,13 @@
 
   
   /*'About' sections on Main Menu page*/
-	#section1 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #A3A4A4; 
+	#section1 {padding-top:50px;padding-bottom:50px;height:110%;color: #043E49; background-color: #D1E7ED; 
 				text-align:center; font-size:150%;}
 	#section2 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #004b5d;
 				 font-size:150%;}
 	#section3 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #00191e;
 				text-align:center; font-size:150%;}
-	#section4 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #A3A4A4;
+	#section4 {padding-top:50px;padding-bottom:50px;height:110%;color: #043E49; background-color: #D1E7ED;
 				font-size:150%;}
 	#section5 {padding-top:50px;padding-bottom:50px;height:110%;color: #fff; background-color: #004b5d;
 				font-size:150%;}
@@ -144,6 +157,11 @@
 	#moreMargin{				/*Left side text with more margin (to line up with bigger picture)*/
 		text-align:left;
 		margin-top:10%;
+	}
+	
+	#welcomeText{
+		font-size: 350%;
+		
 	}
   
   
