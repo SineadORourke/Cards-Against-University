@@ -87,9 +87,9 @@
 
 
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "test";
+	$username = "cauPlayer";
+	$password = "password1";
+	$dbname = "caudatabase";
 
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
@@ -100,14 +100,14 @@
 
 //mysql_select_db('database', $link) or die(mysql_error());
 
-	$sql = "SELECT Avatar, Username, Credits, University FROM test.cauusers ORDER BY Credits DESC";
+	$sql = "SELECT Avatar, Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC";
 	$leaderResult = mysqli_query($conn, $sql) or die(mysqli_connect_error());
 
 	$leaderArray1 = array();
 
 	while($row = mysqli_fetch_assoc($leaderResult)) {
 		$item = array();
-		$item['Avatar'] = $row['Username'];
+		$item['Avatar'] = $row['Avatar'];
 		$item['Username'] = $row['Username'];
 		$item['University'] = $row['University'];
 		$item['Credits'] = $row['Credits'];
@@ -146,7 +146,7 @@
 					<tr id="leaderRow">
 	
 						<td class="leaderData"><?php echo $number?></td>
-						<td class="leaderData"><image src="avatars/'<?php echo $row['Avatar']?>'" alt "Default Logo" width="100" height="100"></td>
+						<td class="leaderData"><image src="avatars/<?php echo $row['Avatar']?>" alt "Default Logo" width="100" height="100"></td>
 						<td class="leaderData"><div style='width: 40px;'><?php echo $row['Username'] ?></div></td>
 						<td class="leaderData"><div style='width: 40px;'><?php echo $row['University'] ?></div></td>
 						<td class="leaderData"><div style='width: 40px;'><?php echo $row['Credits'] ?></div></td>

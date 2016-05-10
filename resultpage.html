@@ -94,14 +94,16 @@
 					var response = xhttp.responseText; // Store response object in variable
 					var array = response.split(","); //  Split object when meets a ',' into an array to manipulate results
 					console.log("Array: ", array);
-					ansArray = [array[0],array[4],array[8],array[12],array[16]]; // Store current users votes in an array
+					ansArray = [array[0],array[5],array[10],array[15],array[20]]; // Store current users votes in an array
 					console.log("ansArray: ", ansArray);
-					userArray = [array[2],array[6],array[10],array[14],array[18]]; // Store current gamers usernames in an array
-					console.log("userArray: ", userArray);
-					subArray = [array[3],array[7],array[11],array[15],array[19]]; // Store the submissions of the current users
-					console.log("subArray: ", subArray);
-					idArray = [array[1],array[5],array[9],array[13],array[17]]; // Store the UID's of the current users
+					idArray = [array[1],array[6],array[11],array[16],array[21]]; // Store the UID's of the current users
 					console.log("idArray: ", idArray);
+					userArray = [array[2],array[7],array[12],array[17],array[22]]; // Store current gamers usernames in an array
+					console.log("userArray: ", userArray);
+					subArray = [array[3],array[8],array[13],array[18],array[23]]; // Store the submissions of the current users
+					console.log("subArray: ", subArray);
+					avArray = [array[4],array[9],array[14],array[19],array[24]]; // Store the submissions of the current users
+					console.log("avArray: ", avArray);
 					var len = ansArray.length; // Store the length of the array in a variable
 					count = 0; // Set count to be 0
 					var ansIndex = 0; // ansIndex variable will store the index of the answer voted for the most
@@ -133,7 +135,9 @@
 					for(i=0;i<5;i++){ // For loop to get the username's of the losers and save in an array so we can show in html
 						if(i != subIndex){
 							document.getElementById("resultData" + k).innerHTML = userArray[i];
+							document.getElementById("av" + k).src = "avatars/"+avArray[i];
 							console.log(i + " = " + userArray[i]);
+							console.log("av = " + avArray[i]);
 							//$("#resultData" + k).html(userArray[i]);
 							k++;
 						}
@@ -157,7 +161,9 @@
 					winnerID = idArray[subIndex]; // Store the UID of the winning submission
 					console.log("winnerID: " + winnerID);
 					console.log("winnername: " + winner);
-	
+					
+					document.getElementById('winAv').src="avatars/"+avArray[subIndex];
+					console.log("avArray: " + avArray[subIndex]);
 					$("#winUser").html(userArray[subIndex]); // Update the html page to show the winners Username
 					$("#winSub").html(winner); // Update the html page to show winning submission
 					updateWinner(); // Call to AJAX/PHP to update winners stats
@@ -229,7 +235,7 @@
 		<!--Winner-->
 		<div class="col-sm-6" id="leftResult">
 			<h1 id="winner">Winner!</h1>
-			<img src="defaultplayer.png" alt "Default Logo" width="350" height="350">
+			<img id="winAv" src="" alt "Default Logo" width="350" height="350">
 			<p></p>
 			<p id="winUser"><i><b><span></span></b></i></p>
 			<p id="winSub"><i><b><span></span></b></i></p>
@@ -241,25 +247,25 @@
 				<tbody>
 					<tr id="resultRow">
 						<td id="resultData">2.</td>
-						<td id="resultData"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
+						<td id="resultData"><img id="av1" src="" alt "Default Logo" width="50" height="50"></td>
 						<td id="resultData1"><div style='width: 100px;'>User2</div></td>
 						<td id="userSub1"><div style='width: 150px;'>User2 submission</div></td>
 					</tr>
 					<tr id="resultRow">
 						<td id="resultData"> 3.</td>
-						<td id="resultData"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
+						<td id="resultData"><img id="av2" src="" alt "Default Logo" width="50" height="50"></td>
 						<td id="resultData2"><div style='width: 100px;'>User3</div></td>
 						<td id="userSub2"><div style='width: 150px;'>User3 submission</div></td>
 					</tr>
 					<tr id="resultRow">
 						<td id="resultData"> 4.</td>
-						<td id="resultData"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
+						<td id="resultData"><img id="av3" src="" alt "Default Logo" width="50" height="50"></td>
 						<td id="resultData3"><div style='width: 100px;'>User4</div></td>
 						<td id="userSub3"><div style='width: 150px;'>User4 submission</div></td>
 					</tr>
 					<tr id="resultRow">
 						<td id="resultData"> 5.</td>
-						<td id="resultData"><img src="defaultplayer.png" alt "Default Logo" width="50" height="50"></td>
+						<td id="resultData"><img id="av4" src="" alt "Default Logo" width="50" height="50"></td>
 						<td id="resultData4"><div style='width: 100px;'>User5</div></td>
 						<td id="userSub4"><div style='width: 150px;'>User5 submission</div></td>
 					</tr>

@@ -57,7 +57,7 @@
 				<!-- Navigation options centered -->
 				<ul class="nav navbar-nav">
 					<li><a href="#section1">Home</a></li>
-					<li><a href="#" onclick="checkNumOfPlrs();">Play</a></li>
+					<li><a href="#" onclick="checkNumOfPlrs();" data-toggle='modal' data-target="#myModal">Play</a></li>
 					<li><a href="leaderboard.php">Leaderboard</a></li>
 					<li><a href="#section2">How to Play</a></li>
 					<li class="dropdown navbar-right" id="profile"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
@@ -189,7 +189,22 @@
 	</div>
     </div><!-- ./about sections -->
 
-
+	<!-- Waiting Modal -->
+	  <div class="modal fade" id="myModal" role="dialog" data-keyboard="false">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <h4 class="modal-title">Your game will begin shortly</h4>
+		</div>
+		<div class="modal-body">
+		  <p id="modbod"></p>
+		</div>
+	      </div>
+	      
+	    </div>
+	  </div>
 
 	
 	
@@ -218,7 +233,7 @@
     		numOfPlayers = snapshot.val().count; // Store the number of players in a variable
     		numOfPlayers++; //  Add current gamer to the count
     		ref.update({"count":numOfPlayers});
-    		
+    		updateGameRef();
     		checkGame();
     	});    	
     }
@@ -234,10 +249,42 @@
 				location.href="gameInPlay.html";
 				ref.off();
 			}else{
+				document.getElementById('modbod').innerHTML = "Waiting for "+ (5-(numOfPlayers%5)) + " more player(s)";				
 				console.log("Not 5 yet :" + numOfPlayers);
 			}
 		}); 
 	}
+
+
+	function updateGameRef(){
+		var updateGame="";
+		gameNo = new Firebase('hhttps://cau-maynooth.firebaseio.com/GameCounter/count');
+		gameNo.once("value", function(snapshot){
+			updateGame=snapshot.val().count;
+			updateGame = updateGame+1;
+			updateGame = "Game " + updateGame;
+			console.log("updateGame: " + updateGame);
+			fireUID = getUID();
+			var xhttp = new XMLHttpRequest();     //make a new request object
+    			xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+      			if(xhttp.readyState == 4 && xhttp.status == 200){
+				localStorage.setItem("GameRefAv", updateGame);
+      			} 
+   			};
+    			xhttp.open("POST", "setGameRef.php", true);      //wrap the request in POST
+    			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    			xhttp.send("fireUID="+fireUID+"&gameRef="+updateGame);  //send the user details in the request
+		});
+	
+	}
+
+
+   //special function just to get the user's FirebaseUID after they have registered
+  function getUID(){
+    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+    var authData = myDataRef.getAuth();
+    return authData.uid;
+  }
 	
 
     function logOut(){ // Method to log out of Firebase upon click of button
