@@ -118,32 +118,32 @@
 			<tr id="avatarRow">							<!--Avatars-->
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 1" width="100" height="90">
-					<figcaption>Player 1</figcaption>
+					<img id="player1" src="" alt="Player 1" width="100" height="90">
+					<figcaption id="name1">Player 1</figcaption>
 					</figure>
 				</td>
 			</tr>
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 2" width="100" height="90">
-					<figcaption>Player 2</figcaption>
+					<img id="player2" src="" alt="Player 2" width="100" height="90">
+					<figcaption id="name2">Player 2</figcaption>
 					</figure>
 				</td>
 			</tr>
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 3" width="100" height="90">
-					<figcaption>Player 3</figcaption>
+					<img id="player3" src="" alt="Player 3" width="100" height="90">
+					<figcaption id="name3">Player 3</figcaption>
 					</figure>
 				</td>
 			</tr>
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 4" width="100" height="90">
-					<figcaption>Player 4</figcaption>
+					<img id="player4" src="" alt="Player 4" width="100" height="90">
+					<figcaption id="name4">Player 4</figcaption>
 					</figure>
 				</td>
 			</tr>
@@ -155,6 +155,7 @@
 		</tbody>
 	</table>
 	</div>
+	<div id="testOutput"></div>
 	</div> 
     <!-- ./timer + group avatars + shuffle button -->
 <!--End of responsive code-->
@@ -211,6 +212,52 @@
   <!-- JS code for Timer
     ================================================== -->
   <script>  
+
+
+	
+	
+
+	
+		firebaseID = getUID();
+		gameRef = localStorage.getItem("GameRefAv");
+		console.log("gameRef = " + gameRef);
+		var xhttp = new XMLHttpRequest();     //make a new request object
+    		xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+      		if(xhttp.readyState == 4 && xhttp.status == 200){
+			//document.getElementById('testOutput').innerHTML = xhttp.responseText;
+			var response = xhttp.responseText;
+			console.log("response: ", xhttp.responseText);
+			var AvatarArray = response.split(",");
+			userArray = [AvatarArray[0],AvatarArray[3],AvatarArray[6],AvatarArray[9],AvatarArray[12]];
+			console.log("userArray: ", userArray);
+			nameArray = [AvatarArray[1],AvatarArray[4],AvatarArray[7],AvatarArray[10],AvatarArray[13]];
+			console.log("nameArray: ", nameArray);
+			avArray = [AvatarArray[2],AvatarArray[5],AvatarArray[8],AvatarArray[11],AvatarArray[14]];
+			console.log("avArray: ", avArray);
+		
+			var currentIndex = userArray.indexOf(firebaseID); // Store the location of the winning submission
+			console.log("currIndex: " + currentIndex);
+			var k = 1;
+					for(var i=0;i<5;i++){ 
+						if(i != currentIndex){
+							document.getElementById("player" + k).src = "avatars/"+avArray[i];
+							document.getElementById("name" + k).innerHTML = nameArray[i];
+							console.log(i + " = " + avArray[i] + " + " + nameArray[i]);
+							//$("#resultData" + k).html(userArray[i]);
+							k++;
+						}
+					}
+      		} 
+    		};
+    		xhttp.open("POST", "getAvatars.php", true);      //wrap the request in POST
+   		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+   		xhttp.send("gameRef="+gameRef+"&fireUID="+firebaseID);  //send the user details in the request
+	
+
+
+
+
+
     var timeLeft = 30; // Timer counting down from 30 seconds
     var elem = document.getElementById('timer');
     var elem2 = document.getElementById('timer2');
@@ -303,7 +350,7 @@
 	
 	//method to generate random number
 	function randNum(){
-		return Math.floor((Math.random() * 27) + 1);
+		return Math.floor((Math.random() * 49) + 1);
 	  }  	  
 	 
 	
@@ -352,7 +399,7 @@
             line = words[n] + ' ';
             y += lineHeight;
           }
-          else {
+          else {	
             line = testLine;
           }
         }
