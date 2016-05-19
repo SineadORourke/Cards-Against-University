@@ -212,55 +212,38 @@
   <!-- JS code for Timer
     ================================================== -->
   <script>  
-
-
 	
-	
+	firebaseID = getUID(); // Store current users Firebase Id in variable
+	gameRef = localStorage.getItem("GameRefAv"); // Retrieve game reference from local storage and save in variable
 
-	
-		firebaseID = getUID();
-		gameRef = localStorage.getItem("GameRefAv");
-		console.log("gameRef = " + gameRef);
-		var xhttp = new XMLHttpRequest();     //make a new request object
-    		xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
-      		if(xhttp.readyState == 4 && xhttp.status == 200){
-			//document.getElementById('testOutput').innerHTML = xhttp.responseText;
-			var response = xhttp.responseText;
-			console.log("response: ", xhttp.responseText);
-			var AvatarArray = response.split(",");
-			userArray = [AvatarArray[0],AvatarArray[3],AvatarArray[6],AvatarArray[9],AvatarArray[12]];
-			console.log("userArray: ", userArray);
-			nameArray = [AvatarArray[1],AvatarArray[4],AvatarArray[7],AvatarArray[10],AvatarArray[13]];
-			console.log("nameArray: ", nameArray);
-			avArray = [AvatarArray[2],AvatarArray[5],AvatarArray[8],AvatarArray[11],AvatarArray[14]];
-			console.log("avArray: ", avArray);
+	var xhttp = new XMLHttpRequest();     //make a new request object
+	xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+  		if(xhttp.readyState == 4 && xhttp.status == 200){
+			var response = xhttp.responseText; // Store repsonse text from AJAX query in a variable
+			var AvatarArray = response.split(","); // Split response text into an array using comma
+			userArray = [AvatarArray[0],AvatarArray[3],AvatarArray[6],AvatarArray[9],AvatarArray[12]]; // Store usernames in seperate array
+			nameArray = [AvatarArray[1],AvatarArray[4],AvatarArray[7],AvatarArray[10],AvatarArray[13]];// Store name in seperate array
+			avArray = [AvatarArray[2],AvatarArray[5],AvatarArray[8],AvatarArray[11],AvatarArray[14]];  // Store avatars in seperate array
 		
 			var currentIndex = userArray.indexOf(firebaseID); // Store the location of the winning submission
-			console.log("currIndex: " + currentIndex);
-			var k = 1;
+			var k = 1; // Initialise variable to 1 for id's
 					for(var i=0;i<5;i++){ 
 						if(i != currentIndex){
-							document.getElementById("player" + k).src = "avatars/"+avArray[i];
-							document.getElementById("name" + k).innerHTML = nameArray[i];
-							console.log(i + " = " + avArray[i] + " + " + nameArray[i]);
-							//$("#resultData" + k).html(userArray[i]);
-							k++;
+							document.getElementById("player" + k).src = "avatars/"+avArray[i]; // Display users avatar on screen
+							document.getElementById("name" + k).innerHTML = nameArray[i];	   // Display users name on screen
+							k++; // Increment k variable
 						}
 					}
-      		} 
-    		};
-    		xhttp.open("POST", "getAvatars.php", true);      //wrap the request in POST
-   		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-   		xhttp.send("gameRef="+gameRef+"&fireUID="+firebaseID);  //send the user details in the request
+  		} 
+	};
+	xhttp.open("POST", "getAvatars.php", true);      //wrap the request in POST
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Set header request
+		xhttp.send("gameRef="+gameRef+"&fireUID="+firebaseID);  //send the user details in the request
 	
 
-
-
-
-
     var timeLeft = 30; // Timer counting down from 30 seconds
-    var elem = document.getElementById('timer');
-    var elem2 = document.getElementById('timer2');
+    var elem = document.getElementById('timer'); // Store timer 1 in a variable
+    var elem2 = document.getElementById('timer2'); // Store timer 2 in a variable
     var timerId = setInterval(countdown, 1000); // Set the speed to every second
     function countdown() {
       if (timeLeft == 0) { // Alert user that 30 seconds has passed
@@ -268,9 +251,9 @@
         location.href="JudgingPage.html" // Move to next page
         
       } else {
-        elem.innerHTML = timeLeft + ' seconds remaining'; 
-        elem2.innerHTML = timeLeft + ' seconds remaining';
-        timeLeft--;
+        elem.innerHTML = timeLeft + ' seconds remaining'; // Displays number of seconds left for first timer
+        elem2.innerHTML = timeLeft + ' seconds remaining';// Displays number of seconds left for second timer
+        timeLeft--; // Decrement timer by one second
       }
     } <!--./timer -->
 	
@@ -306,34 +289,19 @@
       	ctxBlack.textAlign = 'center';			//center text on black card
           
         
-		//Pull text from Firebase
-		//var rnd = randNum();
-		var gameCount = "";
-    		var gameNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
-		gameNum.once("value", function(snapshot){
-			gameCount = snapshot.val().count;
-			console.log("GameCount:"+ gameCount);
-
-			console.log("GameCount again:"+ gameCount);
-    			var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gameCount);
-			console.log(ref);
-			
-			ref.on("value", function(snapshot) {
-        			var scenarioCard = snapshot.val();
-
-				//wrapText fits long inputs (mulit-line) on the card nicely
-        			wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
+		var gameCount = ""; // Initialise game counter to empty string 
+    	var gameNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");  // Store location in Firebase tree to variable
+		gameNum.once("value", function(snapshot){ // View data once
+			gameCount = snapshot.val().count;     // Store game number in variable
+    		var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gameCount); // Set location to relevant game number in tree	
+			ref.on("value", function(snapshot) {  // Continuously check for updates
+        			var scenarioCard = snapshot.val(); // Store value into scenario card variable
+        			wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25); // WrapText fits long inputs (mulit-line) on the card nicely
 			},
        		 	function (errorObject) {  // Deal with errors
           			console.log("The read failed: " + errorObject.code);
        			});
-		//localStorage.setItem("CurrBlkCrd", gameCount);
-		//console.log("CurrBlk: "+ localStorage.getItem("CurrBlkCard"));
-
 		});
-
-		
-	  
 	  
 	// s() scales everything to size according to the set blocksize
 	function s(x) {
@@ -391,19 +359,19 @@
         var line = '';									
 
         for(var n = 0; n < words.length; n++) {			
-          var testLine = line + words[n] + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
+          var testLine = line + words[n] + ' '; // Concatenate both variable into one
+          var metrics = context.measureText(testLine); // Use preset function to store metrics
+          var testWidth = metrics.width;		// Store width in variable
+          if (testWidth > maxWidth && n > 0) {	// Deal with text that exceeds boundarys
             context.fillText(line, x, y);
             line = words[n] + ' ';
             y += lineHeight;
           }
-          else {	
+          else {	// Else store value into a variable
             line = testLine;
           }
         }
-        context.fillText(line, x, y);
+        context.fillText(line, x, y); // Invoke function to fill the canvass with scenario card value
       }
 	
 	//This function is called when the page is loaded up
@@ -440,7 +408,8 @@
 		getWhiteText(ctx5, "myCanvas5");
 	}
 
-$("#myCanvas1").click(function(){
+	//JQuery fucntions to add a red border around selected white card
+	$("#myCanvas1").click(function(){
     	$("#myCanvas2").css("border", "");
     	$("#myCanvas3").css("border", "");
     	$("#myCanvas4").css("border", "");
@@ -477,10 +446,10 @@ $("#myCanvas1").click(function(){
     });
       
 	  
-	 newWhiteCards();
+	 newWhiteCards(); // Invocation of function to set whitescards
    
  
-    function shuffleCards(){
+    function shuffleCards(){ // Function called when user clicks to shuffle cards
 		newWhiteCards();
 	}
 			
@@ -505,7 +474,7 @@ $("#myCanvas1").click(function(){
 	function SetGameUp(){ // Called on load of body
 
         var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game"); // Get a ref to correct locatin in Firebase database
-	authData = ref.getAuth(); // Store current users UID
+		authData = ref.getAuth(); // Store current users UID
         var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count"); // Set second path to point to number of games
 
         getCounter.once("value", function (snapshot) { // Get object holding the current game number
@@ -514,7 +483,6 @@ $("#myCanvas1").click(function(){
 	        game = ref.child(noOfCurrentGames); // 
 	        game.once("value", function (snapshot) { // Determine the number of current players in the game
 	              numOfPlayers = snapshot.numChildren();
-	              console.log("no. Players: " + numOfPlayers);
 	          });
 		});
     }
@@ -540,33 +508,36 @@ $("#myCanvas1").click(function(){
            getCounter.update({count: currGameNo}); // //  Update Firebase to reflect new game number
                 noOfCurrentGames = "Game " + currGameNo; // increase game count variable to use when inserting
                 localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
-          }         	
-          game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-          game.push({"ID": authData.uid, "ChosenAnswer": answer}); // Push answer to Firebase        
-          localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
-	  console.log("CurrBlk: "+ localStorage.getItem("GameRef"));
+        }         	
+      	game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
+      	game.push({"ID": authData.uid, "ChosenAnswer": answer}); // Push answer to Firebase        
+      	localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
   }
 
-  function submitSubmission(answerPassed){
-  	answer = answerPassed;
-  	fireUID = getUID();
+  	function submitSubmission(answerPassed){
+	  	answer = answerPassed;
+	  	fireUID = getUID();
 
-  	var xhttp = new XMLHttpRequest();     //make a new request object
-    xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
-      if(xhttp.readyState == 4 && xhttp.status == 200){
-      } 
-    };
-    xhttp.open("POST", "setSubmission.php", true);      //wrap the request in POST
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("fireUID="+fireUID+"&Submission="+answer);  //send the user details in the request
+	  	var xhttp = new XMLHttpRequest();     //make a new request object
+	    xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+	      if(xhttp.readyState == 4 && xhttp.status == 200){
+	      } 
+	    };
+
+	    xhttp.open("POST", "setSubmission.php", true);      //wrap the request in POST
+	    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    xhttp.send("fireUID="+fireUID+"&Submission="+answer);  //send the user details in the request
         
   }
-   //special function just to get the user's FirebaseUID after they have registered
-  function getUID(){
-    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
-    var authData = myDataRef.getAuth();
-    return authData.uid;
-  }
+
+
+	   //special function just to get the user's FirebaseUID after they have registered
+	  function getUID(){
+	    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+	    var authData = myDataRef.getAuth();
+
+	    return authData.uid; // Return currently logged in users Firebase ID
+	  }
 	
       
   </script>

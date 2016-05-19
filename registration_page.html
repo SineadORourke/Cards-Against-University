@@ -28,58 +28,58 @@
 	
 	//JQuery to initially hide the form button
 	//When register button (register with Firebase) is clicked, the form and  register button are hidden, and the login button (register with PHP) is shown
-	$(document).ready(function(){
-		$("#regMessage").hide();
-		$("#registerPHP").hide();
-	});
+  	$(document).ready(function(){
+  		$("#regMessage").hide();
+  		$("#registerPHP").hide();
+  	});
 
 
-	//AJAX sends the php request to MySQL table when second button is clicked
-	function registerMySQL(){
-		var fireUID = getUID();			//get the firebaseUID
-		var username = document.getElementById('username').value; //get username from HTML
-		var university = document.getElementById('uni').value;	  //get university from HTML
+  	//AJAX sends the php request to MySQL table when second button is clicked
+  	function registerMySQL(){
+  		var fireUID = getUID();			//get the firebaseUID
+  		var username = document.getElementById('username').value; //get username from HTML
+  		var university = document.getElementById('uni').value;	  //get university from HTML
 
-		var xhttp = new XMLHttpRequest();			//make a new request object
-		xhttp.onreadystatechange = function(){			//if the response/php is successful, change page
-			if(xhttp.readyState == 4 && xhttp.status == 200){
-				window.location="main.html";
-			}	
-		};
-		xhttp.open("POST", "reg.php", true);			//wrap the request in POST
-		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("fireUID="+fireUID+"&username="+username+"&uni="+university);  //send the user details in the request
+  		var xhttp = new XMLHttpRequest();			//make a new request object
+  		xhttp.onreadystatechange = function(){			//if the response/php is successful, change page
+  			if(xhttp.readyState == 4 && xhttp.status == 200){
+  				window.location="main.html"; // Navigate to main page upon succesfull return state
+  			}	
+  		};
+  		xhttp.open("POST", "reg.php", true);			//wrap the request in POST
+  		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");  // Set request header type
+  		xhttp.send("fireUID="+fireUID+"&username="+username+"&uni="+university);  //send the user details in the request
 
-	}
+  	}
 
 
-	//special function just to get the user's FirebaseUID after they have registered
-	function getUID(){
-	  	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
-		var authData = myDataRef.getAuth();
-		return authData.uid;
-	}
-	
-	function checkValidPassword(password){
-                var regexNum = /[0-9]/g;
-                var regexUpp = /[A-Z]/;
-                var pass = password;
-                var len = pass.length;
-                //var valid = 0; // 0 is set as valid
+  	//special function just to get the user's FirebaseUID after they have registered
+  	function getUID(){
 
-                for(var i = 0; i < len; i++){
-                        if(len >= 8){ // Checks email is 8+ characters
-                                if(regexNum.test(pass)){ // Test if contains num
-                                        if(regexUpp.test(pass)){ // Test if contains upper case letter
-                                                createUser();//valid = 1; // 1 is set as valid
-												return true;
-                                        }
-                                }
-                        }
-                }
-				alert("Please use a stronger password");
-                return false;
+  	  var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+  		var authData = myDataRef.getAuth();
+
+  		return authData.uid; // Returns current users Firebase ID
+  	}
+  	
+  	function checkValidPassword(password){
+      var regexNum = /[0-9]/g;   // Store regex pattern for digits in variable
+      var regexUpp = /[A-Z]/;    // Store regex patten for Uppercase letters in variable
+      var len = password.length; // Store length of password in variable
+
+      for(var i = 0; i < len; i++){
+        if(len >= 8){ // Checks email is 8+ characters
+          if(regexNum.test(password)){ // Test if contains num
+            if(regexUpp.test(password)){ // Test if contains upper case letter
+               createUser();//valid = 1; // 1 is set as valid
+               return true;
+            }
+          }
         }
+      }
+  		alert("Please use a stronger password");  // Display a message to user asking them to choose a more secure password
+              return false;
+      }
 	</script>
 	
   </head>
@@ -152,26 +152,25 @@
  <script>
     
 
-    function createUser(){ // method to create a new user
+  function createUser(){ // method to create a new user
 	var result = true;
 	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
-      var userEmail = document.getElementById('email').value; // extract the text from the email and password input boxes.
-      var userPassword = document.getElementById('pwd').value;
+      var userEmail = document.getElementById('email').value;  // Store the text from the email input field.
+      var userPassword = document.getElementById('pwd').value; // Store the password from the input field
        myDataRef.createUser({ // Firebase method to create a user.
        email: userEmail,
        password: userPassword
 
       },
 
-    function(error, userData){
-      if(error){
-        console.log("Error creating user:", error);
-	result=false;
-      alert("There was an error creating your account, please try again");
-      }
-      else{
+  function(error, userData){
+    if(error){ // Deal with error
+      console.log("Error creating user:", error); // Error message for development purposes
+      result=false; // Set result to false
+      alert("There was an error creating your account, please try again"); // Alert error repsonse to user
+    }
+    else{
 	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
-        console.log("You have succesfully created user account, with uid: " + userData.uid);
         myDataRef.authWithPassword({ // if registration is successful authenticate the user with this Firebase method
         email    : userEmail,
         password : userPassword
@@ -184,7 +183,7 @@
           } else {
             console.log("Authenticated successfully with payload:", authData);
               // if authentication is successful save the user's details to the database
-                var userName = document.getElementById('username').value; // extract the info from the remaining input boxes
+                var userName = document.getElementById('username').value; // Store the info from the remaining input boxes
                 var userUni = document.getElementById('uni').value;
                 var usersRef = myDataRef.child("users");
                 usersRef.child(authData.uid).set({ 
@@ -195,6 +194,8 @@
                      university : userUni
                 });
 				localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
+        
+        //JQuery statements to hide the input fields upon successful authentication
 				$("#regWriting").hide();
 				$("#emailDiv").hide();
 				$("#passwordDiv").hide();

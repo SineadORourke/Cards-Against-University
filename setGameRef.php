@@ -1,5 +1,5 @@
 <?php
-	//Variables to hold permission details
+	// Variables to hold permission details
 	$servername = "localhost";
 	$username = "cauPlayer";
 	$password = "password1";
@@ -13,11 +13,11 @@
     	die("Database connection failed: " . $conn->connect_error);
 	}
 	
-	//Get user details from the request 
+	// Get user details from the request 
 	$fireUID = $_REQUEST['fireUID'];
    	$gameRef = $_REQUEST['gameRef'];
 
-	/*  Update SQL table to set users submission, based on their UID */
+	/* Update SQL table to set users submission, based on their UID */
    	$sql = "UPDATE cauusers 
   	SET GameNumber='$gameRef'
   	WHERE FirebaseID='$fireUID';";

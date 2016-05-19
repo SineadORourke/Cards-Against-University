@@ -27,6 +27,6 @@
     	}
     }
 
-			mysqli_close($conn); // Close the connection
+	mysqli_close($conn); // Close the connection
 
 ?>

@@ -17,7 +17,7 @@
    	$gameRef = $_REQUEST['gameRef'];
 	$fireID = $_REQUEST['fireUID'];
 
-	$sql="SELECT FirebaseID, Avatar FROM cauusers WHERE GameNumber = '".$gameRef."'";
+	$sql="SELECT FirebaseID, Avatar FROM cauusers WHERE GameNumber = '".$gameRef."'"; // SQL query statement
 
 	$result = mysqli_query($conn,$sql); // Store the results of the SQL query in a variable
 
@@ -26,13 +26,6 @@
         	echo $row['FirebaseID'] . ",".$row['Username'] . ",".$row['Avatar'] . ",";
     	}
     }
-
-
-	/*if(mysqli_query($conn, $sql)) { // Check status of call (development purposes)
-    		echo "Added " . $sql . " to the database under UID: " . $fireUID;
-	} else {
-    		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	}*/
 
 	$conn->close(); // Close the connection
 

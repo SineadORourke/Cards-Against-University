@@ -14,47 +14,49 @@
 	<script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
 
 	<!--Disable Back Button -->
-    <script type="text/javascript">
-        window.history.forward();
-        function noBack()
-        {
-            window.history.forward();
-        }
-    </script>
-    <style>
-      #bCard {
-        margin-top:2%;
-        left:8.5%;
+  <script type="text/javascript">
+      window.history.forward();
+      function noBack()
+      {
+          window.history.forward();
       }
+  </script>
+  <style>
 
-      .modal-dialog{
-        position: absolute;
-        top: 50%;
-        } 
+  /* CSS */
+    #bCard {
+      margin-top:2%;
+      left:8.5%;
+    }
 
-	#timer2{
-		font-size: 30px;
-		float: right;
-	}
+    .modal-dialog{
+      position: absolute;
+      top: 50%;
+      } 
 
-	#timer3{
-		text-align:right;
-	}
-	
-	.btnblue{
-		background-color: #043E49 !important;
-		color: white !important;
-	}
-	
-	.btnwhite{
-		background-color: white !important;
-		color: #043E49 !important;
-	}
-    </style>
+  	#timer2{
+  		font-size: 30px;
+  		float: right;
+  	}
+
+  	#timer3{
+  		text-align:right;
+  	}
+  	
+  	.btnblue{
+  		background-color: #043E49 !important;
+  		color: white !important;
+  	}
+  	
+  	.btnwhite{
+  		background-color: white !important;
+  		color: #043E49 !important;
+  	}
+  </style>
 
 	<!--Links for Bootstrap-->
-    <meta charset="utf-8"> 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <meta charset="utf-8"> 
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="cauStyle.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -182,27 +184,28 @@
   </div>
 
   <script>
-  var GameRef = "";
-  var ans = "";
-  
-    var timeLeft = 30;
-    
-    var elem2 = document.getElementById('timer2');
-    var elem3 = document.getElementById('timer3');
-    var timerId = setInterval(countdown, 1000);
-    function countdown() {
-      if (timeLeft == 0) {
-        clearTimeout(timerId);
 
-        location.href="resultpage.html"
-                
-      } else {
-        
-        elem2.innerHTML = timeLeft + ' seconds remaining';
-	elem3.innerHTML = timeLeft + ' seconds remaining';
-        timeLeft--;
+      /* Set default values */
+      var GameRef = "";
+      var ans = "";
+      var timeLeft = 30;
+
+      /* Get values from timers */
+      var elem2 = document.getElementById('timer2');
+      var elem3 = document.getElementById('timer3');
+      var timerId = setInterval(countdown, 1000); // Invoke timer method
+      function countdown() {
+        if (timeLeft == 0) { // If 30 seconds has passed move onto results page
+          clearTimeout(timerId);
+          location.href="resultpage.html"
+                  
+        } else {
+          
+          elem2.innerHTML = timeLeft + ' seconds remaining'; // Display number of seconds left
+  	      elem3.innerHTML = timeLeft + ' seconds remaining'; // Display number of seconds left
+          timeLeft--; // Decrement timer by one second
+        }
       }
-    }
 
 
     <!-- ========== BLACK CANVAS CARD ========== -->
@@ -226,12 +229,9 @@
     //Pull text from Firebase
     var blck = localStorage.getItem("GameRef");
     blck = blck-1;
-    console.log("black: " + blck);
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + blck);
-    console.log("path:", ref);
-    ref.once("value", function(snapshot) {
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + blck); // Set black card value to Firebase path
+    ref.once("value", function(snapshot) { // Continuously check path for updates
         var scenarioCard = snapshot.val();
-        console.log("Message from server; ", scenarioCard);
     
     //wrapText fits long inputs (mulit-line) on the card nicely
         wrapText(ctxBlack, scenarioCard, s(2.5), s(2), s(4), 20);
@@ -257,39 +257,36 @@
         var line = '';                  
 
         for(var n = 0; n < words.length; n++) {     
-          var testLine = line + words[n] + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
+          var testLine = line + words[n] + ' '; // Concatenate both variable into one
+          var metrics = context.measureText(testLine); // Use preset function to store metrics
+          var testWidth = metrics.width; // Store width in variable
+          if (testWidth > maxWidth && n > 0) { // Deal with text that exceeds boundarys
             context.fillText(line, x, y);
             line = words[n] + ' ';
             y += lineHeight;
           }
           else {
-            line = testLine;
+            line = testLine;  // Else store value into a variable
           }
         }
-        context.fillText(line, x, y);
+        context.fillText(line, x, y); // Invoke function to fill the canvass with scenario card value
       }
 
-    // --> 
+    //Javascript for voting submission    
 
-    //Javascript for voting submission
-    
+    GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
+    var counter = 1; // Variable to store the count
+    var vals = ""; // Stores the data object returned from Firebase
+    var trsfAns = ""; //Stores the ChosenAnswer value from the object specifically 
 
-            GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
-            var counter = 1; // Variable to store the count
-            var vals = ""; // Stores the data object returned from Firebase
-            var trsfAns = ""; //Stores the ChosenAnswer value from the object specifically 
-
-            var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
-            ref.on("child_added", function(snapshot, prevChildKey) { // Used like a for each loop to check each child node at path
-                    vals = snapshot.val(); // Store returned ojbect in a variable
-                    trsfAns = vals.ChosenAnswer; // Store the specific chosen answer value in a variable
-                    document.getElementsByTagName('button')[counter].textContent = trsfAns; // Display the answer on the html page
-                    counter++; 
-                    
-            });
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
+    ref.on("child_added", function(snapshot, prevChildKey) { // Used like a for each loop to check each child node at path
+            vals = snapshot.val(); // Store returned ojbect in a variable
+            trsfAns = vals.ChosenAnswer; // Store the specific chosen answer value in a variable
+            document.getElementsByTagName('button')[counter].textContent = trsfAns; // Display the answer on the html page
+            counter++; // Increment counter
+            
+    });
 
     function selectedAnswer(num){ // Called on user vote
         
@@ -315,32 +312,30 @@
                 break;
         }
 
-        //AJAX sends the php request to MySQL table when choice is made
-          
-            //document.getElementById("myModal").showModal(); 
-            GameRef = "Game " + GameRef;
-            var fireUID = getUID();     //get the firebaseUID
-            var xhttp = new XMLHttpRequest();     //make a new request object
+  //AJAX sends the php request to MySQL table when choice is made
+    
+      //document.getElementById("myModal").showModal(); 
+      GameRef = "Game " + GameRef;
+      var fireUID = getUID();     //get the firebaseUID
+      var xhttp = new XMLHttpRequest();     //make a new request object
 
-            xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
-              if(xhttp.readyState == 4 && xhttp.status == 200){
-                document.getElementById('echoRes').innerHTML = xhttp.responseText;
-              } 
-            };
-            xhttp.open("POST", "results.php", true);      //wrap the request in POST
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Need this as posting data to SQL table
-            xhttp.send("fireUID="+fireUID+"&vote="+ans+"&GameNumber="+GameRef);  //send the user details in the request to the PHP page
-            console.log("hello");
-
-            
-               
+      xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+        if(xhttp.readyState == 4 && xhttp.status == 200){
+          document.getElementById('echoRes').innerHTML = xhttp.responseText; // Display response on HTML
+        } 
+      };
+      xhttp.open("POST", "results.php", true);      //wrap the request in POST
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Need this as posting data to SQL table
+      xhttp.send("fireUID="+fireUID+"&vote="+ans+"&GameNumber="+GameRef);  //send the user details in the request to the PHP page
+     
       }
 
     //special function just to get the user's FirebaseUID after they have registered
-  function getUID(){
-      var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
-    var authData = myDataRef.getAuth();
-    return authData.uid;
+    function getUID(){
+        var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+        var authData = myDataRef.getAuth();
+
+        return authData.uid; // Return current users FirebaseID
   }
   
   </script>

@@ -20,5 +20,7 @@
 	
 	//Select all the user details which correspond to the firebaseID
     $sql = "UPDATE CAUUsers SET Avatar = '$avatar' WHERE FirebaseID = '$fireUID'";
-	$result = mysqli_query($conn, $sql);
+	$result = mysqli_query($conn, $sql); 
+
+	$conn->close(); // Close the connection
 ?>

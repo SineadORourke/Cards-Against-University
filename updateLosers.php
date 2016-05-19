@@ -14,17 +14,12 @@
 	}
 
 	$user = $_REQUEST['fireUID']; // Store the loser UID's that were passed over into variables
-	/*$losertwo = $_REQUEST['loserID2'];
-	$loserthree = $_REQUEST['loserID3'];
-	$loserfour = $_REQUEST['loserID4'];*/
 
 	/* Update SQL table to reflect the number of games played and lost */
 	$sql = "UPDATE cauusers 
   	SET GamesPlayed = GamesPlayed+1
   	WHERE FirebaseID='$user';"; /* CURRENT USER */
-  	/*OR FirebaseID='$losertwo'
-  	OR FirebaseID='$loserthree'
-  	OR FirebaseID='$loserfour';";*/
+
 
 	if(mysqli_query($conn, $sql)) { // Echo out if the call was succesful or not (Development purposes);
     		echo "Updated the losers stats" . "<br>";

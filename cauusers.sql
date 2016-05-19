@@ -7,8 +7,8 @@
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.2
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; /* Set mode*/
+SET time_zone = "+00:00"; /*Set timezone*/
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `cauusers`
 --
 
-CREATE TABLE `cauusers` (
+CREATE TABLE `cauusers` ( --Create statement for table
   `UserID` bigint(20) UNSIGNED NOT NULL,
   `FirebaseID` text NOT NULL,
   `Username` varchar(100) NOT NULL,

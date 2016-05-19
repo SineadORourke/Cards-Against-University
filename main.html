@@ -232,43 +232,39 @@
     	ref.once("value", function (snapshot) {  // Check the current state of Firebase once
     		numOfPlayers = snapshot.val().count; // Store the number of players in a variable
     		numOfPlayers++; //  Add current gamer to the count
-    		ref.update({"count":numOfPlayers});
-    		updateGameRef();
-    		checkGame();
+    		ref.update({"count":numOfPlayers}); // Update Firebase with number of current players
+    		updateGameRef(); // Update the game reference
+    		checkGame();   // Check the game
     	});    	
     }
 	
 	//This keeps updating how many users are waiting to play, and once it hits 5 all players get into the game page
 	function checkGame(){
 		ref = new Firebase('hhttps://cau-maynooth.firebaseio.com/NumOfPlayers/Count/count'); // ref to count variable in Firebase
-		ref.on("value", function (snapshot) {
-			numOfPlayers = snapshot.val().count;
-			console.log("checking");
-			if(numOfPlayers%5==0){
-				//localStorage.setItem("gameRef", gameNum);
-				location.href="gameInPlay.html";
-				ref.off();
+		ref.on("value", function (snapshot) {  // Continuous check state of path to Firebase
+			numOfPlayers = snapshot.val().count;  // Store number of current players in game
+			if(numOfPlayers%5==0){ 
+				location.href="gameInPlay.html"; // If reach 5 players move into game mode
+				ref.off();  // Inform Firebase to stop checking for new players 
 			}else{
-				document.getElementById('modbod').innerHTML = "Waiting for "+ (5-(numOfPlayers%5)) + " more player(s)";				
-				console.log("Not 5 yet :" + numOfPlayers);
+				document.getElementById('modbod').innerHTML = "Waiting for "+ (5-(numOfPlayers%5)) + " more player(s)";	// Display how many players are still needed for game to commence			
 			}
 		}); 
 	}
 
 
 	function updateGameRef(){
-		var updateGame="";
-		gameNo = new Firebase('hhttps://cau-maynooth.firebaseio.com/GameCounter/count');
-		gameNo.once("value", function(snapshot){
-			updateGame=snapshot.val().count;
-			updateGame = updateGame+1;
-			updateGame = "Game " + updateGame;
-			console.log("updateGame: " + updateGame);
-			fireUID = getUID();
+		var updateGame=""; // Initialise to empty string
+		gameNo = new Firebase('hhttps://cau-maynooth.firebaseio.com/GameCounter/count'); // Path to Firebase
+		gameNo.once("value", function(snapshot){  // Continuously check for updates
+			updateGame=snapshot.val().count; // Store the game count from Firebase
+			updateGame = updateGame+1; // Add one to game count
+			updateGame = "Game " + updateGame; // Concatenate and store in variable
+			fireUID = getUID(); // Get users Firebase ID
 			var xhttp = new XMLHttpRequest();     //make a new request object
     			xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
       			if(xhttp.readyState == 4 && xhttp.status == 200){
-				localStorage.setItem("GameRefAv", updateGame);
+				localStorage.setItem("GameRefAv", updateGame); // Store game ref in local storage to retrieve later
       			} 
    			};
     			xhttp.open("POST", "setGameRef.php", true);      //wrap the request in POST
@@ -283,27 +279,27 @@
   function getUID(){
     var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
     var authData = myDataRef.getAuth();
-    return authData.uid;
+
+    return authData.uid; // return users Firebase ID
   }
 	
 
     function logOut(){ // Method to log out of Firebase upon click of button
 
     	myDataRef.unauth();
-    	window.location="index.html";
+    	window.location="index.html"; // Return to homepage
     }
 	
 	
-	<!-- Changing the "Welcome username!" to the user's personalized username
+	/* Changing the "Welcome username!" to the user's personalized username */
 	var userNameRef = new Firebase('https://cau-maynooth.firebaseio.com/users');				//DB Reference
 	var uEmail = localStorage.getItem("Email");													//get the email of the user that just logged in/registered
 	var user;
 	userNameRef.orderByChild("email").equalTo(uEmail).on("child_added", function(snapshot){		//get the user object from the DB with the same email as above
-		console.log(snapshot.val());
 		user = snapshot.val().username;
 		document.getElementById("usernameText").textContent = user;								//change <span> username </span> to the personalised name
 	}, function (errorObject) {
-		console.log("The read failed: " + errorObject.code);
+		console.log("The read failed: " + errorObject.code); // Display error in console
 	});
 
     </script>

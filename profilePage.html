@@ -49,7 +49,6 @@
 		var target = event.target || event.srcElement;
 		var avatar = target.id;
 		var fireUID = getUID();
-		//alert(id);
 		var xhttp = new XMLHttpRequest();			//make a new request object
 		xhttp.onreadystatechange = function(){		//if the response/php is successful, refresh page
 		if(xhttp.readyState == 4 && xhttp.status == 200){
@@ -66,7 +65,8 @@
 	function getUID(){
 	  	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
 		var authData = myDataRef.getAuth();
-		return authData.uid;
+
+		return authData.uid; // Return current users Firebase ID
 	}
 
 	var fireUID = getUID();						//get the firebaseUID

@@ -85,7 +85,7 @@
   </br>
 <?php
 
-
+// Store database/table references in variables
 	$servername = "localhost";
 	$username = "cauPlayer";
 	$password = "password1";
@@ -95,51 +95,32 @@
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
 	if ($conn->connect_error) {
-	    die("Connection failed: " . $conn->connect_error);
+	    die("Connection failed: " . $conn->connect_error); // Display an error message when needed
 	} 
 
-//mysql_select_db('database', $link) or die(mysql_error());
+	$sql = "SELECT Avatar, Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC"; // SQL select statement
+	$leaderResult = mysqli_query($conn, $sql) or die(mysqli_connect_error()); // Store results in variable
 
-	$sql = "SELECT Avatar, Username, Credits, University FROM caudatabase.cauusers ORDER BY Credits DESC";
-	$leaderResult = mysqli_query($conn, $sql) or die(mysqli_connect_error());
+	$leaderArray1 = array(); // Declare array variable
 
-	$leaderArray1 = array();
-
-	while($row = mysqli_fetch_assoc($leaderResult)) {
+	while($row = mysqli_fetch_assoc($leaderResult)) { // Traverse results and store individual results in variable to display in HTML
 		$item = array();
 		$item['Avatar'] = $row['Avatar'];
 		$item['Username'] = $row['Username'];
 		$item['University'] = $row['University'];
 		$item['Credits'] = $row['Credits'];
-	    	$leaderArray1[] = $item;
+	    $leaderArray1[] = $item;
 	}
 
-
-	/*$sql2 = "SELECT Username, Credits, University FROM test.cauusers ORDER BY Credits DESC LIMIT 3";
-	$leaderResult2 = mysqli_query($conn, $sql2) or die(mysqli_connect_error());
-
-	$leaderArray2 = array();*/
-
-	/*$sqlQuery = "SELECT Username, Credits, University FROM test.cauusers ORDER BY Credits DESC LIMIT 6";
-	$leaderResult = mysqli_query($conn, $sqlQuery) or die(mysqli_connect_error());
-
-
-	while($row = mysqli_fetch_assoc($leaderResult)) {
-		$item = array();
-		print_r($item);
-		$item['Username'] = $row['Username'];
-		$item['University'] = $row['University'];
-		$item['Credits'] = $row['Credits'];
-	    	$leaderArray1[] = $item;
-	} */
-	$conn->close();
-	?>
+	$conn->close(); // Close connection to db
+?>
 	
 	<!--Top3 leaderboard-->	<div id="Leaderboard">
 	<table class="table table-responsive" id="leaderTable">
 				<tbody><?php
 					$number = 0;
-					foreach ($leaderArray1 as $index => $row): 
+
+					foreach ($leaderArray1 as $index => $row): // Loop through results variable and display to HTML
 					$number++;
 					?>
 

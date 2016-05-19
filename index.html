@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
    
-   
     <title>Welcome to Cards Against University</title>
 	<link rel="stylesheet" href="cauStyle.css">	
-	
 	
 	<!--Links for Bootstrap-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
@@ -24,9 +22,6 @@
     <![endif]-->
 
   </head>
-	
-	
-	
 	
 <body id="main">
 	
@@ -68,11 +63,6 @@
 			</div>
 		</div>
 	</nav><!-- ./navigation Bar -->
-
-
-
-
-
 
     <!-- Carousel
     ================================================== -->
@@ -146,29 +136,26 @@
       var userEmail = document.getElementById('email').value; // getting the value of the email text box.
       var userPassword = document.getElementById('pwd').value; // getting the value of the password text box.
         myDataRef.authWithPassword({ // firebase method to authenticate the user.
-        email    : userEmail,
+        email    : userEmail,        
         password : userPassword
     }, 
     function(error, authData) { // error handling
       if (error) {
-        //console.log("Login Failed!", error);
         alert("Your username or password is incorrect, please try again.")
       } else {
             if(userEmail == "admin@gmail.com"){
-                console.log("Authenticated successfully with payload:", authData);
                 localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
-                window.location="admin.php"
+                window.location="admin.php" // Navigate to admin page
             }
             else{
-                console.log("Authenticated successfully with payload:", authData);
 		            localStorage.setItem("Email", userEmail);	//save the email in local storage (used for Welcome Username! on main page)
-                window.location="main.html";
+                window.location="main.html"; // Navigate to main page
             }
         }
       });
 
-      document.getElementById("email").value = ""; // resets the values of the input fields.
-      document.getElementById("pwd").value = "";
+      document.getElementById("email").value = ""; // resets the value of the email field.
+      document.getElementById("pwd").value = "";   // resets the value of the password field
 
     }
     </script>

@@ -69,10 +69,10 @@
                         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="adminBoard">
                             <div class="alert alert-info">
                                 <strong><i class="icon-user icon-large"></i>&nbsp;Delete Multiple Data</strong>
-                &nbsp;&nbsp;Check the radion Button and click the Delete button to Delete Data 
+                &nbsp;&nbsp;Check the radio Button and click the Delete button to Delete Data 
                             </div>
                             <thead>
-                                <tr>
+                                <tr> <!--Table row names-->
                                     <th>UserID</th>
                                     <th>FirebaseIB</th>
                                     <th>UserName</th>
@@ -88,10 +88,10 @@
                             <tbody>
         <?php 
 
-          $servername = "localhost";
-			$username = "cauPlayer";
-			$password = "password1";
-			$dbname = "caudatabase";
+      $servername = "localhost"; // Store servername in variable
+			$username = "cauPlayer";   // Store username of DB in variable
+			$password = "password1";   // Store password of DB in variable
+			$dbname = "caudatabase";   // Store DB password in variable
 
           // Create connection
           $conn = new mysqli($servername, $username, $password, $dbname);
@@ -100,33 +100,35 @@
               die("Connection failed: " . $conn->connect_error);
           } 
 
+          // Store result of SQL query in a variable called query
           $query=mysqli_query($conn, "select UserID, FirebaseID, Username, Credits, Coins, GamesPlayed, GamesWon, University, GamesLost from caudatabase.cauusers")or die(mysqli_connect_error());
+          
+          // Traverse results of query
           while($row=mysqli_fetch_array($query)){
           $id=$row['UserID'];
 
-          //$conn->close();
         ?>
                               
         <tr id="adminRow">
-          <td id="adminData"><?php echo $row['UserID'] ?></td>
-          <td id="adminData"><?php echo $row['FirebaseID'] ?></td>
-          <td id="adminData"><?php echo $row['Username'] ?></td>
-          <td id="adminData"><?php echo $row['Credits'] ?></td>
-          <td id="adminData"><?php echo $row['Coins'] ?></td>
-          <td id="adminData"><?php echo $row['GamesPlayed'] ?></td>
-          <td id="adminData"><?php echo $row['GamesWon'] ?></td>
-          <td id="adminData"><?php echo $row['University'] ?></td>
-          <td id="adminData"><?php echo $row['GamesLost'] ?></td>
+          <td id="adminData"><?php echo $row['UserID'] ?></td>      <!--Display User ID-->
+          <td id="adminData"><?php echo $row['FirebaseID'] ?></td>  <!--Display Firebase ID-->
+          <td id="adminData"><?php echo $row['Username'] ?></td>    <!--Display Username--> 
+          <td id="adminData"><?php echo $row['Credits'] ?></td>     <!--Display Users Credits-->
+          <td id="adminData"><?php echo $row['Coins'] ?></td>       <!--Display Users coins-->
+          <td id="adminData"><?php echo $row['GamesPlayed'] ?></td> <!--Display Users number of games played-->
+          <td id="adminData"><?php echo $row['GamesWon'] ?></td>    <!--Display Users number of games won-->
+          <td id="adminData"><?php echo $row['University'] ?></td>  <!--Display Users University-->
+          <td id="adminData"><?php echo $row['GamesLost'] ?></td>   <!--Display Users number of games lost-->
          
         <td>
-          <input name="selector[]" type="checkbox" value="<?php echo $id; ?>">
+          <input name="selector[]" type="checkbox" value="<?php echo $id; ?>"> <!--Display users ID in form-->
           </td>
               </tr>
                          
-                <?php } $conn->close();?>
+                <?php } $conn->close();?> <!--Close connection to DB-->
         </tbody>
       </table>
-            <input type="submit" class="btn btn-danger" value="Delete" name="delete">
+            <input type="submit" class="btn btn-danger" value="Delete" name="delete"> <!--Button to delete user-->
           
 </form>
 

@@ -63,7 +63,7 @@
 
 	}	
 
-	mysqli_close($conn);
+	mysqli_close($conn); // Close connection to DB
 
 ?>
 
