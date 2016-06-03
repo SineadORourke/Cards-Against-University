@@ -38,7 +38,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>                        
         </button>
-        <img src="defaultlogo.png" alt="logo" id="Logo">
+        <img src="avatars/logo.png" alt="logo" id="Logo">
         <p class="navbar-brand">Cards Against University : Playing</p>
       </div>
     
@@ -83,11 +83,11 @@
     ================================================== -->
 	
 	<div id="whitecards">
-	<canvas id="myCanvas1" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas2" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas3" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas4" width="0" height="0" style="border:1px solid #000;"></canvas>
-	<canvas id="myCanvas5" width="0" height="0" style="border:1px solid #000;"></canvas>
+	<canvas id="myCanvas1" width="0" height="0" ></canvas>
+	<canvas id="myCanvas2" width="0" height="0" ></canvas>
+	<canvas id="myCanvas3" width="0" height="0" ></canvas>
+	<canvas id="myCanvas4" width="0" height="0" ></canvas>
+	<canvas id="myCanvas5" width="0" height="0" ></canvas>
 	</div>
 	<!-- ./white cards -->
     
@@ -118,32 +118,32 @@
 			<tr id="avatarRow">							<!--Avatars-->
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 1" width="100" height="90">
-					<figcaption>Player 1</figcaption>
+					<img id="player1" src="" alt="Player 1" width="100" height="90">
+					<figcaption id="name1">Player 1</figcaption>
 					</figure>
 				</td>
 			</tr>
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 2" width="100" height="90">
-					<figcaption>Player 2</figcaption>
+					<img id="player2" src="" alt="Player 2" width="100" height="90">
+					<figcaption id="name2">Player 2</figcaption>
 					</figure>
 				</td>
 			</tr>
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 3" width="100" height="90">
-					<figcaption>Player 3</figcaption>
+					<img id="player3" src="" alt="Player 3" width="100" height="90">
+					<figcaption id="name3">Player 3</figcaption>
 					</figure>
 				</td>
 			</tr>
 			<tr id="avatarRow">
 				<td id = "AvatarData">
 					<figure>
-					<img src="defaultplayer.png" alt="Player 4" width="100" height="90">
-					<figcaption>Player 4</figcaption>
+					<img id="player4" src="" alt="Player 4" width="100" height="90">
+					<figcaption id="name4">Player 4</figcaption>
 					</figure>
 				</td>
 			</tr>
@@ -155,6 +155,7 @@
 		</tbody>
 	</table>
 	</div>
+	<div id="testOutput"></div>
 	</div> 
     <!-- ./timer + group avatars + shuffle button -->
 <!--End of responsive code-->
@@ -211,26 +212,50 @@
   <!-- JS code for Timer
     ================================================== -->
   <script>  
-    var timeLeft = 30;
-    var elem = document.getElementById('timer');
-    var elem2 = document.getElementById('timer2');
-    var timerId = setInterval(countdown, 1000);
+	
+	firebaseID = getUID(); // Store current users Firebase Id in variable
+	gameRef = localStorage.getItem("GameRefAv"); // Retrieve game reference from local storage and save in variable
+
+	var xhttp = new XMLHttpRequest();     //make a new request object
+	xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+  		if(xhttp.readyState == 4 && xhttp.status == 200){
+			var response = xhttp.responseText; // Store repsonse text from AJAX query in a variable
+			var AvatarArray = response.split(","); // Split response text into an array using comma
+			userArray = [AvatarArray[0],AvatarArray[3],AvatarArray[6],AvatarArray[9],AvatarArray[12]]; // Store usernames in seperate array
+			nameArray = [AvatarArray[1],AvatarArray[4],AvatarArray[7],AvatarArray[10],AvatarArray[13]];// Store name in seperate array
+			avArray = [AvatarArray[2],AvatarArray[5],AvatarArray[8],AvatarArray[11],AvatarArray[14]];  // Store avatars in seperate array
+		
+			var currentIndex = userArray.indexOf(firebaseID); // Store the location of the winning submission
+			var k = 1; // Initialise variable to 1 for id's
+					for(var i=0;i<5;i++){ 
+						if(i != currentIndex){
+							document.getElementById("player" + k).src = "avatars/"+avArray[i]; // Display users avatar on screen
+							document.getElementById("name" + k).innerHTML = nameArray[i];	   // Display users name on screen
+							k++; // Increment k variable
+						}
+					}
+  		} 
+	};
+	xhttp.open("POST", "getAvatars.php", true);      //wrap the request in POST
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Set header request
+		xhttp.send("gameRef="+gameRef+"&fireUID="+firebaseID);  //send the user details in the request
+	
+
+    var timeLeft = 30; // Timer counting down from 30 seconds
+    var elem = document.getElementById('timer'); // Store timer 1 in a variable
+    var elem2 = document.getElementById('timer2'); // Store timer 2 in a variable
+    var timerId = setInterval(countdown, 1000); // Set the speed to every second
     function countdown() {
-      if (timeLeft == 0) {
+      if (timeLeft == 0) { // Alert user that 30 seconds has passed
         clearTimeout(timerId);
-        alert("Times up!")
-        document.getElementById('submit1').click();
-        location.href="JudgingPage.html"
-        //document.getElementById("submit1").disabled = true;
+        location.href="JudgingPage.html" // Move to next page
         
       } else {
-        elem.innerHTML = timeLeft + ' seconds remaining';
-        elem2.innerHTML = timeLeft + ' seconds remaining';
-        timeLeft--;
+        elem.innerHTML = timeLeft + ' seconds remaining'; // Displays number of seconds left for first timer
+        elem2.innerHTML = timeLeft + ' seconds remaining';// Displays number of seconds left for second timer
+        timeLeft--; // Decrement timer by one second
       }
     } <!--./timer -->
-	
-	
 	
 	
 	
@@ -242,19 +267,15 @@
 	<!--	1. it essentially gets painted on to the card graphics 
 	<!--	2. it also gets saved in the innerHTML of the individual canvases (so it is easy to the setAnswer() and submitAnswer() methods like before)-->
 	
-	
-	
+
 	//These variables decide the size of the cards
-    var blockSize = 40;					//the num of pixels per block
+    var blockSize = 35;					//the num of pixels per block
 	var canvasWidth = blockSize * 6; 	//the num of blocks across
 	var canvasHeight = blockSize * 8;	//the numb of blocks down
 	
 	var answer = "";	
 	var ID = "";				//empty string that saves the clicked card later
-	
-	
-	
-	
+
 	<!--Set up Black Card CANVAS-->
 	var b = document.getElementById("myBlackCanvas");
 	b.width = canvasWidth;				//set size of black card
@@ -268,63 +289,58 @@
       	ctxBlack.textAlign = 'center';			//center text on black card
           
         
-		//Pull text from Firebase
-		var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + randNum());
-		ref.on("value", function(snapshot) {
-        var scenarioCard = snapshot.val();
-        //console.log("Message from server; ", scenarioCard);
-		
-		//wrapText fits long inputs (mulit-line) on the card nicely
-        wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25);
-		},
-        function (errorObject) {  // Deal with errors
-          console.log("The read failed: " + errorObject.code);
-        });
-        
-      
-	  
+		var gameCount = ""; // Initialise game counter to empty string 
+    	var gameNum = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");  // Store location in Firebase tree to variable
+		gameNum.once("value", function(snapshot){ // View data once
+			gameCount = snapshot.val().count;     // Store game number in variable
+    		var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + gameCount); // Set location to relevant game number in tree	
+			ref.on("value", function(snapshot) {  // Continuously check for updates
+        			var scenarioCard = snapshot.val(); // Store value into scenario card variable
+        			wrapText(ctxBlack, scenarioCard, s(3), s(2), s(5), 25); // WrapText fits long inputs (mulit-line) on the card nicely
+			},
+       		 	function (errorObject) {  // Deal with errors
+          			console.log("The read failed: " + errorObject.code);
+       			});
+		});
 	  
 	// s() scales everything to size according to the set blocksize
 	function s(x) {
 		return x*blockSize-1;
-	}
-	  
+	}	  
 	  
 	 //Set the sizes of the white card canvases
     function setSize(canvas){
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
       canvas.addEventListener("click", setAnswer); //added onclick method for white cards
+      canvas.addEventListener("click", setAnswer);
     }
-	
 	
 	//method to generate random number
 	function randNum(){
-		return Math.floor((Math.random() * 6) + 1);
-	  }  
-	  
+		return Math.floor((Math.random() * 49) + 1);
+	  }  	  
 	 
 	
 	//method used to pull down inputs for white cards from Firebase, then calls another method to insert
 	function getWhiteText(context, id){
 		var ref = new Firebase("https://cau-maynooth.firebaseio.com/whiteCards/card" + randNum());
 		ref.on("value", function(snapshot) {
-        var info = snapshot.val();
-        //console.log("Message from server; ", info);
+        	var info = snapshot.val();
+        	//console.log("Message from server; ", info);
 		
 		//Saves the text inside the canvas element
 		document.getElementById(id).innerHTML = info;
 		
 		//fillContext colours the box, adds the text (info) and wraps the text if necessary
-        fillContext(context, info);		
+        	fillContext(context, info);		
 		},
-        function (errorObject) {  // Deal with errors
-          console.log("The read failed: " + errorObject.code);
-        });
-	  }  
+        	function (errorObject) {  // Deal with errors
+          	console.log("The read failed: " + errorObject.code);
+       	 	});
+	  }  	  
 	  
-	  
-	  
+
 	//method used to fill the white cards
     function fillContext(context, text){
       	context.fillStyle = "#FFF";				//fill background white
@@ -343,24 +359,20 @@
         var line = '';									
 
         for(var n = 0; n < words.length; n++) {			
-          var testLine = line + words[n] + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
+          var testLine = line + words[n] + ' '; // Concatenate both variable into one
+          var metrics = context.measureText(testLine); // Use preset function to store metrics
+          var testWidth = metrics.width;		// Store width in variable
+          if (testWidth > maxWidth && n > 0) {	// Deal with text that exceeds boundarys
             context.fillText(line, x, y);
             line = words[n] + ' ';
             y += lineHeight;
           }
-          else {
+          else {	// Else store value into a variable
             line = testLine;
           }
         }
-        context.fillText(line, x, y);
+        context.fillText(line, x, y); // Invoke function to fill the canvass with scenario card value
       }
-	
-	
-	
-	
 	
 	//This function is called when the page is loaded up
 	//It creates the White card images (with the text on them)
@@ -395,13 +407,49 @@
 		getWhiteText(ctx4, "myCanvas4");
 		getWhiteText(ctx5, "myCanvas5");
 	}
-	
+
+	//JQuery fucntions to add a red border around selected white card
+	$("#myCanvas1").click(function(){
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas2").click(function(){
+    	$("#myCanvas1").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas3").click(function(){
+    	$("#myCanvas1").css("border", "");
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas4").click(function(){
+    	$("#myCanvas1").css("border", "");
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas5").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
+    $("#myCanvas5").click(function(){
+    	$("#myCanvas2").css("border", "");
+    	$("#myCanvas3").css("border", "");
+    	$("#myCanvas4").css("border", "");
+    	$("#myCanvas1").css("border", "");
+    	$(this).css("border", "2px solid red");
+    });
       
 	  
-	 newWhiteCards();
+	 newWhiteCards(); // Invocation of function to set whitescards
    
  
-    function shuffleCards(){
+    function shuffleCards(){ // Function called when user clicks to shuffle cards
 		newWhiteCards();
 	}
 			
@@ -414,73 +462,82 @@
 	<!-- Card Methods -->
 
 	// DECLARE GLOBAL VARIABLES FOR INGAME USE //
-	var noOfGames = 0;
-	var gameID = "";
-	var authData = ref.getAuth();
-	var game = "";
-	var numOfPlayers = "";
-	var maxPlayers = 4;
-	var submissionID = "";
+	
+	var authData = ""; // Store current users UID
+	var currGameNo = ""; // Keep track of curr game number
+	var game = ""; // Will be used to store path to Firebase
+	var numOfPlayers = ""; // Used to keep track of number of in play gamers
+	//var maxPlayers = 4; // Max number of playsers is 5 (0-4)
+	//var UID = "";	// Also used to store UID
+	
 
-	function SetGameUp(){
+	function SetGameUp(){ // Called on load of body
 
         var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game"); // Get a ref to correct locatin in Firebase database
+		authData = ref.getAuth(); // Store current users UID
+        var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count"); // Set second path to point to number of games
 
-        noOfGames++; // Upon load of page of page increase the number of games
-
-        var noOfCurrentGames = "Game " + noOfGames; // Prepare variable to use when creating a new game on database
-
-        game = ref.child(noOfCurrentGames); // 
-        //console.log("Game is " + game);
-        //console.log("Game id is; " + noOfCurrentGames);
-
-        game.once("value", function (snapshot) {
-              numOfPlayers = snapshot.numChildren();          // checks and returns the number of children under the gameID branch, i.e. How many users have submitted an answer             
-        });
-
+        getCounter.once("value", function (snapshot) { // Get object holding the current game number
+            currGameNo = snapshot.val().count; 
+	        noOfCurrentGames = "Game " + currGameNo; // Prepare variable to use when creating a new game on database
+	        game = ref.child(noOfCurrentGames); // 
+	        game.once("value", function (snapshot) { // Determine the number of current players in the game
+	              numOfPlayers = snapshot.numChildren();
+	          });
+		});
     }
       	
 	//This method sets "answer" as the clicked canvas card
 	function setAnswer(){
-		answer = document.getElementById(this.id).innerHTML;
-		console.log("The answer chosen is by the user is: " + answer);
+		answer = document.getElementById(this.id).innerHTML; // save user choice in variable
 
 	}	
 
 	// This method submits the answer to the firebase database 
-	function submitAnswer(){
+	function submitAnswer(){ // Called on click of submit button
 
-		var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
+	   ref = new Firebase("https://cau-maynooth.firebaseio.com/Game");
+	   submitSubmission(answer); // Make a call to AJAX method, sending data to SQL table
 
        if(answer == ""){ // Check that user has chosen a card
-          alert("You must select one whitecard before clicking submit"); 
-        }    
-        else {
-
-        	if ( numOfPlayers > maxPlayers) { // Check if there are 5 players already in game
-              	  noOfGames++; // Increase the number of games
-              	  //console.log("No of games at this stage is " + noOfGames);
-              	  noOfCurrentGames = "Game " + noOfGames; // increase game count variable to use when inserting
-              	  localStorage.setItem("GameRef", noOfCurrentGames);	//save the game number in local storage (So we know where to pull data down from in Judging page)
-              	  console.log("GameRef is " + noOfCurrentGames);
-              	  game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
-              	  game.push(answer); // Push user selected answer to correct location 
-
-                  submissionID = game.key(); // store the users unique id to pass onto results page
-
-                  //console.log("submissionID 1 = " + submissionID.key());
-                  numOfPlayers = 1; // reset number of player to 1
-              }
-              else{ // if number of players is less than 5 submit answer
-              	  //console.log("The answer before pushing is " + answer);
-              	  localStorage.setItem("GameRef", noOfCurrentGames);	//save the game number in local storage (So we know where to pull data down from in Judging page)
-		          gameID = game.push(answer);       // Push user selected answer to correct location and store location
-		          submissionID  = gameID.key(); // stores the unq id of users submission to pass to results page
-		          //console.log("SubmissionID 2 = " + submissionID );
-              }
-       }
-       //window.location.href="JudgingPage.html"; // Move onto judging page after time has elapsed    
+          answer = "User did not submit a card"; 
+        }
+        if(numOfPlayers >= 5){
+          var getCounter = new Firebase("https://cau-maynooth.firebaseio.com/GameCounter/count");
+           currGameNo++;  // Increase the game number count in Firebase
+           getCounter.update({count: currGameNo}); // //  Update Firebase to reflect new game number
+                noOfCurrentGames = "Game " + currGameNo; // increase game count variable to use when inserting
+                localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
+        }         	
+      	game = ref.child(noOfCurrentGames); // Store the location to push answer to, within a variable 
+      	game.push({"ID": authData.uid, "ChosenAnswer": answer}); // Push answer to Firebase        
+      	localStorage.setItem("GameRef", currGameNo);  //save the game number in local storage (So we know where to pull data down from in Judging page)
   }
+
+  	function submitSubmission(answerPassed){
+	  	answer = answerPassed;
+	  	fireUID = getUID();
+
+	  	var xhttp = new XMLHttpRequest();     //make a new request object
+	    xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+	      if(xhttp.readyState == 4 && xhttp.status == 200){
+	      } 
+	    };
+
+	    xhttp.open("POST", "setSubmission.php", true);      //wrap the request in POST
+	    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    xhttp.send("fireUID="+fireUID+"&Submission="+answer);  //send the user details in the request
+        
+  }
+
+
+	   //special function just to get the user's FirebaseUID after they have registered
+	  function getUID(){
+	    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+	    var authData = myDataRef.getAuth();
+
+	    return authData.uid; // Return currently logged in users Firebase ID
+	  }
 	
       
   </script>

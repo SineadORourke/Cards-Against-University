@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
    
-   
     <title>Welcome to Cards Against University</title>
 	<link rel="stylesheet" href="cauStyle.css">	
-	
 	
 	<!--Links for Bootstrap-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
@@ -25,15 +23,12 @@
 
   </head>
 	
-	
-	
-	
 <body id="main">
 	
 	 <!-- Navigation Bar
     ================================================== -->
 	<nav class="navbar navbar-inverse" id="navigationColour">
-		<img src="defaultlogo.png" alt="Logo" id="Logo">	
+		<img src="avatars/logo.png" alt="Logo" id="Logo">	
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -69,11 +64,6 @@
 		</div>
 	</nav><!-- ./navigation Bar -->
 
-
-
-
-
-
     <!-- Carousel
     ================================================== -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -87,32 +77,31 @@
 	  <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-		<img src="maynooth.jpg" alt="Maynooth">
+		<img src="aboutImages/opening1.png" alt="Maynooth">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Are you a student at Maynooth University?</h1>
-              <p>Well then you are going to love wasting your time playing CAU instead of studying for exams</p>
-              <p><a class="btn btn-lg btn-primary" href="registration_page.html" role="button">Sign up</a></p>
+              <h1></h1>
+              <p></p>
             </div>
           </div>
         </div>
         <div class="item">
-		<img src="trinity2.jpg" alt="Maynooth">
+		<img src="aboutImages/opening2.png" alt="Maynooth">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Think you are funny?</h1>
-              <p>Try coming up with your best answers for the blanks in the sentences</p>
-              <p><a class="btn btn-lg btn-primary" href="registration_page.html" role="button">Sign up</a></p>
+			  <br>
+              <h1 id="carText1">Think you are funny?</h1>
+              <p id="carText1">Try coming up with your best answers for the blanks in the sentences</p>
             </div>
           </div>
         </div>
         <div class="item">
-		<img src="ucc.jpg" alt="Maynooth">
+		<img src="aboutImages/opening3.png" alt="Maynooth">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Feeling competitive?</h1>
-              <p>Stay on top of the leaderboard by winning games and earning credits + coins</p>
-              <p><a class="btn btn-lg btn-primary" href="registration_page.html" role="button">Sign up</a></p>
+              <h1 id="carText2">Are you a student?</h1>
+              <p id="carText2">Join your universitys CAU edition to make ignoring your studys just that little bit easier</p>
+              
             </div>
           </div>
         </div>
@@ -147,28 +136,26 @@
       var userEmail = document.getElementById('email').value; // getting the value of the email text box.
       var userPassword = document.getElementById('pwd').value; // getting the value of the password text box.
         myDataRef.authWithPassword({ // firebase method to authenticate the user.
-        email    : userEmail,
+        email    : userEmail,        
         password : userPassword
     }, 
     function(error, authData) { // error handling
       if (error) {
-        console.log("Login Failed!", error);
+        alert("Your username or password is incorrect, please try again.")
       } else {
             if(userEmail == "admin@gmail.com"){
-                console.log("Authenticated successfully with payload:", authData);
                 localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
-                window.location="admin.html"
+                window.location="admin.php" // Navigate to admin page
             }
             else{
-                console.log("Authenticated successfully with payload:", authData);
 		            localStorage.setItem("Email", userEmail);	//save the email in local storage (used for Welcome Username! on main page)
-                window.location="main.html";
+                window.location="main.html"; // Navigate to main page
             }
         }
       });
 
-      document.getElementById("email").value = ""; // resets the values of the input fields.
-      document.getElementById("pwd").value = "";
+      document.getElementById("email").value = ""; // resets the value of the email field.
+      document.getElementById("pwd").value = "";   // resets the value of the password field
 
     }
     </script>

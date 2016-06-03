@@ -22,7 +22,66 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  
+	<style>
+	
+	#avatarPicker{
+		display: none;
+	}
+	#printStats{
+		margin-right: 100px;
+	}
+	
+	</style>
+    <script>
+
+	//This function is called when the Change Avatar button is clicked (hides the profile elements + shows the images)
+	function changeAvatar(){
+		document.getElementById("avatar").style.display = 'none';
+		document.getElementById("changeAvatar").style.display = 'none';
+		document.getElementById("user").style.display = 'none';
+		document.getElementById("statusProfile").style.display = 'none';
+		document.getElementById("profileTable").style.display = 'none';
+		document.getElementById("avatarPicker").style.display = 'block';
+	}
+	
+	//This function is called when a new avatar is clicked (updates the SQL table to the new avatar and reloads the page)
+	function updateAvatar(){
+		var target = event.target || event.srcElement;
+		var avatar = target.id;
+		var fireUID = getUID();
+		var xhttp = new XMLHttpRequest();			//make a new request object
+		xhttp.onreadystatechange = function(){		//if the response/php is successful, refresh page
+		if(xhttp.readyState == 4 && xhttp.status == 200){
+			window.location ="profilePage.html";	
+		}	
+		};
+		
+		xhttp.open("POST", "updateAvatar.php", true);	//wrap the request in POST
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("fireUID="+fireUID+"&avatar="+avatar);  		//send the user's firebaseUID + avatar id in the request
+	}
+	
+	//special function just to get the user's FirebaseUID
+	function getUID(){
+	  	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+		var authData = myDataRef.getAuth();
+
+		return authData.uid; // Return current users Firebase ID
+	}
+
+	var fireUID = getUID();						//get the firebaseUID
+	var xhttp = new XMLHttpRequest();			//make a new request object
+	xhttp.onreadystatechange = function(){		//if the response/php is successful, display php response
+		if(xhttp.readyState == 4 && xhttp.status == 200){
+			document.getElementById("userTable").innerHTML=xhttp.responseText;	
+		}	
+		};
+		xhttp.open("POST", "profile.php", true);	//wrap the request in POST
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("fireUID="+fireUID);  		//send the user's firebaseUID in the request
+
+	
+    </script>
 	</head>
 	
 	
@@ -40,7 +99,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>                        
 				</button>
-				<img src="defaultlogo.png" alt="logo" id="Logo">
+				<img src="avatars/logo.png" alt="logo" id="Logo">
 				<p class="navbar-brand">Cards Against University : Profile Page</p>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
@@ -48,7 +107,7 @@
 				<ul class="nav navbar-nav">
 					<li><a href="main.html#section1">Home</a></li>
 					<li><a href="gameInPlay.html">Play</a></li>
-					<li><a href="leaderboard.html">Leaderboard</a></li>
+					<li><a href="leaderboard.php">Leaderboard</a></li>
 					<li><a href="main.html#section2">How to Play</a></li>
 					<li class="dropdown navbar-right" id="profile"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -58,11 +117,38 @@
 				</ul>
 				<!-- Navigation option to the right -->
 				<ul class="nav navbar-nav navbar-right">
-					<li onclick="logOut()"><a href="welcome_page.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					<li onclick="logOut()"><a href="index.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav><!-- ./navigation Bar -->    
+
+
+
+	<!--Container for the PHP echo -->
+	<div align="center" id="userTable"></div>
+	<br/>
+	
+	
+	<!--All of the avatar images-->
+	<div align="center" id="avatarPicker">
+	<h1>Please choose your new avatar</h1>
+	<div><img src="avatars/avatar3.png" alt="default" id="avatar3.png" onclick="updateAvatar()">
+	<img src="avatars/avatar5.png" alt="default" id="avatar5.png" onclick="updateAvatar()">
+	<img src="avatars/avatar6.png" alt="default" id="avatar6.png" onclick="updateAvatar()"></div>
+	
+	<div><img src="avatars/avatar4.png" alt="default" id="avatar4.png" onclick="updateAvatar()">
+	<img src="avatars/avatar7.png" alt="default" id="avatar7.png" onclick="updateAvatar()">
+	<img src="avatars/avatar8.png" alt="default" id="avatar8.png" onclick="updateAvatar()"></div>
+	
+	<div><img src="avatars/rugbyavatar.png" alt="default" id="rugbyavatar.png" onclick="updateAvatar()">
+	<img src="avatars/lgbtavatar.png" alt="default" id="lgbtavatar.png" onclick="updateAvatar()">
+	<img src="avatars/mindsavatar.png" alt="default" id="mindsavatar.png" onclick="updateAvatar()"></div>
+	
+	<div><img src="avatars/defaultavatar.png" alt="default" id="defaultavatar.png" onclick="updateAvatar()">
+	<img src="avatars/avatar2.png" alt="default" id="avatar2.png" onclick="updateAvatar()"></div>
+	</div>
+	
 
 	
 		 <!-- Bootstrap core JavaScript

@@ -14,17 +14,49 @@
 	<script src='https://cdn.firebase.com/js/client/2.4.1/firebase.js'></script>
 
 	<!--Disable Back Button -->
-    <script type="text/javascript">
-        window.history.forward();
-        function noBack()
-        {
-            window.history.forward();
-        }
-    </script>
+  <script type="text/javascript">
+      window.history.forward();
+      function noBack()
+      {
+          window.history.forward();
+      }
+  </script>
+  <style>
+
+  /* CSS */
+    #bCard {
+      margin-top:2%;
+      left:8.5%;
+    }
+
+    .modal-dialog{
+      position: absolute;
+      top: 50%;
+      } 
+
+  	#timer2{
+  		font-size: 30px;
+  		float: right;
+  	}
+
+  	#timer3{
+  		text-align:right;
+  	}
+  	
+  	.btnblue{
+  		background-color: #043E49 !important;
+  		color: white !important;
+  	}
+  	
+  	.btnwhite{
+  		background-color: white !important;
+  		color: #043E49 !important;
+  	}
+  </style>
 
 	<!--Links for Bootstrap-->
-    <meta charset="utf-8"> 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <meta charset="utf-8"> 
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="cauStyle.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -33,7 +65,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  
+
 	</head>
 	
 	
@@ -51,7 +83,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>                        
 				</button>
-				<img src="defaultlogo.png" alt="logo" id="Logo">
+				<img src="avatars/logo.png" alt="logo" id="Logo">
 				<p class="navbar-brand">Cards Against University : Judging Panel</p>
 			</div>
     
@@ -79,42 +111,39 @@
 	
 	
 	<!-- HTML for Black Scenario card -->
-
-    <center>
-        <div class="blackscenario">
-          <div id="blackimage">
-            <img src="blackscenariocard.jpeg" alt="Black Scenario Card Goes Here" id="black" width="250" height="300">
-          </div>
-          <div id="blackCardHeader">
-            <h3 class="scenarioCardText" id ="blackCardText"><h3>
-          </div>
-        </div>
+  <div class="container-fluid"> <!--Black card and timer are wrapped in this container-->
+	</br>
+	<div id="timer2"></div>
+    <div class="col-sm-10" id="bCard">  <!--Black card and submit button are in this col (Responsive)-->
+      <center>
+        <canvas id="myBlackCanvas" width="0" height="0">
+          Your browser does not support the HTML5 canvas tag.
+        </canvas>
       </center>
-	
-	
+    </div>
 
+    </div>
+    
     <!-- Block buttons 
     =======================================================-->
     <div class="container">
-    
+    <center>
+      <h3>Pick the Winner!</h3>
+    </center>
+      <button type="button" class="btn btn-primary btn-md btn-block btnblue"  onclick="selectedAnswer(1)" data-toggle="modal" data-target="#myModal"><label id="s1" for="subOpt1"></label></button>
+      <button type="button" class="btn btn-default btn-md btn-block btnwhite"  onclick="selectedAnswer(2)" data-toggle="modal" data-target="#myModal"><label id="s2" for="subOpt2"></label></button>
+      <button type="button" class="btn btn-primary btn-md btn-block btnblue"  onclick="selectedAnswer(3)" data-toggle="modal" data-target="#myModal"><label id="s3" for="subOpt3"></label></button>
+      <button type="button" class="btn btn-default btn-md btn-block btnwhite"  onclick="selectedAnswer(4)" data-toggle="modal" data-target="#myModal"><label id="s4" for="subOpt4"></label></button>
+      <button type="button" class="btn btn-primary btn-md btn-block btnblue"  onclick="selectedAnswer(5)" data-toggle="modal" data-target="#myModal"><label id="s5" for="subOpt5"></label></button>
 
-      <h2>Pick the Winner!</h2>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="voteOpt1()"><label id="s1" for="subOpt1"></label></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="voteOpt2"><label id="s2" for="subOpt2"></button>
-      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="voteOpt3()"><label id="s3" for="subOpt3"></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="voteOpt4()"><label id="s4" for="subOpt4"></button>
-      <button type="button" class="btn btn-default btn-lg btn-block"  onclick="voteOpt5()"><label id="s5" for="subOpt5"></button>
+      <br>
 
-      
-    </div>
-
-
-
-
+      <div id="space"></div>
 	
 	<!-- modal code 
 		===============================  -->
 		
+<div class="container">
 	<div id="myModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog">
 
@@ -122,179 +151,194 @@
     <div class="modal-content">
       <div class="modal-header">
        <div id = "timer2"></div>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to choose this answer?</p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal2">Yes</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    </div>      
+    </div>
+  	</div>
+    </div>
+  </div>
+
+  <div class="container">
+  <div id="myModal2" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       <div id = "timer3"></div>
         <h4 class="modal-title">Your vote has been submitted</h4>
       </div>
       <div class="modal-body">
         <p>Waiting for other players to submit their vote</p>
-      </div>
-      
+      </div>     
     </div>
-
+    </div>
+    </div>
   </div>
-</div>
 
-	
-	
+  <script>
 
- 
-    <script>
-    
-    var timeLeft = 130;
-    
-    var elem2 = document.getElementById('timer2');
-    var timerId = setInterval(countdown, 1000);
-    function countdown() {
-      if (timeLeft == 0) {
-        clearTimeout(timerId);
-        //alert("Times up!")
-        alert("You ran out of time");
-        location.href="resultpage.html"
-        
-        //document.getElementById("submit1").disabled = true;
-        
-      } else {
-        
-        elem2.innerHTML = timeLeft + ' seconds remaining';
-        timeLeft--;
+      /* Set default values */
+      var GameRef = "";
+      var ans = "";
+      var timeLeft = 30;
+
+      /* Get values from timers */
+      var elem2 = document.getElementById('timer2');
+      var elem3 = document.getElementById('timer3');
+      var timerId = setInterval(countdown, 1000); // Invoke timer method
+      function countdown() {
+        if (timeLeft == 0) { // If 30 seconds has passed move onto results page
+          clearTimeout(timerId);
+          location.href="resultpage.html"
+                  
+        } else {
+          
+          elem2.innerHTML = timeLeft + ' seconds remaining'; // Display number of seconds left
+  	      elem3.innerHTML = timeLeft + ' seconds remaining'; // Display number of seconds left
+          timeLeft--; // Decrement timer by one second
+        }
       }
+
+
+    <!-- ========== BLACK CANVAS CARD ========== -->
+    var blockSize = 40;         //the num of pixels per block
+    var canvasWidth = blockSize * 5;  //the num of blocks across
+    var canvasHeight = blockSize * 7; //the numb of blocks down 
+    
+    <!--Set up Black Card CANVAS-->
+    var b = document.getElementById("myBlackCanvas");
+    b.width = canvasWidth;        //set size of black card
+    b.height = canvasHeight;
+    
+    var ctxBlack = b.getContext("2d");  //get black card context
+    ctxBlack.fillStyle = "#000";  //fill background black
+    ctxBlack.fillRect(s(0),s(0),s(5),s(7)); //fill the entire canvas (black)
+    ctxBlack.font = "20px Helvetica";   //font
+    ctxBlack.fillStyle = '#FFF';      //font colour
+    ctxBlack.textAlign = 'center';      //center text on black card
+            
+          
+    //Pull text from Firebase
+    var blck = localStorage.getItem("GameRef");
+    blck = blck-1;
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/blackCards/card" + blck); // Set black card value to Firebase path
+    ref.once("value", function(snapshot) { // Continuously check path for updates
+        var scenarioCard = snapshot.val();
+    
+    //wrapText fits long inputs (mulit-line) on the card nicely
+        wrapText(ctxBlack, scenarioCard, s(2.5), s(2), s(4), 20);
+    },
+        function (errorObject) {  // Deal with errors
+          console.log("The read failed: " + errorObject.code);
+        });
+    
+    // s() scales everything to size according to the set blocksize
+    function s(x) {
+      return x*blockSize-1;
     }
 
-    //Javascript for voting submission -->
+    //method to generate random number
+    function randNum(){
+      return Math.floor((Math.random() * 6) + 1);
+      }
 
-    var GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
-    var counter = 0; 
+    function wrapText(context, text, x, y, maxWidth, lineHeight) {
+      console.log("text = " , text);
+        var words = text.split(' ');          //split text into array
 
-    var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/" + GameRef); // Store a link to location of current game
-    ref.on("value", function(snapshot) {
-            snapshot.forEach(function(data) { // Loop through each submitted answerand display on buttons for user choice
-                document.getElementsByTagName('button')[counter].textContent = data.val(); 
-                counter++; // increment counter to display snapshot data on next button
-                
-            });
+        var line = '';                  
+
+        for(var n = 0; n < words.length; n++) {     
+          var testLine = line + words[n] + ' '; // Concatenate both variable into one
+          var metrics = context.measureText(testLine); // Use preset function to store metrics
+          var testWidth = metrics.width; // Store width in variable
+          if (testWidth > maxWidth && n > 0) { // Deal with text that exceeds boundarys
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;  // Else store value into a variable
+          }
+        }
+        context.fillText(line, x, y); // Invoke function to fill the canvass with scenario card value
+      }
+
+    //Javascript for voting submission    
+
+    GameRef = localStorage.getItem("GameRef"); //get the game reference from previous page to pull data down from database
+    var counter = 1; // Variable to store the count
+    var vals = ""; // Stores the data object returned from Firebase
+    var trsfAns = ""; //Stores the ChosenAnswer value from the object specifically 
+
+    var ref = new Firebase("https://cau-maynooth.firebaseio.com/Game/Game " + GameRef); // Store a link to location of current game
+    ref.on("child_added", function(snapshot, prevChildKey) { // Used like a for each loop to check each child node at path
+            vals = snapshot.val(); // Store returned ojbect in a variable
+            trsfAns = vals.ChosenAnswer; // Store the specific chosen answer value in a variable
+            document.getElementsByTagName('button')[counter].textContent = trsfAns; // Display the answer on the html page
+            counter++; // Increment counter
+            
     });
 
-                /*setTimeout(function () { // 1 second delay to allow for firebase callback
-                    console.log("Next loop");
-                }, 1000);*/
-                //var getEle;
-                //var count = 1;
-                //getEle = "s";
-                //getEle = getEle + count;
-                //console.log("Counter val was " + count);
-                //console.log("Element id = " + getEle);
-                //count++;
-                //console.log("Counter val is now " + count);
+    function selectedAnswer(num){ // Called on user vote
+        
+        var usersRef = new Firebase("https://cau-maynooth.firebaseio.com/Judging"); // ref to Firebase
+        var authData = usersRef.getAuth(); // Store current users UID
+        var numOfPlayers = ""; // Kepps track of the number of current players
 
+        switch (num) { // Switch statement to store the phrase/sentence current user wants to vote for
+            case 1:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 2:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 3:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 4:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+            case 5:
+                ans = document.getElementsByTagName('button')[num].textContent;
+                break;
+        }
 
-
-    // OLD CODE BEFORE DYNAMICALLY REAL TIME DATA EXTRAPOLATED FROM DATABASE
-    /*ref.on("value", function(snapshot) {
-        sub = snapshot.child("GameRef");
-        one = sub.val();
-        document.getElementById("s1").textContent = one;
-        //one = sub;
-    }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
-    });
-
-    // the main firebase reference.
-    var myDataRef = new Firebase('https://cau-maynooth.firebaseio.com');
+  //AJAX sends the php request to MySQL table when choice is made
     
-    var form = document.getElementById("myForm"); // use the form so we can access the submit  buttons.
+      //document.getElementById("myModal").showModal(); 
+      GameRef = "Game " + GameRef;
+      var fireUID = getUID();     //get the firebaseUID
+      var xhttp = new XMLHttpRequest();     //make a new request object
 
-    var subVoteText = form.elements["subOpt"];  // store the submit buttons into an array.
+      xhttp.onreadystatechange = function(){      //if the response/php is successful, change page
+        if(xhttp.readyState == 4 && xhttp.status == 200){
+          document.getElementById('echoRes').innerHTML = xhttp.responseText; // Display response on HTML
+        } 
+      };
+      xhttp.open("POST", "results.php", true);      //wrap the request in POST
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Need this as posting data to SQL table
+      xhttp.send("fireUID="+fireUID+"&vote="+ans+"&GameNumber="+GameRef);  //send the user details in the request to the PHP page
+     
+      }
 
-      // store the text value associated with the submit buttons into a variable.
-    
-    var two = subVoteText[1].nextSibling.data;
-    var three = subVoteText[2].nextSibling.data;
-    var four = subVoteText[3].nextSibling.data;*/
+    //special function just to get the user's FirebaseUID after they have registered
+    function getUID(){
+        var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+        var authData = myDataRef.getAuth();
 
- 	
-
-    
-    var usersRef = myDataRef.child("Judging"); // save the data into a new branch called judging.
-
-    function voteOpt1() {
-
-        var one = document.getElementById('s1').textContent;
-
-        if (confirm("Is the following your choice: " + one + "?") == true) {
-            window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : one
-            });
-            
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt2() {
-
-        var two = document.getElementById('s2').textContent;
-
-
-        if (confirm("Is this your choice: " + sTwo + "?") == true) {
-            window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : two
-            });
-            
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt3() {
-
-        var three = document.getElementById('s3').textContent;
-
-
-        if (confirm("Are you sure you want to pick the option below?" + sThree) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : three
-            });
-           
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt4() {
-
-        var four = document.getElementById('s4').textContent;
-
-        if (confirm("Are you sure you want to pick the option below?" + sFour) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : four
-            });
-           
-        } else {
-            alert("Pick a different option");
-        }
-    }
-
-    function voteOpt5() {
-
-        var five = document.getElementById('s5').textContent;
-
-        if (confirm("Are you sure you want to pick the option below?" + sFour) == true) {
-             window.location.href="resultpage.html";
-            usersRef.child("votes").set({
-                vote : five
-            });
-           
-        } else {
-            alert("Pick a different option");
-        }
-    }
-    
-
-
-    </script>
+        return authData.uid; // Return current users FirebaseID
+  }
+  
+  </script>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

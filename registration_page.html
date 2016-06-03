@@ -24,6 +24,63 @@
     <![endif]-->
 
 
+	<script>
+	
+	//JQuery to initially hide the form button
+	//When register button (register with Firebase) is clicked, the form and  register button are hidden, and the login button (register with PHP) is shown
+  	$(document).ready(function(){
+  		$("#regMessage").hide();
+  		$("#registerPHP").hide();
+  	});
+
+
+  	//AJAX sends the php request to MySQL table when second button is clicked
+  	function registerMySQL(){
+  		var fireUID = getUID();			//get the firebaseUID
+  		var username = document.getElementById('username').value; //get username from HTML
+  		var university = document.getElementById('uni').value;	  //get university from HTML
+
+  		var xhttp = new XMLHttpRequest();			//make a new request object
+  		xhttp.onreadystatechange = function(){			//if the response/php is successful, change page
+  			if(xhttp.readyState == 4 && xhttp.status == 200){
+  				window.location="main.html"; // Navigate to main page upon succesfull return state
+  			}	
+  		};
+  		xhttp.open("POST", "reg.php", true);			//wrap the request in POST
+  		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");  // Set request header type
+  		xhttp.send("fireUID="+fireUID+"&username="+username+"&uni="+university);  //send the user details in the request
+
+  	}
+
+
+  	//special function just to get the user's FirebaseUID after they have registered
+  	function getUID(){
+
+  	  var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+  		var authData = myDataRef.getAuth();
+
+  		return authData.uid; // Returns current users Firebase ID
+  	}
+  	
+  	function checkValidPassword(password){
+      var regexNum = /[0-9]/g;   // Store regex pattern for digits in variable
+      var regexUpp = /[A-Z]/;    // Store regex patten for Uppercase letters in variable
+      var len = password.length; // Store length of password in variable
+
+      for(var i = 0; i < len; i++){
+        if(len >= 8){ // Checks email is 8+ characters
+          if(regexNum.test(password)){ // Test if contains num
+            if(regexUpp.test(password)){ // Test if contains upper case letter
+               createUser();//valid = 1; // 1 is set as valid
+               return true;
+            }
+          }
+        }
+      }
+  		alert("Please use a stronger password");  // Display a message to user asking them to choose a more secure password
+              return false;
+      }
+	</script>
 	
   </head>
 	
@@ -35,7 +92,7 @@
 	<!-- Navigation Bar
     ================================================== -->
 	<nav class="navbar navbar-inverse" id="navigationColour">
-	<img src="defaultlogo.png" alt="Logo" id="Logo">
+	<img src="avatars/logo.png" alt="Logo" id="Logo">
 	<div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -49,7 +106,7 @@
 	<!-- Log-in + Back buttons with icons -->
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="welcome_page.html"><span class="glyphicon glyphicon-circle-arrow-left"></span> Back</a></li>
+        <li><a href="index.html"><span class="glyphicon glyphicon-circle-arrow-left"></span> Back</a></li>
         <li><a href="main.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
     </div>
@@ -62,21 +119,23 @@
     ================================================== -->
 <center>
   <div class="reg_container">
-    <h2>Registration</h2>
+    <h2 id="regWriting">Registration</h2>
+    <h2 id="regMessage">Congrats! </br></br>You made an account with Cards Against University. Press "Continue" to start your gaming experience!</h2>
     </br>
-      <div class="form-group">
+	<form name="registerUser" method="post">
+      <div id="emailDiv" class="form-group">
         <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email">
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
       </div>
-      <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+      <div id="passwordDiv"class="form-group">
+        <label for="pwd">Password (Must be at least 8 characters long, contain one uppercase character and a number):</label>
+        <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
       </div>
-      <div class="form-group">
+      <div id="usernameDiv"class="form-group">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" maxlength="15" id="username" placeholder="Enter username">
+        <input type="text" class="form-control" maxlength="15" id="username" name="username" placeholder="Enter username">
       </div>
-      <div class="form-group">
+      <div id="uniDiv" class="form-group">
         <label for="uni">University</label>
         <select id="uni" name="university">
         <option value="Maynooth">Maynooth</option>
@@ -85,10 +144,75 @@
         </select>
       </div>
     </br>
-       <button type="submit" class="btn btn-default" id="register" onclick="createUser()">Register</button>
+	<div id="regPHPbtn" align="center"><button type="button" class="btn btn-default" onclick="registerMySQL()" id="registerPHP">Continue</button></div>
     </div>
+	</form>
+    <div><button onclick="return checkValidPassword(document.getElementById('pwd').value)" class="btn btn-default" id="registerFirebase">Register</button></div>
 </center><!-- ./registration form -->
-	
+ <script>
+    
+
+  function createUser(){ // method to create a new user
+	var result = true;
+	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+      var userEmail = document.getElementById('email').value;  // Store the text from the email input field.
+      var userPassword = document.getElementById('pwd').value; // Store the password from the input field
+       myDataRef.createUser({ // Firebase method to create a user.
+       email: userEmail,
+       password: userPassword
+
+      },
+
+  function(error, userData){
+    if(error){ // Deal with error
+      console.log("Error creating user:", error); // Error message for development purposes
+      result=false; // Set result to false
+      alert("There was an error creating your account, please try again"); // Alert error repsonse to user
+    }
+    else{
+	var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
+        myDataRef.authWithPassword({ // if registration is successful authenticate the user with this Firebase method
+        email    : userEmail,
+        password : userPassword
+        }, 
+          function(error, authData) {
+            if (error) {
+              alert("There was an error creating your account, please try again");
+            console.log("Login Failed!", error);
+		result=false;
+          } else {
+            console.log("Authenticated successfully with payload:", authData);
+              // if authentication is successful save the user's details to the database
+                var userName = document.getElementById('username').value; // Store the info from the remaining input boxes
+                var userUni = document.getElementById('uni').value;
+                var usersRef = myDataRef.child("users");
+                usersRef.child(authData.uid).set({ 
+                // save the user's info under their user id (uid), which is given to the user upon authenication
+                     email :userEmail,
+                     password : userPassword,
+                     username : userName,
+                     university : userUni
+                });
+				localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
+        
+        //JQuery statements to hide the input fields upon successful authentication
+				$("#regWriting").hide();
+				$("#emailDiv").hide();
+				$("#passwordDiv").hide();
+				$("#usernameDiv").hide();
+				$("#uniDiv").hide();
+				$("#registerFirebase").hide();
+				$("#regMessage").show();
+				$("#registerPHP").show();
+            }
+        });
+      }
+    });
+    }
+    </script>
+
+
+
 
 	
     <!-- Bootstrap core JavaScript
@@ -101,56 +225,6 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
     <!-- Javascript for creating a new user and logging them in -->
-    <script>
-    var myDataRef = new Firebase('hhttps://cau-maynooth.firebaseio.com');
-
-    function createUser(){ // method to create a new user
-      var userEmail = document.getElementById('email').value; // extract the text from the email and password input boxes.
-      var userPassword = document.getElementById('pwd').value;
-       myDataRef.createUser({ // Firebase method to create a user.
-       email: userEmail,
-       password: userPassword
-
-      },
-
-    function(error, userData){
-      if(error){
-        console.log("Error creating user:", error);
-      }
-      else{
-        console.log("You have succesfully created user account, with uid: " + userData.uid);
-        myDataRef.authWithPassword({ // if registration is successful authenticate the user with this Firebase method
-        email    : userEmail,
-        password : userPassword
-        }, 
-          function(error, authData) {
-            if (error) {
-            console.log("Login Failed!", error);
-          } else {
-            console.log("Authenticated successfully with payload:", authData);
-              // if authentication is successful save the user's details to the database
-                var userName = document.getElementById('username').value; // extract the info from the remaining input boxes
-                var userUni = document.getElementById('uni').value;
-                var usersRef = myDataRef.child("users");
-                usersRef.child(authData.uid).set({ 
-                // save the user's info under their user id (uid), which is given to the user upon authenication
-                     email :userEmail,
-                     password : userPassword,
-                     username : userName,
-                     university : userUni
-                });
-				localStorage.setItem("Email", userEmail); //save the email in local storage (used for Welcome Username! on main page)
-                window.location="main.html";
-            }
-        });
-      }
-    });
-
-      document.getElementById("email").value = ""; // resets the values of the input fields.
-      document.getElementById("pwd").value = "";
-      //document.getElementById("username").value = "";		Commented out because it wasn't saving username in the DB
-      //hello I'm practicing github from shane
-    }
-    </script>
+   
   </body>
 </html>

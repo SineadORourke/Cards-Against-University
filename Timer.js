@@ -1,10 +1,9 @@
-var timeLeft = 30;
-var elem = document.getElementById('timer');
+var timeLeft = 30; // Set timer to 30 seconds
+var elem = document.getElementById('timer'); // Store value of timer in variable
+var timerId = setInterval(countdown, 1000);  // Invoke method and store in variable
 
-var timerId = setInterval(countdown, 1000);
-
-function countdown() {
-  if (timeLeft == 0) {
+function countdown() { // Function to display number of seconds remaining
+  if (timeLeft === 0) {
     clearTimeout(timerId);
   } else {
     elem.innerHTML = timeLeft + ' seconds remaining';
